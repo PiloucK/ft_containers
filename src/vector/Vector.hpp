@@ -11,6 +11,6 @@ class ft::Vector {
 
     private:
 
-}
+};
 
 #endif

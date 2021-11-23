@@ -6,26 +6,30 @@ SRC_EXTENSION		:= \
 H_EXTENSION			:= \
  	.hpp
 
-SRC_NAME			:= \
-	vector/Vector \
+SRCS				:= \
+	$(addprefix vector/, $(VECTOR))
 	main
+
+VECTOR				:= \
+	Vector
 
 H_NAME				:= \
 
-S_DIR		 		:= \
+SRC_DIR		 		:= \
 	src/
 
-O_DIR				:= \
+OBJ_DIR				:= \
 	obj/
 
 I					:= \
-	-I ./
+	$(addprefix -I, $(shell find $(SRC_DIR) -type d))
 
-O					= \
+OBJS					= \
 	$(addprefix $(O_DIR), $(addsuffix .o, $(SRC_NAME)))
 
 C					:= clang++
-CFLAGS				:= -Wall -Wextra -Werror -std=c++98
+CPPFLAGS			:= -Wall -Wextra -Werror -std=c++98
+DEPFLAGS			:= -MMD -MP
 
 R					:= rm -f
 
@@ -51,3 +55,5 @@ fclean:				clean
 re:					fclean all
 
 .PHONY: all clean fclean re
+
+-include $(DEPS)

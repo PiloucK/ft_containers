@@ -24,7 +24,8 @@ O					= \
 	$(addprefix $(O_DIR), $(addsuffix .o, $(SRC_NAME)))
 
 C					:= clang++
-CFLAGS				:= -Wall -Wextra -Werror -std=c++98
+CPPFLAGS			:= -Wall -Wextra -Werror -std=c++98
+DEPFLAGS			:= -MMD -MP
 
 R					:= rm -f
 
@@ -49,3 +50,5 @@ fclean:				clean
 re:					fclean all
 
 .PHONY: all clean fclean re
+
+-include $(DEPS)

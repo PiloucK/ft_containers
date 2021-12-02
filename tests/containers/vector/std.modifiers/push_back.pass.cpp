@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   push_back.pass.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:03:25 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/09/01 14:03:25 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK({
 		VECTOR<int> c;
 
@@ -49,5 +47,4 @@ main(void)
 			ASSERT(c[j] == j);
 	});
 
-	return (0);
-}
+	})

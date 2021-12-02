@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   empty.pass.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:45:09 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/13 19:45:09 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:59:19 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unit_map.hpp>
 #include <Map.hpp>
 
-int
-main(void)
-{
+TEST_CASE({
 	{
 		typedef MAP<Aware<int>, Aware<double> > M;
 		M m;

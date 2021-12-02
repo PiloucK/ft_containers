@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   swap.pass.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 20:31:46 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/13 20:31:46 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:59:19 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unit_map.hpp>
 
-int
-main(void)
-{
+TEST_CASE({
 	typedef PAIR<const Aware<int>, Aware<double> > V;
 	typedef MAP<Aware<int>, Aware<double> > M;
 

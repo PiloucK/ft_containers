@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   construct_iter_iter.pass.cpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/26 18:20:42 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/08/26 18:20:42 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 #include <vector>
 #include <Vector.hpp>
 
@@ -85,9 +85,7 @@ test_ctor_with_different_value_type() // Initialize a vector with a different va
 	}
 }
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK(
 	{
 		basic_test_cases()
@@ -96,5 +94,4 @@ main(void)
 
 	test_ctor_with_different_value_type();
 
-	return (0);
-}
+	})

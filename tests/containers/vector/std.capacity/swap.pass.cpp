@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK({
 		VECTOR<Aware<int> > v1(100);
 		VECTOR<Aware<int> > v2(200);
@@ -26,5 +24,4 @@ main(void)
 		ASSERT(v2.capacity() == 100);
 	});
 
-	return (0);
-}
+	})

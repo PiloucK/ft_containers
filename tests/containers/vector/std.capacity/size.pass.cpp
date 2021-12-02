@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK({
 		typedef VECTOR<int> C;
 		C c;
@@ -42,5 +40,4 @@ main(void)
 		ASSERT(c.size() == 0);
 	});
 
-	return (0);
-}
+	})

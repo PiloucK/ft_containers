@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   swap.pass.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 13:24:02 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/09/01 13:24:02 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
-int
-main(void)
-{
+TEST_CASE({
 	{
 		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
 		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
@@ -109,5 +107,4 @@ main(void)
 
 	ASSERT_AWARE_ZERO();
 
-	return (0);
-}
+	})

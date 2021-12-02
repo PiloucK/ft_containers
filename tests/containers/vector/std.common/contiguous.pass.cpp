@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous.pass.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:32:18 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/09/01 14:32:18 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
 template<class C>
 	void
@@ -20,9 +20,7 @@ template<class C>
 			ASSERT(*(c.begin() + static_cast<typename C::difference_type>(i)) == *(addressof(*c.begin()) + i));
 	}
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK({
 		typedef Aware<int> T;
 		typedef VECTOR<T> C;
@@ -31,5 +29,4 @@ main(void)
 		test_contiguous(C(3, T(5)));
 	});
 
-	return (0);
-}
+	})

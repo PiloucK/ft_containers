@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lt.pass.cpp                                        :+:      :+:    :+:   */
+/*   lt.cpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:16:50 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/10 14:16:50 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:59:19 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ template<class C>
 		return (c);
 	}
 
-int
-main(void)
-{
+TEST_CASE({
 	STACK<int> q1 = make<STACK<int> >(5);
 	STACK<int> q2 = make<STACK<int> >(10);
 

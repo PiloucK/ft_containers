@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   empty.pass.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/26 17:12:35 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/08/26 17:12:35 by ecaceres         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unit_vector.hpp>
+#include "myUnitTest.hpp"
 
-int
-main(void)
-{
+TEST_CASE({
 	TEST_AWARE_BLOCK({
 		typedef VECTOR<Aware<int> > C;
 		C c;
@@ -30,5 +28,4 @@ main(void)
 		ASSERT(c.empty());
 	});
 
-	return (0);
-}
+	})

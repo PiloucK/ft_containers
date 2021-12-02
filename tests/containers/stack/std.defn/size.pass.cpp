@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.hpp                                             :+:      :+:    :+:   */
+/*   size.pass.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:55:51 by Clkuznie          #+#    #+#             */
-/*   Updated: 2021/12/02 14:09:24 by Clkuznie         ###   ########.fr       */
+/*   Created: 2021/03/10 14:28:31 by ecaceres          #+#    #+#             */
+/*   Updated: 2021/03/10 14:28:31 by ecaceres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HPP
-# define FT_HPP
+#include <unit_stack.hpp>
 
-namespace ft {
+int
+main(void)
+{
+	TEST_AWARE_BLOCK({
+		STACK<Aware<int> > stack;
 
-    class Vector;
-    class Stack;
-    class Map;
+		ASSERT(stack.size() == 0);
 
-};
-
-#endif
+		stack.push(1);
+		ASSERT(stack.size() == 1);
+	});
+}

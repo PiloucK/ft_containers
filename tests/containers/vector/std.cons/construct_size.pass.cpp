@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.hpp                                             :+:      :+:    :+:   */
+/*   construct_size.pass.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:55:51 by Clkuznie          #+#    #+#             */
-/*   Updated: 2021/12/02 14:09:24 by Clkuznie         ###   ########.fr       */
+/*   Created: 2020/08/26 18:20:42 by ecaceres          #+#    #+#             */
+/*   Updated: 2020/08/26 18:20:42 by ecaceres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HPP
-# define FT_HPP
+#include <unit_vector.hpp>
 
-namespace ft {
+template<class C>
+	void
+	test(typename C::size_type n)
+	{
+		C c(n);
 
-    class Vector;
-    class Stack;
-    class Map;
+		ASSERT(c.size() == n);
+	}
 
-};
+int
+main(int, char**)
+{
+	test<VECTOR<int> >(50);
+	test<VECTOR<Aware<int> > >(500);
 
-#endif
+	ASSERT_AWARE_ZERO();
+
+	return (0);
+}

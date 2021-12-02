@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.hpp                                             :+:      :+:    :+:   */
+/*   clear.pass.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:55:51 by Clkuznie          #+#    #+#             */
-/*   Updated: 2021/12/02 14:09:24 by Clkuznie         ###   ########.fr       */
+/*   Created: 2020/09/01 13:54:06 by ecaceres          #+#    #+#             */
+/*   Updated: 2020/09/01 13:54:06 by ecaceres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HPP
-# define FT_HPP
+#include <unit_vector.hpp>
 
-namespace ft {
+int
+main(void)
+{
+	{
+		Aware<int> a[] = { 1, 2, 3 };
 
-    class Vector;
-    class Stack;
-    class Map;
+		VECTOR<Aware<int> > c(a, a + 3);
 
-};
+		c.clear();
+		ASSERT(c.empty());
+	}
 
-#endif
+	ASSERT_AWARE_ZERO();
+
+	return (0);
+}

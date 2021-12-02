@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.hpp                                             :+:      :+:    :+:   */
+/*   iterator.pass.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:55:51 by Clkuznie          #+#    #+#             */
-/*   Updated: 2021/12/02 14:09:24 by Clkuznie         ###   ########.fr       */
+/*   Created: 2020/08/26 17:35:33 by ecaceres          #+#    #+#             */
+/*   Updated: 2021/12/02 16:52:16 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HPP
-# define FT_HPP
+#include <unit_vector.hpp>
 
-namespace ft {
+int
+main(void)
+{
 
-    class Vector;
-    class Stack;
-    class Map;
-
-};
-
-#endif
+	return (0);
+}

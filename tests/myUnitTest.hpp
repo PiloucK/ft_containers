@@ -249,13 +249,7 @@ class TestCase {
         test_passed++;                                                                   \
     }
 
-# define EXPECT_EQ(param1, param2)                                                       \
-    ASSERT(param1 == param2)
-
-# define EXPECT_DIFF(param1, param2)                                                     \
-    ASSERT(param1 != param2)
-
-# define EXPECT_EXCEPT(param)                                                            \
+# define ASSERT_EXCEPT(param)                                                            \
     try {                                                                                \
         param;                                                                           \
         OUTPUT_FAILED_ASSERT(param);                                                     \
@@ -264,7 +258,7 @@ class TestCase {
         test_passed++;                                                                   \
     }
 
-# define EXPECT_NOEXCEPT(param)                                                          \
+# define ASSERT_NOEXCEPT(param)                                                          \
     try {                                                                                \
         param;                                                                           \
         test_passed++;                                                                   \
@@ -272,11 +266,74 @@ class TestCase {
         OUTPUT_FAILED_ASSERT(param);                                                     \
         test_failed++;                                                                   \
     }
+
+#define ASSERT_AWARENESS                                                                 \
+    ASSERT(Aware::count == 0)                                                            \
+    Aware::count = 0;
 
     // catch (...) {  \
     //     std::cout \
     //         << "    |   |-- " << "Out of testing error:\n" \
     //         << "    |   |-- " << __func__ << " Unexpected exception\n"; \
     // } \
+
+template<class T>
+class Aware {
+
+    public:
+        static int count;
+
+        Aware(T object) : m_object(object) {
+            count++;
+        }
+        Aware(const Aware & model) : m_object(model.m_object) {
+            count++;
+        }
+
+        ~Aware() {
+            count--;
+        }
+
+        Aware & operator = (const Aware & right) {
+            m_object = right.m_object;
+            return *this;
+        }
+
+        bool operator == (const Aware & right) const {
+            return (m_object == right.m_object);
+        }
+
+        bool operator < (const Aware & right) const {
+            return (m_object < right.m_object);
+        }
+
+        bool operator > (const Aware & right) const {
+            return (m_object > right.m_object);
+        }
+
+        bool operator != (const Aware & right) const {
+            return (m_object != right.m_object);
+        }
+
+        bool operator <= (const Aware & right) const {
+            return (m_object <= right.m_object);
+        }
+
+        bool operator >= (const Aware & right) const {
+            return (m_object >= right.m_object);
+        }
+
+        T & operator [] (size_type n) {
+            return (m_object[n]);
+        }
+
+        const T & object(void) const {
+            return (m_object);
+        }
+
+    private:
+        T m_object;
+
+};
 
 #endif

@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   erase_iter_iter.pass.cpp                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 20:09:07 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Modifiers, EraseWithIteratorRange, {
+	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);
 		l1.push_back(2);
@@ -23,9 +11,9 @@ TEST_CASE({
 		ASSERT(l1.size() == 3);
 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 3);
 		ASSERT(i == l1.begin());
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);
 		l1.push_back(2);
@@ -40,9 +28,9 @@ TEST_CASE({
 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 2);
 		ASSERT(i == l1.begin());
 		ASSERT(l1 == l2);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);
 		l1.push_back(2);
@@ -56,9 +44,9 @@ TEST_CASE({
 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 1);
 		ASSERT(i == l1.begin());
 		ASSERT(l1 == l2);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);
 		l1.push_back(2);
@@ -69,15 +57,14 @@ TEST_CASE({
 		ASSERT(l1.size() == 0);
 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 0);
 		ASSERT(i == l1.begin());
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<VECTOR<Aware<int> > > outer(2, VECTOR<Aware<int> >(1));
 
 		outer.erase(outer.begin(), outer.begin());
 		ASSERT(outer.size() == 2);
 		ASSERT(outer[0].size() == 1);
 		ASSERT(outer[1].size() == 1);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

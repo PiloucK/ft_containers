@@ -26,7 +26,5 @@ TEST_CASE(Vector, Capacity, AccurateReturn, {
         ASSERT(max_size_below_absolute_max<Aware<int> >());
         ASSERT(max_size_below_absolute_max<std::string>());
         ASSERT(max_size_below_absolute_max<VECTOR<long> >());
-    }
-
-    ASSERT_AWARENESS
+    } ASSERT_AWARENESS
 })

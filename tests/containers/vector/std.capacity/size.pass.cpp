@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   size.pass.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ecaceres <ecaceres@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 18:20:42 by ecaceres          #+#    #+#             */
-/*   Updated: 2020/08/26 18:20:42 by ecaceres         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Size, AccurateReturn, {
+	{
 		typedef VECTOR<int> C;
 		C c;
 
@@ -38,6 +26,5 @@ TEST_CASE({
 
 		c.erase(c.begin());
 		ASSERT(c.size() == 0);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

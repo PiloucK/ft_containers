@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   iterators.pass.cpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 18:30:02 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
 struct A
@@ -18,10 +6,8 @@ struct A
 	int second;
 };
 
-int
-main(int, char**)
-{
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Iterator, AccurateElementPointing{
+	{
 		typedef Aware<int> T;
 		typedef VECTOR<T> C;
 		C c;
@@ -30,9 +16,9 @@ main(int, char**)
 		C::iterator j = c.end();
 		ASSERT(DISTANCE(i, j) == 0);
 		ASSERT(i == j);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		typedef Aware<int> T;
 		typedef VECTOR<T> C;
 		const C c;
@@ -41,9 +27,9 @@ main(int, char**)
 		C::const_iterator j = c.end();
 		ASSERT(DISTANCE(i, j) == 0);
 		ASSERT(i == j);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
         typedef Aware<int> T;
         typedef VECTOR<T> C;
         C c;
@@ -53,7 +39,7 @@ main(int, char**)
         ASSERT(DISTANCE(i, j) == 0);
         ASSERT(i == j);
         ASSERT(i == c.end());
-    });
+    } ASSERT_AWARENESS
 
 	{
 		typedef Aware<int> T;
@@ -70,11 +56,9 @@ main(int, char**)
 		*i = 10;
 		ASSERT(*i == 10);
         ASSERT(DISTANCE(c.begin(), c.end()) == 10);
-	}
+	} ASSERT_AWARENESS
 
-	ASSERT_AWARE_ZERO();
-
-	TEST_AWARE_BLOCK({
+	{
 		typedef Aware<int> T;
 		typedef VECTOR<T> C;
 		C::iterator i;
@@ -82,6 +66,5 @@ main(int, char**)
 
 		(void)i;
 		(void)j;
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

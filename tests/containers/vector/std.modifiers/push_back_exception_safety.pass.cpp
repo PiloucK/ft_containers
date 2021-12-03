@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_back_exception_safety.pass.cpp                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/01 14:03:25 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
 static bool gCopyConstructorShouldThrow = false;
@@ -63,14 +51,12 @@ int CMyClass::kStartedConstructionMagicValue = 0;
 // Value for fMagicValue when the constructor has finished running
 int CMyClass::kFinishedConstructionMagicValue = 12345;
 
-bool
-operator==(const CMyClass &lhs, const CMyClass &rhs)
-{
+bool operator == (const CMyClass &lhs, const CMyClass &rhs) {
 	return lhs.equal(rhs);
 }
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Modifiers, PushBackExceptions, {
+	{
 		CMyClass instance(42);
 		VECTOR<CMyClass> vec;
 
@@ -81,9 +67,8 @@ TEST_CASE({
 
 		ASSERT_EXCEPT({
 			vec.push_back(instance);
-		});
+		}
 
 		ASSERT(vec == vec2);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

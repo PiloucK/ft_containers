@@ -1,18 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   construct_iter_iter.pass.cpp                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 18:20:42 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
-#include <vector>
-#include <Vector.hpp>
 
 template<class C, class Iterator>
 	void
@@ -31,13 +17,12 @@ basic_test_cases()
 	Aware<int> a[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 1, 0 };
 	Aware<int> *an = a + sizeof(a) / sizeof(a[0]);
 
-	test<ft::Vector<Aware<int> > >(SimpleIterator<const Aware<int>*>(a), SimpleIterator<const Aware<int>*>(an));
+	test<VECTOR<Aware<int> > >(SimpleIterator<const Aware<int>*>(a), SimpleIterator<const Aware<int>*>(an));
 
 #if !(TEST_USE_STD)
-	test<ft::Vector<Aware<int> > >(ft::Vector<Aware<int> >::iterator(a), ft::Vector<Aware<int> >::iterator(an));
-	test<ft::Vector<Aware<int> > >(ft::Vector<Aware<int> >::const_iterator(a), ft::Vector<Aware<int> >::const_iterator(an));
+	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::iterator(a), VECTOR<Aware<int> >::iterator(an));
+	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::const_iterator(a), VECTOR<Aware<int> >::const_iterator(an));
 #endif
-
 	test<VECTOR<Aware<int> > >(a, an);
 }
 
@@ -85,13 +70,10 @@ test_ctor_with_different_value_type() // Initialize a vector with a different va
 	}
 }
 
-TEST_CASE({
-	TEST_AWARE_BLOCK(
-	{
-		basic_test_cases()
-		;
-	});
+TEST_CASE(Vector, Constructor, FromIteratorOrDifferentValueType, {
+	basic_test_cases()
+	ASSERT_AWARENESS
 
 	test_ctor_with_different_value_type();
-
-	})
+	ASSERT_AWARENESS
+})

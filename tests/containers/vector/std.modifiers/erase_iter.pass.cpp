@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   erase_iter.pass.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 20:09:07 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Modifiers, EraseReturnValue {
+	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);
 		l1.push_back(2);
@@ -35,7 +23,5 @@ TEST_CASE({
 		j = l1.erase(l1.begin());
 		ASSERT(j == l1.end());
 		ASSERT(l1.size() == 0);
-	});
-
-	return 0;
-}
+	} ASSERT_AWARENESS
+})

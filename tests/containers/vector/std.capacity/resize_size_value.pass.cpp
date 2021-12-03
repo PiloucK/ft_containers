@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   resize_size_value.pass.cpp                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 18:16:18 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Resize, WithValues, {
+	{
 		VECTOR<Aware<int> > v(100);
 
 		v.resize(50, 1);
@@ -30,6 +18,5 @@ TEST_CASE({
 
 		for (unsigned i = 50; i < 200; ++i)
 			ASSERT(v[i] == 1);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

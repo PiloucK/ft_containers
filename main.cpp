@@ -23,5 +23,4 @@
 int main( int ac, char **av )
 {
 	TESTABLE_RUN(Vector)
-	return 0;
-}
+	})

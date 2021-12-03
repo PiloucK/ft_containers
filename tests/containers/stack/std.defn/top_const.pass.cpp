@@ -6,14 +6,14 @@
 /*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:47:21 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 17:59:19 by Clkuznie         ###   ########.fr       */
+/*   Updated: 2021/12/03 10:20:47 by Clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unit_stack.hpp>
 
 TEST_CASE({
-	TEST_AWARE_BLOCK({
+	{
 		STACK<Aware<int> > stack;
 
 		ASSERT(stack.size() == 0);
@@ -24,5 +24,5 @@ TEST_CASE({
 		const STACK<Aware<int> >& cstack = stack;
 		const Aware<int> &ctop = cstack.top();
 		ASSERT(ctop == 3);
-	});
+	}
 }

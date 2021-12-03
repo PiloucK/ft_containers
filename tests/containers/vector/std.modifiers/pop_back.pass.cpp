@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pop_back.pass.cpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/01 13:54:06 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Modifiers, PopBack, {
+	{
 		VECTOR<Aware<int> > c;
 
 		c.push_back(1);
@@ -21,7 +9,7 @@ TEST_CASE({
 
 		c.pop_back();
 		ASSERT(c.size() == 0);
-	});
+	} ASSERT_AWARENESS
 
 	{
 		Aware<int> arr[] = { 0, 1, 2, 3, 4 };
@@ -36,8 +24,5 @@ TEST_CASE({
 
 		for (int i = 0; i < sz; ++i)
 			ASSERT(c[i] == i);
-	}
-
-	ASSERT_AWARE_ZERO();
-
-	})
+	} ASSERT_AWARENESS
+})

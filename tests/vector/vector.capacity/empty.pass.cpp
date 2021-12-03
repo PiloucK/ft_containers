@@ -11,7 +11,5 @@ TEST_CASE(Vector, Capacity, AccurateReturn, {
         ASSERT(!c.empty());
         c.clear();
         ASSERT(c.empty());
-    }
-
-    ASSERT_AWARENESS
+    } ASSERT_AWARENESS
 })

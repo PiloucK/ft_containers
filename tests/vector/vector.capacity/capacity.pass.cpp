@@ -11,7 +11,5 @@ TEST_CASE(Vector, Capacity, Evolution, {
         ASSERT(v.capacity() == 100);
         v.push_back(0);
         ASSERT(v.capacity() > 101);
-    }
-
-    ASSERT_AWARENESS
+    } ASSERT_AWARENESS
 })

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   access.pass.cpp                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 18:35:49 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
 template<class C>
@@ -23,8 +11,8 @@ template<class C>
 		return (c);
 	}
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Access, Read, {
+	{
 		typedef VECTOR<Aware<int> > C;
 		C c = make<C>(10);
 
@@ -41,9 +29,9 @@ TEST_CASE({
 
 		ASSERT(c.front() == 0);
 		ASSERT(c.back() == 9);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		typedef VECTOR<Aware<int> > C;
 		const int N = 5;
 		const C c = make<C>(10, N);
@@ -61,6 +49,5 @@ TEST_CASE({
 
 		ASSERT(c.front() == N);
 		ASSERT(c.back() == N + 9);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

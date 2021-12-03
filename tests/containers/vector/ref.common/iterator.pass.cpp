@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   iterator.pass.cpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 17:35:33 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
+TEST_CASE(Vector, Iterator, ValueAccessAndOperators, {
 	typedef Aware<std::string> Aw;
 	typedef VECTOR<Aw> Vec;
 	typedef Vec::iterator Iter;
@@ -121,7 +109,7 @@ TEST_CASE({
 
 		a = v.end();
 		ASSERT(a[-1] == Aw("46"));
-	}
+	} ASSERT_AWARENESS
 
 	{
 		const Vec v(1, Aw("42"));
@@ -210,7 +198,7 @@ TEST_CASE({
 
 		a = v.end();
 		ASSERT(a[-1] == Aw("42"));
-	}
+	} ASSERT_AWARENESS	
 
 	{
 		Vec v(1, Aw("42"));
@@ -310,7 +298,7 @@ TEST_CASE({
 
 		a = v.rend();
 		ASSERT(a[-1] == Aw("46"));
-	}
+	} ASSERT_AWARENESS
 
 	{
 		const Vec v(1, Aw("42"));
@@ -396,5 +384,5 @@ TEST_CASE({
 
 		a = v.rend();
 		ASSERT(a[-1] == Aw("42"));
-	}
+	} ASSERT_AWARENESS
 })

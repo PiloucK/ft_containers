@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   insert_iter_value.pass.cpp                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/26 20:09:07 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "myUnitTest.hpp"
 
-TEST_CASE({
-	TEST_AWARE_BLOCK({
+TEST_CASE(Vector, Modifiers, InsertWithIteratorAndValueParam, {
+	{
 		VECTOR<int> v(100);
 
 		VECTOR<int>::iterator i = v.insert(v.begin() + 10, 1);
@@ -28,9 +16,9 @@ TEST_CASE({
 
 		for (++j; j < 101; ++j)
 			ASSERT(v[j] == 0);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<int> v(100);
 
 		while (v.size() < v.capacity())
@@ -48,9 +36,9 @@ TEST_CASE({
 
 		for (++j; j < v.size(); ++j)
 			ASSERT(v[j] == 0);
-	});
+	} ASSERT_AWARENESS
 
-	TEST_AWARE_BLOCK({
+	{
 		VECTOR<int> v(100);
 
 		while (v.size() < v.capacity())
@@ -71,6 +59,5 @@ TEST_CASE({
 
 		for (++j; j < v.size(); ++j)
 			ASSERT(v[j] == 0);
-	});
-
-	})
+	} ASSERT_AWARENESS
+})

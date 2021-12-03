@@ -92,6 +92,8 @@
 # include <map>
 # include <list>
 
+# include "testUtils.hpp"
+
 class TestCase;
 
 typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
@@ -268,7 +270,9 @@ class TestCase {
     }
 
 #define ASSERT_AWARENESS                                                                 \
-    ASSERT(Aware::count == 0)                                                            \
+    if (Aware::count != 0) {                                                             \
+        AUTPUT_FAILED_ASSERT(Aware::count == 0)                                          \
+    }                                                                                    \
     Aware::count = 0;
 
     // catch (...) {  \
@@ -276,64 +280,3 @@ class TestCase {
     //         << "    |   |-- " << "Out of testing error:\n" \
     //         << "    |   |-- " << __func__ << " Unexpected exception\n"; \
     // } \
-
-template<class T>
-class Aware {
-
-    public:
-        static int count;
-
-        Aware(T object) : m_object(object) {
-            count++;
-        }
-        Aware(const Aware & model) : m_object(model.m_object) {
-            count++;
-        }
-
-        ~Aware() {
-            count--;
-        }
-
-        Aware & operator = (const Aware & right) {
-            m_object = right.m_object;
-            return *this;
-        }
-
-        bool operator == (const Aware & right) const {
-            return (m_object == right.m_object);
-        }
-
-        bool operator < (const Aware & right) const {
-            return (m_object < right.m_object);
-        }
-
-        bool operator > (const Aware & right) const {
-            return (m_object > right.m_object);
-        }
-
-        bool operator != (const Aware & right) const {
-            return (m_object != right.m_object);
-        }
-
-        bool operator <= (const Aware & right) const {
-            return (m_object <= right.m_object);
-        }
-
-        bool operator >= (const Aware & right) const {
-            return (m_object >= right.m_object);
-        }
-
-        T & operator [] (size_type n) {
-            return (m_object[n]);
-        }
-
-        const T & object(void) const {
-            return (m_object);
-        }
-
-    private:
-        T m_object;
-
-};
-
-#endif

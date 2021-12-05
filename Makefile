@@ -1,4 +1,4 @@
-NAME				:=	test
+NAME				:=	containers
 
 SRC_DIRS		 	:= \
 	tests
@@ -28,13 +28,13 @@ $(BUILD_DIR)/%.cpp.o:		%.cpp
 	mkdir -p $(dir $@)
 	$C $(CPPFLAGS) $(DEPFLAGS) -I tests -D USING_STD=1 -c $< -o $@
 
-all:				containers
+all:				$(NAME)
 
 debug: CFLAGS += -DDEBUG -g
 debug: all
 
-containers:			$(OBJS)
-	$C $^ -o $@_test
+$(NAME):			$(OBJS)
+	$C $^ -o $@
 
 ft_containers:		$(OBJS)
 	$C $^ -o $@

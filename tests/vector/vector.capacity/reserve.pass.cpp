@@ -1,6 +1,6 @@
 #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, ReserveMethod, SizeVsCapacity, {
+TEST_CASE(Vector, Reserve, SizeVsCapacity, {
 	{
 		VECTOR<int> v;
 

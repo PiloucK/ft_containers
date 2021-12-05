@@ -20,7 +20,7 @@
 
 # include "main.hpp"
 
-int main( int ac, char **av )
+int main( void )
 {
 	TESTABLE_RUN(Vector)
-	})
+}

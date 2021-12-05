@@ -1,16 +1,16 @@
 NAME				:=	test
 
 SRC_DIRS		 	:= \
-	tests/
+	tests
 
-OBJ_DIR				:= \
-	obj/
+BUILD_DIR				:= \
+	build
 
 SRCS				:= \
-	$(shell find $(SRC_DIRS) -name *.cpp)
+	$(shell find $(SRC_DIRS) -name '*.cpp')
 
-OBJS				= \
-	$(addsuffix .o,$(basename $(SRCS)))
+OBJS				:= \
+	$(SRCS:%=$(BUILD_DIR)/%.o)
 
 I					:= \
 	$(addprefix -I, $(shell find $(SRC_DIR) -type d))
@@ -24,22 +24,26 @@ DEPFLAGS			:= -MMD -MP
 
 R					:= rm -f
 
-$(O_DIR)%.o:		$(S_DIR)%$(SRC_EXTENSION) Makefile
-	$C $(CFLAGS) $I -c $< -o $@
+$(BUILD_DIR)/%.cpp.o:		%.cpp
+	mkdir -p $(dir $@)
+	$C $(CPPFLAGS) $(DEPFLAGS) -I tests -D USING_STD=1 -c $< -o $@
 
-all:				$(NAME)
+all:				containers
 
 debug: CFLAGS += -DDEBUG -g
 debug: all
 
-$(NAME):			$O
+containers:			$(OBJS)
+	$C $^ -o $@_test
+
+ft_containers:		$(OBJS)
 	$C $^ -o $@
 
 clean:
-	$R $O
+	$R $(OBJS)
 
 fclean:				clean
-	$R $(NAME)
+	$R $(NAME) $(DEPS)
 
 re:					fclean all
 

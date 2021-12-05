@@ -94,10 +94,51 @@
 
 # include "testUtils.hpp"
 
+// class TestCase;
+
+// typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
+// cases_map_t g_test_cases;
+
+// class TestCase {
+
+//     public:
+//         void (* const m_run)(void);
+
+//         TestCase(
+//             const std::string name
+//             , const std::string suite
+//             , const std::string testable
+//             , const std::string file
+//             , const std::string function
+//             , const int line
+//             , void (* const run)(void)) 
+//                 : m_run(run)
+//                 , m_name(name)
+//                 , m_suite(suite)
+//                 , m_testable(testable)
+//                 , m_file(file)
+//                 , m_function(function)
+//                 , m_line(line)
+//         {
+//             g_test_cases[m_testable][m_suite].push_back(*this);
+//         }
+
+//         ~TestCase( void ) {};
+
+//     private:
+//         const std::string m_name;
+//         const std::string m_suite;
+//         const std::string m_testable;
+//         const std::string m_file;
+//         const std::string m_function;
+//         const int m_line;
+
+// };
+
 class TestCase;
 
 typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
-cases_map_t g_test_cases;
+static cases_map_t g_test_cases;
 
 class TestCase {
 
@@ -110,15 +151,13 @@ class TestCase {
             , const std::string testable
             , const std::string file
             , const std::string function
-            , const int line
             , void (* const run)(void)) 
-                : m_name(name)
+                : m_run(run)
+                , m_name(name)
                 , m_suite(suite)
                 , m_testable(testable)
                 , m_file(file)
                 , m_function(function)
-                , m_line(line)
-                , m_run(run)
         {
             g_test_cases[m_testable][m_suite].push_back(*this);
         }
@@ -131,17 +170,8 @@ class TestCase {
         const std::string m_testable;
         const std::string m_file;
         const std::string m_function;
-        const int m_line;
 
 };
-
-// int main() {
-//     for each suites:
-//         std::cout << testing << suites;
-
-//         for each test in suites:
-//             // make test
-// }
 
 # define TESTABLE_RUN(Testable)         \
     std::cout << #Testable << "\n";                                                   \
@@ -149,15 +179,6 @@ class TestCase {
     { \
         TEST_SUITE_RUN_IMPL(Testable, suite_it->first); \
     }
-
-// # define TEST_SUITE_RUN(Testable, TestSuite)                                                       \
-//     std::cout << #Testable << "\n";
-
-// # define TEST_SUITE_DECLARE(Testable, TestSuite)                                         \
-//     void test_##Testable##_##TestSuite( void );
-
-// # define TEST_SUITE_RUN(Testable, TestSuite)                                             \
-//     test_##Testable##_##TestSuite();
 
 # define TEST_SUITE_RUN(Testable, TestSuite)                                        \
     {                                                                                    \
@@ -203,15 +224,9 @@ class TestCase {
         waitpid(0, NULL, 0);                                                             \
     }
 
-// # define TEST_CASE_DECLARE(TesteSuite, TestName)                                         \
-//     void test_##TestSuite##_##TestName( void );
-
-// # define TEST_CASE_RUN(TestSuite, TestName)                                              \
-//     test_##TestSuite##_##TestName();
-
 # define TEST_CASE(Testable, TestSuite, TestName, Content)                                         \
     void test_##Testable##_##TestSuite##_##TestName( void );                                          \
-    class TestCase g_test_##Testable##_##TestSuite##_##TestName(#TestName, #TestSuite, #Testable, __FILE__, "__func__", __LINE__, &test_##Testable##_##TestSuite##_##TestName); \
+    class TestCase g_test_##Testable##_##TestSuite##_##TestName(#TestName, #TestSuite, #Testable, __FILE__, "__func__", &test_##Testable##_##TestSuite##_##TestName); \
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
         pid_t processId = fork();                                                        \
@@ -240,8 +255,7 @@ class TestCase {
 
 # define OUTPUT_FAILED_ASSERT(T)                                                         \
     output_string                                                                        \
-        << "\033[1;31mASSERT FAILED\033[0m " #T << "\n";                               \
-    // std::cout << output_string.str();                                                    \
+        << "\033[1;31mASSERT FAILED\033[0m " #T << "\n";
 
 # define ASSERT(T)                                                                       \
     if (!(T)) {                                                                          \
@@ -270,13 +284,15 @@ class TestCase {
     }
 
 #define ASSERT_AWARENESS                                                                 \
-    if (Aware::count != 0) {                                                             \
-        AUTPUT_FAILED_ASSERT(Aware::count == 0)                                          \
+    if (aware_count != 0) {                                                             \
+        OUTPUT_FAILED_ASSERT(aware_count == 0)                                          \
     }                                                                                    \
-    Aware::count = 0;
+    aware_count = 0;
 
     // catch (...) {  \
     //     std::cout \
     //         << "    |   |-- " << "Out of testing error:\n" \
     //         << "    |   |-- " << __func__ << " Unexpected exception\n"; \
-    // } \
+    // }
+
+#endif

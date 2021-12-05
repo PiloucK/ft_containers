@@ -20,6 +20,8 @@
 
 # include "main.hpp"
 
+cases_map_t g_test_cases;
+
 int main( void )
 {
 	TESTABLE_RUN(Vector)

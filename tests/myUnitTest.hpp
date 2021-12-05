@@ -138,7 +138,7 @@
 class TestCase;
 
 typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
-static cases_map_t g_test_cases;
+extern cases_map_t g_test_cases;
 
 class TestCase {
 

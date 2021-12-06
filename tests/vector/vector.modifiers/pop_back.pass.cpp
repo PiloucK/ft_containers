@@ -12,8 +12,10 @@ TEST_CASE(Vector, Modifiers, PopBack, {
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> arr[] = { 0, 1, 2, 3, 4 };
-		int sz = 5;
+		Aware<int> arr[5];
+		for (int i = 0; i < 5; i++) {
+			arr[i] = i;
+		}		int sz = 5;
 		VECTOR<Aware<int> > c(arr, arr + sz);
 
 		while (c.size() < c.capacity())

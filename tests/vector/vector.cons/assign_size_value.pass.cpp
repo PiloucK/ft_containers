@@ -1,7 +1,7 @@
 #include "myUnitTest.hpp"
-]
+
 void
-test(VECTOR<Aware<int> > &v)
+test(VECTOR<Aware<int> > &v, std::stringstream & output_string, int & test_passed, int & test_failed)
 {
 	v.assign(5, Aware<int>(6));
 	ASSERT(v.size() == 5);
@@ -19,7 +19,7 @@ TEST_CASE(Vector, Assign, ValueModification, {
 
 		d2.reserve(10);
 
-		test(d1);
-		test(d2);
+		test(d1, output_string, test_passed, test_failed);
+		test(d2, output_string, test_passed, test_failed);
 	} ASSERT_AWARENESS
 })

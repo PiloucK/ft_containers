@@ -197,9 +197,9 @@ class TestCase {
                 case_it++) \
             {   \
                 case_it->m_run();                                                             \
+                waitpid(0, NULL, 0);                                                             \
             } \
         }                                                                                \
-        waitpid(0, NULL, 0);                                                             \
     }
 
 # define TEST_SUITE_RUN_IMPL(Testable, TestSuite)                                        \
@@ -219,9 +219,9 @@ class TestCase {
                 case_it++) \
             {   \
                 case_it->m_run();                                                             \
+                waitpid(0, NULL, 0);                                                             \
             } \
         }                                                                                \
-        waitpid(0, NULL, 0);                                                             \
     }
 
 # define TEST_CASE(Testable, TestSuite, TestName, Content)                                         \

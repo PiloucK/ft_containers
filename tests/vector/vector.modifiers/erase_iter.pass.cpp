@@ -1,6 +1,6 @@
 #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, Modifiers, EraseReturnValue {
+TEST_CASE(Vector, Modifiers, EraseReturnValue, {
 	{
 		VECTOR<Aware<int> > l1;
 		l1.push_back(1);

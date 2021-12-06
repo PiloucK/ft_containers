@@ -1,9 +1,31 @@
 #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, Special, CompleteSwapTests{
+static void a1_init(Aware<int> a1[])
+{
+	a1[0] = 1;
+	a1[1] = 3;
+	a1[2] = 7;
+	a1[3] = 9;
+	a1[4] = 10;
+}
+
+static void a2_init(Aware<int> a2[])
+{
+	a2[0] = 0;
+	a2[1] = 2;
+	a2[2] = 4;
+	a2[3] = 5;
+	a2[4] = 6;
+	a2[5] = 8;
+	a2[6] = 11;
+}
+
+TEST_CASE(Vector, Special, CompleteSwapTests, {
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1 + sizeof(a1) / sizeof(a1[0]));
 		VECTOR<Aware<int> > c2(a2, a2 + sizeof(a2) / sizeof(a2[0]));
@@ -15,8 +37,10 @@ TEST_CASE(Vector, Special, CompleteSwapTests{
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1);
 		VECTOR<Aware<int> > c2(a2, a2 + sizeof(a2) / sizeof(a2[0]));
@@ -29,8 +53,10 @@ TEST_CASE(Vector, Special, CompleteSwapTests{
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1 + sizeof(a1) / sizeof(a1[0]));
 		VECTOR<Aware<int> > c2(a2, a2);
@@ -43,8 +69,10 @@ TEST_CASE(Vector, Special, CompleteSwapTests{
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1);
 		VECTOR<Aware<int> > c2(a2, a2);
@@ -58,8 +86,10 @@ TEST_CASE(Vector, Special, CompleteSwapTests{
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1 + sizeof(a1) / sizeof(a1[0]));
 		VECTOR<Aware<int> > c2(a2, a2 + sizeof(a2) / sizeof(a2[0]));
@@ -71,8 +101,10 @@ TEST_CASE(Vector, Special, CompleteSwapTests{
 	} ASSERT_AWARENESS
 
 	{
-		Aware<int> a1[] = { 1, 3, 7, 9, 10 };
-		Aware<int> a2[] = { 0, 2, 4, 5, 6, 8, 11 };
+		Aware<int> a1[5];
+		a1_init(a1);
+		Aware<int> a2[7];
+		a2_init(a2);
 
 		VECTOR<Aware<int> > c1(a1, a1 + sizeof(a1) / sizeof(a1[0]));
 		VECTOR<Aware<int> > c2(a2, a2 + sizeof(a2) / sizeof(a2[0]));

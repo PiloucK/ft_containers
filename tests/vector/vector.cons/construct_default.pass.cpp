@@ -1,6 +1,6 @@
 #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, Constuctor, Default, {
+TEST_CASE(Vector, Constructor, Default, {
 	{
 		VECTOR<Aware<int> > v;
 

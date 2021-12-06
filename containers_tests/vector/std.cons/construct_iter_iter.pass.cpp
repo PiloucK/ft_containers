@@ -2,7 +2,7 @@
 
 template<class C, class Iterator>
 	void
-	test(Iterator first, Iterator last)
+	test(Iterator first, Iterator last, std::stringstream & output_string, int & test_passed, int & test_failed)
 	{
 		C c(first, last);
 		ASSERT(c.size() == static_cast<std::size_t>(DISTANCE(first, last)));
@@ -12,18 +12,18 @@ template<class C, class Iterator>
 	}
 
 static void
-basic_test_cases()
+basic_test_cases(std::stringstream & output_string, int & test_passed, int & test_failed)
 {
 	Aware<int> a[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 1, 0 };
 	Aware<int> *an = a + sizeof(a) / sizeof(a[0]);
 
-	test<VECTOR<Aware<int> > >(SimpleIterator<const Aware<int>*>(a), SimpleIterator<const Aware<int>*>(an));
+	test<VECTOR<Aware<int> > >(SimpleIterator<const Aware<int>*>(a), SimpleIterator<const Aware<int>*>(an), output_string, test_passed, test_failed);
 
 #if !(TEST_USE_STD)
-	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::iterator(a), VECTOR<Aware<int> >::iterator(an));
-	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::const_iterator(a), VECTOR<Aware<int> >::const_iterator(an));
+	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::iterator(a), VECTOR<Aware<int> >::iterator(an), output_string, test_passed, test_failed);
+	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::const_iterator(a), VECTOR<Aware<int> >::const_iterator(an), output_string, test_passed, test_failed);
 #endif
-	test<VECTOR<Aware<int> > >(a, an);
+	test<VECTOR<Aware<int> > >(a, an, output_string, test_passed, test_failed);
 }
 
 struct B1
@@ -44,7 +44,7 @@ struct Der :
 };
 
 void
-test_ctor_with_different_value_type() // Initialize a vector with a different value type.
+test_ctor_with_different_value_type(std::stringstream & output_string, int & test_passed, int & test_failed) // Initialize a vector with a different value type.
 {
 	float array[3] = { 0.0f, 1.0f, 2.0f };
 
@@ -71,9 +71,9 @@ test_ctor_with_different_value_type() // Initialize a vector with a different va
 }
 
 TEST_CASE(Vector, Constructor, FromIteratorOrDifferentValueType, {
-	basic_test_cases()
+	basic_test_cases(output_string, test_passed, test_failed)
 	ASSERT_AWARENESS
 
-	test_ctor_with_different_value_type();
+	test_ctor_with_different_value_type(output_string, test_passed, test_failed);
 	ASSERT_AWARENESS
 })

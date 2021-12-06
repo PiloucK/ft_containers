@@ -11,6 +11,9 @@
 #  include "Vector.hpp"
 # endif
 
+# define ARR_ARGS(...) __VA_ARGS__
+# define INIT_ARR(VAR_NAME,ARR_DATA) VAR_NAME = {ARR_ARGS ARR_DATA}
+
 static int aware_count = 0;
 
 template<class T>

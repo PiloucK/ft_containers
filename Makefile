@@ -3,7 +3,7 @@ NAME				:=	containers
 SRC_DIRS		 	:= \
 	tests
 
-BUILD_DIR				:= \
+BUILD_DIR			:= \
 	build
 
 SRCS				:= \

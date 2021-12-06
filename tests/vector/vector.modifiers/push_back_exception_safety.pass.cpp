@@ -6,9 +6,12 @@ class CMyClass
 {
 	public:
 
-		CMyClass(int tag) :
+		CMyClass(int tag, std::stringstream & o_string, int & passed, int & failed) :
 		        fMagicValue(kStartedConstructionMagicValue),
-		        fTag(tag)
+		        fTag(tag),
+				output_string(o_string),
+				test_passed(passed),
+				test_failed(failed)
 		{
 			// Signal that the constructor has finished running
 			fMagicValue = kFinishedConstructionMagicValue;
@@ -16,7 +19,10 @@ class CMyClass
 
 		CMyClass(const CMyClass &iOther) :
 		        fMagicValue(kStartedConstructionMagicValue),
-		        fTag(iOther.fTag)
+		        fTag(iOther.fTag),
+				output_string(iOther.output_string),
+				test_passed(iOther.test_passed),
+				test_failed(iOther.test_failed)
 		{
 			// If requested, throw an exception _before_ setting fMagicValue to kFinishedConstructionMagicValue
 			if (gCopyConstructorShouldThrow)
@@ -39,6 +45,9 @@ class CMyClass
 	private:
 		int fMagicValue;
 		int fTag;
+		std::stringstream & output_string;
+		int & test_passed;
+		int & test_failed;
 
 	private:
 		static int kStartedConstructionMagicValue;
@@ -57,7 +66,7 @@ bool operator == (const CMyClass &lhs, const CMyClass &rhs) {
 
 TEST_CASE(Vector, Modifiers, PushBackExceptions, {
 	{
-		CMyClass instance(42);
+		CMyClass instance(42, output_string, test_passed, test_failed);
 		VECTOR<CMyClass> vec;
 
 		vec.push_back(instance);
@@ -65,10 +74,8 @@ TEST_CASE(Vector, Modifiers, PushBackExceptions, {
 
 		gCopyConstructorShouldThrow = true;
 
-		ASSERT_EXCEPT({
-			vec.push_back(instance);
-		}
+		ASSERT_EXCEPT(vec.push_back(instance))
 
-		ASSERT(vec == vec2);
+		ASSERT(vec == vec2)
 	} ASSERT_AWARENESS
 })

@@ -1,4 +1,4 @@
-NAME				:=	containers
+NAME				:=	containers_tests
 
 SRC_DIRS		 	:= \
 	tests

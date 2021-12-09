@@ -1,70 +1,70 @@
-#include "myUnitTest.hpp"
+// #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, Modifiers, EraseWithIteratorRange, {
-	{
-		VECTOR<Aware<int> > l1;
-		l1.push_back(1);
-		l1.push_back(2);
-		l1.push_back(3);
+// TEST_CASE(Vector, Modifiers, EraseWithIteratorRange, {
+// 	{
+// 		VECTOR<Aware<int> > l1;
+// 		l1.push_back(1);
+// 		l1.push_back(2);
+// 		l1.push_back(3);
 
-		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin());
-		ASSERT(l1.size() == 3);
-		ASSERT(DISTANCE(l1.begin(), l1.end()) == 3);
-		ASSERT(i == l1.begin());
-	} ASSERT_AWARENESS
+// 		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin());
+// 		ASSERT(l1.size() == 3);
+// 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 3);
+// 		ASSERT(i == l1.begin());
+// 	} ASSERT_AWARENESS
 
-	{
-		VECTOR<Aware<int> > l1;
-		l1.push_back(1);
-		l1.push_back(2);
-		l1.push_back(3);
+// 	{
+// 		VECTOR<Aware<int> > l1;
+// 		l1.push_back(1);
+// 		l1.push_back(2);
+// 		l1.push_back(3);
 
-		VECTOR<Aware<int> > l2;
-		l2.push_back(2);
-		l2.push_back(3);
+// 		VECTOR<Aware<int> > l2;
+// 		l2.push_back(2);
+// 		l2.push_back(3);
 
-		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 1);
-		ASSERT(l1.size() == 2);
-		ASSERT(DISTANCE(l1.begin(), l1.end()) == 2);
-		ASSERT(i == l1.begin());
-		ASSERT(l1 == l2);
-	} ASSERT_AWARENESS
+// 		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 1);
+// 		ASSERT(l1.size() == 2);
+// 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 2);
+// 		ASSERT(i == l1.begin());
+// 		ASSERT(l1 == l2);
+// 	} ASSERT_AWARENESS
 
-	{
-		VECTOR<Aware<int> > l1;
-		l1.push_back(1);
-		l1.push_back(2);
-		l1.push_back(3);
+// 	{
+// 		VECTOR<Aware<int> > l1;
+// 		l1.push_back(1);
+// 		l1.push_back(2);
+// 		l1.push_back(3);
 
-		VECTOR<Aware<int> > l2;
-		l2.push_back(3);
+// 		VECTOR<Aware<int> > l2;
+// 		l2.push_back(3);
 
-		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 2);
-		ASSERT(l1.size() == 1);
-		ASSERT(DISTANCE(l1.begin(), l1.end()) == 1);
-		ASSERT(i == l1.begin());
-		ASSERT(l1 == l2);
-	} ASSERT_AWARENESS
+// 		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 2);
+// 		ASSERT(l1.size() == 1);
+// 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 1);
+// 		ASSERT(i == l1.begin());
+// 		ASSERT(l1 == l2);
+// 	} ASSERT_AWARENESS
 
-	{
-		VECTOR<Aware<int> > l1;
-		l1.push_back(1);
-		l1.push_back(2);
-		l1.push_back(3);
+// 	{
+// 		VECTOR<Aware<int> > l1;
+// 		l1.push_back(1);
+// 		l1.push_back(2);
+// 		l1.push_back(3);
 
 
-		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 3);
-		ASSERT(l1.size() == 0);
-		ASSERT(DISTANCE(l1.begin(), l1.end()) == 0);
-		ASSERT(i == l1.begin());
-	} ASSERT_AWARENESS
+// 		VECTOR<Aware<int> >::iterator i = l1.erase(l1.begin(), l1.begin() + 3);
+// 		ASSERT(l1.size() == 0);
+// 		ASSERT(DISTANCE(l1.begin(), l1.end()) == 0);
+// 		ASSERT(i == l1.begin());
+// 	} ASSERT_AWARENESS
 
-	{
-		VECTOR<VECTOR<Aware<int> > > outer(2, VECTOR<Aware<int> >(1));
+// 	{
+// 		VECTOR<VECTOR<Aware<int> > > outer(2, VECTOR<Aware<int> >(1));
 
-		outer.erase(outer.begin(), outer.begin());
-		ASSERT(outer.size() == 2);
-		ASSERT(outer[0].size() == 1);
-		ASSERT(outer[1].size() == 1);
-	} ASSERT_AWARENESS
-})
+// 		outer.erase(outer.begin(), outer.begin());
+// 		ASSERT(outer.size() == 2);
+// 		ASSERT(outer[0].size() == 1);
+// 		ASSERT(outer[1].size() == 1);
+// 	} ASSERT_AWARENESS
+// })

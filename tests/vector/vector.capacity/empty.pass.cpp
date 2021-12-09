@@ -1,15 +1,15 @@
-#include "myUnitTest.hpp"
+// #include "myUnitTest.hpp"
 
-TEST_CASE(Vector, Capacity, EmptyReturnValue, {
+// TEST_CASE(Vector, Capacity, EmptyReturnValue, {
 
-    {
-        typedef VECTOR<Aware<int> > C;
-        C c;
-        ASSERT_NOEXCEPT(c.empty());
-        ASSERT(c.empty());
-        c.push_back(C::value_type(1));
-        ASSERT(!c.empty());
-        c.clear();
-        ASSERT(c.empty());
-    } ASSERT_AWARENESS
-})
+//     {
+//         typedef VECTOR<Aware<int> > C;
+//         C c;
+//         ASSERT_NOEXCEPT(c.empty());
+//         ASSERT(c.empty());
+//         c.push_back(C::value_type(1));
+//         ASSERT(!c.empty());
+//         c.clear();
+//         ASSERT(c.empty());
+//     } ASSERT_AWARENESS
+// })

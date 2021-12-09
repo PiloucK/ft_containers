@@ -1,109 +1,37 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   push_back_rvalue.pass.cpp                          :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: Clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2020/09/01 14:03:25 by ecaceres          #+#    #+#             */
-// /*   Updated: 2021/12/02 18:02:39 by Clkuznie         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
-
 // #include "myUnitTest.hpp"
 
-// static bool gCopyConstructorShouldThrow = false;
+// TEST_CASE(Vector, PushBack, SizeChange, {
+//     VECTOR<Aware<int> > c;
 
-// class CMyClass
-// {
-// 	public:
+//     c.push_back(Aware<int>(0));
+//     ASSERT(c.size() == 1);
 
-// 		CMyClass(int tag) :
-// 		        fMagicValue(kStartedConstructionMagicValue),
-// 		        fTag(tag)
-// 		{
-// 			// Signal that the constructor has finished running
-// 			fMagicValue = kFinishedConstructionMagicValue;
-// 		}
+//     for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
+//         ASSERT(c[j] == Aware<int>(j));
 
-// 		CMyClass(const CMyClass &iOther) :
-// 		        fMagicValue(kStartedConstructionMagicValue),
-// 		        fTag(iOther.fTag)
-// 		{
-// 			// If requested, throw an exception _before_ setting fMagicValue to kFinishedConstructionMagicValue
-// 			if (gCopyConstructorShouldThrow)
-// 				throw std::exception();
-// 			// Signal that the constructor has finished running
-// 			fMagicValue = kFinishedConstructionMagicValue;
-// 		}
+//     c.push_back(Aware<int>(1));
+//     ASSERT(c.size() == 2);
 
-// 		~CMyClass()
-// 		{
-// 			// Only instances for which the constructor has finished running should be destructed
-// 			ASSERT(fMagicValue == kFinishedConstructionMagicValue);
-// 		}
-// 		bool
-// 		equal(const CMyClass &rhs) const
-// 		{
-// 			return fTag == rhs.fTag && fMagicValue == rhs.fMagicValue;
-// 		}
+//     for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
+//         ASSERT(c[j] == Aware<int>(j));
 
-// 	private:
-// 		int fMagicValue;
-// 		int fTag;
+//     c.push_back(Aware<int>(2));
+//     ASSERT(c.size() == 3);
 
-// 	private:
-// 		static int kStartedConstructionMagicValue;
-// 		private:
-// 		static int kFinishedConstructionMagicValue;
-// };
+//     for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
+//         ASSERT(c[j] == Aware<int>(j));
 
-// // Value for fMagicValue when the constructor has started running, but not yet finished
-// int CMyClass::kStartedConstructionMagicValue = 0;
-// // Value for fMagicValue when the constructor has finished running
-// int CMyClass::kFinishedConstructionMagicValue = 12345;
+//     c.push_back(Aware<int>(3));
+//     ASSERT(c.size() == 4);
 
-// bool
-// operator==(const CMyClass &lhs, const CMyClass &rhs)
-// {
-// 	return lhs.equal(rhs);
-// }
+//     for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
+//         ASSERT(c[j] == Aware<int>(j));
 
-// int
-// main(int, char**)
-// {
-// 	TEST_AWARE_BLOCK({
-// 		VECTOR<Aware<int> > c;
+//     c.push_back(Aware<int>(4));
+//     ASSERT(c.size() == 5);
 
-// 		c.push_back(Aware<int>(0));
-// 		ASSERT(c.size() == 1);
-
-// 		for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
-// 			ASSERT(c[j] == Aware<int>(j));
-
-// 		c.push_back(Aware<int>(1));
-// 		ASSERT(c.size() == 2);
-
-// 		for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
-// 			ASSERT(c[j] == Aware<int>(j));
-
-// 		c.push_back(Aware<int>(2));
-// 		ASSERT(c.size() == 3);
-
-// 		for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
-// 			ASSERT(c[j] == Aware<int>(j));
-
-// 		c.push_back(Aware<int>(3));
-// 		ASSERT(c.size() == 4);
-
-// 		for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
-// 			ASSERT(c[j] == Aware<int>(j));
-
-// 		c.push_back(Aware<int>(4));
-// 		ASSERT(c.size() == 5);
-
-// 		for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
-// 			ASSERT(c[j] == Aware<int>(j));
-// 	});
-
-// 	})
+//     for (int j = 0; static_cast<std::size_t>(j) < c.size(); ++j)
+//         ASSERT(c[j] == Aware<int>(j));
+    
+//     ASSERT_AWARENESS
+// })

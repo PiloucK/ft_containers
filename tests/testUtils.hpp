@@ -6,7 +6,9 @@
 # if USING_STD
 #  define VECTOR std::vector
 #  include <vector>
-# else
+# endif
+
+# if USING_FT
 #  define VECTOR ft::Vector
 #  include "Vector.hpp"
 # endif

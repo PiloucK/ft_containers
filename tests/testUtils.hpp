@@ -16,30 +16,30 @@
 # define ARR_ARGS(...) __VA_ARGS__
 # define INIT_ARR(VAR_NAME,ARR_DATA) VAR_NAME = {ARR_ARGS ARR_DATA}
 
-extern int aware_count;
+extern int g_aware_count;
 
 template<class T>
 class Aware {
 
     public:
 		Aware() : m_object(0) {
-            // std::cerr << "Aware default ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
-			aware_count++;
+            // std::cerr << "Aware default ctor: " << __func__ << " | " << __LINE__ << " | " << g_aware_count << "\n";
+			g_aware_count++;
 		}
 
         Aware(T object) : m_object(object) {
-            // std::cerr << "Aware value ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
-            aware_count++;
+            // std::cerr << "Aware value ctor: " << __func__ << " | " << __LINE__ << " | " << g_aware_count << "\n";
+            g_aware_count++;
         }
 
         Aware(const Aware & model) : m_object(model.m_object) {
-            // std::cerr << "Aware copy ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
-            aware_count++;
+            // std::cerr << "Aware copy ctor: " << __func__ << " | " << __LINE__ << " | " << g_aware_count << "\n";
+            g_aware_count++;
         }
 
         ~Aware() {
-            // std::cerr << "Aware dtor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
-            aware_count--;
+            // std::cerr << "Aware dtor: " << __func__ << " | " << __LINE__ << " | " << g_aware_count << "\n";
+            g_aware_count--;
         }
 
         Aware & operator = (const Aware & right) {

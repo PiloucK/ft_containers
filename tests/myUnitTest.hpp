@@ -284,10 +284,10 @@ class TestCase {
     }
 
 #define ASSERT_AWARENESS                                                                 \
-    if (aware_count != 0) {                                                             \
-        OUTPUT_FAILED_ASSERT(aware_count == 0)                                          \
+    if (g_aware_count != 0) {                                                             \
+        OUTPUT_FAILED_ASSERT(g_aware_count == 0)                                          \
     }                                                                                    \
-    aware_count = 0;
+    g_aware_count = 0;
 
     // catch (...) {  \
     //     std::cout \

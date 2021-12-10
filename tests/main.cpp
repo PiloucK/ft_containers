@@ -21,7 +21,7 @@
 # include "main.hpp"
 
 cases_map_t g_test_cases;
-int aware_count = 0;
+int g_aware_count = 0;
 
 int main( void )
 {

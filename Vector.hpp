@@ -1,7 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-# include "ft.hpp"
+# include "Iterator.hpp"
 # include <cstdlib>
 # include <memory>
 
@@ -24,16 +24,36 @@ namespace ft {
                 // difference_type
                 typedef size_t size_type;
 
-                explicit Vector(const allocator_type & alloc = allocator_type()) : m_allocator(alloc), m_size(0), m_capacity(0) {
+                explicit Vector (
+                    const allocator_type & alloc = allocator_type())
+                        : m_allocator(alloc)
+                        , m_size(0)
+                        , m_capacity(0)
+                {
                     ;
                 }
 
-                // Vector() : m_size(0) {
-                //     ;
-                // }
+                explicit Vector (
+                    size_type n
+                    , const value_type & val = value_type()
+                    , const allocator_type & alloc = allocator_type())
+                        : m_allocator(alloc)
+                        , m_array(m_allocator.allocate(n))
+                        , m_size(n)
+                        , m_capacity(n)
+                {
+                    for (size_type i = 0; i < m_size; i++) {
+                        m_allocator.construct(m_array + i, val);
+                    }
+                }
 
                 ~Vector() {
-                    ;
+                    for (size_type i = 0; i < m_size; i++) {
+                        m_allocator.destroy(m_array + i);
+                    }
+                    if (m_capacity != 0) {
+                        m_allocator.deallocate(m_array, m_capacity);
+                    }
                 }
 
                 bool empty() const {
@@ -46,6 +66,10 @@ namespace ft {
 
                 size_type size() const {
                     return (m_size);
+                }
+
+                size_type capacity() const {
+                    return (m_capacity);
                 }
                 // size_type size() const {
                 //     ;

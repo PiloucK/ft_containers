@@ -1,4 +1,5 @@
 #include "myUnitTest.hpp"
+#include "Vector.hpp"
 
 template<class C>
 	void
@@ -23,3 +24,13 @@ TEST_CASE(Vector, Constructor, SizeOnlyParam, {
 	// }
 	ASSERT_AWARENESS
 })
+
+int main ()
+{
+	
+	{
+		test<ft::Vector<Aware<int> > >(500, output_string, test_passed, test_failed);
+	}
+	std::cout << aware_count;
+	return 0;
+}

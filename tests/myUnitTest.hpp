@@ -233,7 +233,7 @@ class TestCase {
         if (processId < 0) {                                                             \
             std::stringstream output_string;                                             \
             output_string                                                                \
-                << "<    |   |-- " << "Out of testing error:\n"                          \
+                << "    |   |-- " << "Out of testing error:\n"                           \
                 << "    |   |-- " << __func__ << " failed to create a process\n";        \
             std::cout << output_string.str();                                            \
         } else if (processId == 0) {                                                     \

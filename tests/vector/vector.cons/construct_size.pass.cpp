@@ -6,16 +6,12 @@ template<class C>
 	{
 		C c(n);
 
-		std::cout << "--------------------------Count = " << aware_count << "\n";
 		ASSERT(c.size() == n);
-		std::cout << "--------------------------Count = " << aware_count << "\n";
 	}
 
 TEST_CASE(Vector, Constructor, SizeOnlyParam, {
 	test<VECTOR<int> >(50, output_string, test_passed, test_failed);
-	std::cout << "--------------------------Count = " << aware_count << "\n";
 	test<VECTOR<Aware<int> > >(500, output_string, test_passed, test_failed);
-	std::cout << "--------------------------Count = " << aware_count << "\n";
 
 	// {
 	// 	VECTOR<Aware<int> > C(500);

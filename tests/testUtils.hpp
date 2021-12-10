@@ -23,22 +23,22 @@ class Aware {
 
     public:
 		Aware() : m_object(0) {
-            std::cerr << "Aware default ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
+            // std::cerr << "Aware default ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
 			aware_count++;
 		}
 
         Aware(T object) : m_object(object) {
-            std::cerr << "Aware value ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
+            // std::cerr << "Aware value ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
             aware_count++;
         }
 
         Aware(const Aware & model) : m_object(model.m_object) {
-            std::cerr << "Aware copy ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
+            // std::cerr << "Aware copy ctor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
             aware_count++;
         }
 
         ~Aware() {
-            std::cerr << "Aware dtor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
+            // std::cerr << "Aware dtor: " << __func__ << " | " << __LINE__ << " | " << aware_count << "\n";
             aware_count--;
         }
 

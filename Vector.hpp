@@ -38,21 +38,21 @@ namespace ft {
                     , const value_type & val = value_type()
                     , const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
-                        , m_array(m_allocator.allocate(n))
+                        , m_begin(m_allocator.allocate(n))
                         , m_size(n)
                         , m_capacity(n)
                 {
                     for (size_type i = 0; i < m_size; i++) {
-                        m_allocator.construct(m_array + i, val);
+                        m_allocator.construct(m_begin + i, val);
                     }
                 }
 
                 ~Vector() {
                     for (size_type i = 0; i < m_size; i++) {
-                        m_allocator.destroy(m_array + i);
+                        m_allocator.destroy(m_begin + i);
                     }
                     if (m_capacity != 0) {
-                        m_allocator.deallocate(m_array, m_capacity);
+                        m_allocator.deallocate(m_begin, m_capacity);
                     }
                 }
 
@@ -79,7 +79,7 @@ namespace ft {
 
             private:
                 allocator_type m_allocator;
-                value_type * m_array;
+                value_type * m_begin;
                 size_type m_size;
                 size_type m_capacity;
 

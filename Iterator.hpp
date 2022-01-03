@@ -3,6 +3,16 @@
 
 namespace ft {
 
+    // All forward, bidirectional and random-access iterators are also valid input iterators.
+    // All bidirectional and random-access iterators are also valid forward iterators.
+    // All random-access iterators are also valid bidirectional iterators.
+    // These are from cplusplus reference and justify the inheritances bellow, which allow category identification
+    struct input_iterator_tag {};
+    struct output_iterator_tag {};
+    struct forward_iterator_tag : public input_iterator_tag {};
+    struct bidirectional_iterator_tag : public forward_iterator_tag {};
+    struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+
     template < class Iter >
         struct iterator_traits {
             typedef typename Iter::difference_type difference_type;
@@ -44,16 +54,6 @@ namespace ft {
             typedef Reference reference;
         };
 
-    // All forward, bidirectional and random-access iterators are also valid input iterators.
-    // All bidirectional and random-access iterators are also valid forward iterators.
-    // All random-access iterators are also valid bidirectional iterators.
-    // These are from cplusplus reference and justify the inheritances bellow, which allow category identification
-    struct input_iterator_tag {};
-    struct output_iterator_tag {};
-    struct forward_iterator_tag : public input_iterator_tag {};
-    struct bidirectional_iterator_tag : public forward_iterator_tag {};
-    struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-
     /*!
       @brief Distance between two input iterators
       
@@ -92,6 +92,12 @@ namespace ft {
         typename iterator_traits<InputIterator>::difference_type
         __distance(InputIterator first, InputIterator last, random_access_iterator_tag) {
             return (last - first);
+        }
+    
+    template < class InputIterator >
+        typename iterator_traits<InputIterator>::difference_type
+        distance(InputIterator first, InputIterator last) {
+            return(__distance(first, last, typename iterator_traits<InputIterator>::iterator_category()));
         }
 
 }

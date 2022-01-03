@@ -5,22 +5,26 @@
 
 namespace ft {
 
+    template < class T1, class T2 >
+        struct pair;
+
     template <class Category
             , class T
             , class Distance
             , class Pointer
             , class Reference
             >
-        class Iterator;
+        struct iterator;
 
-    template < class T, class Alloc>
+    template < class T, class Alloc >
         class Vector;
     // class Stack;
     // class Map;
 
 }
 
-# include "Iterator.hpp"
+# include "iterator.hpp"
 # include "Vector.hpp"
+# include "pair.hpp"
 
 #endif

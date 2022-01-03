@@ -1,7 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-# include "Iterator.hpp"
+# include "ft.hpp"
 # include <cstdlib>
 # include <memory>
 
@@ -17,18 +17,37 @@ namespace ft {
                 typedef typename allocator_type::const_reference const_reference;
                 typedef typename allocator_type::pointer pointer;
                 typedef typename allocator_type::const_pointer const_pointer;
-                // iterator
-                // const_iterator
+                typedef pointer iterator;
+                typedef const_pointer const_iterator;
                 // reverse_iterator
                 // const_reverse_iterator
-                // difference_type
+                typedef ptrdiff_t difference_type;
                 typedef size_t size_type;
 
+            private:
+                allocator_type m_allocator;
+                pointer m_begin;
+                pointer m_end;
+                pointer m_end_cap;
+
+                // allocator::allocate second parameter for possible performance improvement
+                void allocate(size_type n) {
+                    if (n > max_size()) {
+                        throw(std::length_error("vector"));
+                    }
+                    m_begin = m_end = m_allocator.allocate(n, m_begin);
+                    m_end_cap = m_begin + n;
+                }
+
+            protected:
+
+            public:
                 explicit Vector (
                     const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
-                        , m_size(0)
-                        , m_capacity(0)
+                        , m_begin(nullptr)
+                        , m_end(nullptr)
+                        , m_end_cap(nullptr)
                 {
                     ;
                 }
@@ -38,50 +57,63 @@ namespace ft {
                     , const value_type & val = value_type()
                     , const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
-                        , m_begin(m_allocator.allocate(n))
-                        , m_size(n)
-                        , m_capacity(n)
+                        , m_begin(nullptr)
+                        , m_end(nullptr)
+                        , m_end_cap(nullptr)
                 {
-                    for (size_type i = 0; i < m_size; i++) {
-                        m_allocator.construct(m_begin + i, val);
+                    allocate(n);
+                    while (n > 0) {
+                        m_allocator.construct(m_end, val);
+                        ++m_end;
+                        --n;
                     }
                 }
 
                 ~Vector() {
-                    for (size_type i = 0; i < m_size; i++) {
-                        m_allocator.destroy(m_begin + i);
+                    if (m_begin != nullptr) {
+                        clear();
+                        m_allocator.deallocate(m_begin, capacity());
+                        m_begin = m_end = m_end_cap = nullptr;
                     }
-                    if (m_capacity != 0) {
-                        m_allocator.deallocate(m_begin, m_capacity);
+                }
+
+                void clear() {
+                    while (m_begin != m_end) {
+                        m_allocator.destroy(--m_end);
                     }
                 }
 
                 bool empty() const {
-                    if (m_size != 0) {
-                        return (false);
-                    } else {
-                        return (true);
-                    }
+                    return (m_begin == m_end);
                 }
 
                 size_type size() const {
-                    return (m_size);
+                    return (static_cast<size_type>(m_end - m_begin));
+                }
+
+                size_type max_size() const {
+                    return (m_allocator.max_size());
                 }
 
                 size_type capacity() const {
-                    return (m_capacity);
+                    return (static_cast<size_type>(m_end_cap - m_begin));
                 }
-                // size_type size() const {
-                //     ;
-                // };
 
-            protected:
+                iterator begin() {
+                    return (iterator(m_begin));
+                }
 
-            private:
-                allocator_type m_allocator;
-                value_type * m_begin;
-                size_type m_size;
-                size_type m_capacity;
+                const_iterator begin() const {
+                    return (const_iterator(m_begin));
+                }
+
+                iterator end() {
+                    return (iterator(m_end));
+                }
+
+                const_iterator end() const {
+                    return (const_iterator(m_end));
+                }
 
         };
 

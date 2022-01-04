@@ -132,9 +132,17 @@ namespace ft {
                     }
                 }
 
-                void clear() {
-                    while (m_begin != m_end) {
-                        m_allocator.destroy(--m_end);
+                void reserve(size_type n) {
+                    if (n > capacity()) {
+                        pointer begin_copy = m_begin;
+                        pointer end_copy = m_end;
+                        size_type prev_capacity = capacity();
+                        allocate(n);
+                        construct_at_end(begin_copy, end_copy);
+                        while (begin_copy != end_copy) {
+                            m_allocator.destroy(--end_copy);
+                        }
+                        m_allocator.deallocate(begin_copy, prev_capacity);
                     }
                 }
 
@@ -162,8 +170,22 @@ namespace ft {
                     }
                 }
 
+                // void push_back(const value_type & val) {
+                //     if (m_end == m_end_cap) {
+                //         reserve(capacity() * 2); // Time to recommend
+                //     }
+                //     m_allocator.construct(m_end, val);
+                //     ++m_end;
+                // }
+
                 bool empty() const {
                     return (m_begin == m_end);
+                }
+
+                void clear() {
+                    while (m_begin != m_end) {
+                        m_allocator.destroy(--m_end);
+                    }
                 }
 
                 size_type size() const {

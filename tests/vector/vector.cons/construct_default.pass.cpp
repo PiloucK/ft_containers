@@ -1,5 +1,9 @@
 #include "myUnitTest.hpp"
 
+// Requirements
+//  - default ctor
+//  - empty()
+
 TEST_CASE(Vector, Constructor, Default, {
 	{
 		VECTOR<Aware<int> > v;

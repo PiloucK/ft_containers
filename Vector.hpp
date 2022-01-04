@@ -33,7 +33,7 @@ namespace ft {
                 // allocator::allocate second parameter for possible performance improvement
                 void allocate(size_type n) {
                     if (n > max_size()) {
-                        throw(std::length_error("vector"));
+                        throw(std::length_error("Vector"));
                     }
                     m_begin = m_end = m_allocator.allocate(n, m_begin);
                     m_end_cap = m_begin + n;
@@ -114,8 +114,15 @@ namespace ft {
                     size_type n = static_cast<size_type>(x.capacity());
                     if (n > 0) {
                         allocate(n);
-                        construct_at_end(x.begin(), x.end());
+                        construct_at_end(x.m_begin, x.m_end);
                     }
+                }
+
+                Vector & operator = (const Vector & x) {
+                    if (this != &x) {
+                        assign(x.m_begin, x.m_end);
+                    }
+                    return (*this);
                 }
 
                 ~Vector() {
@@ -135,7 +142,7 @@ namespace ft {
                     void assign(InputIterator first, InputIterator last) {
                         clear();
                         typename iterator_traits<InputIterator>::difference_type new_size = distance(first, last);
-                        if (new_size <= capacity()) {
+                        if (static_cast<size_type>(new_size) <= capacity()) {
                             construct_at_end(first, last);
                         } else {
                             deallocate();
@@ -220,6 +227,37 @@ namespace ft {
                 }
 
         };
+
+        template < class T, class Alloc >
+            bool operator == (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                const typename Vector<T, Alloc>::size_type lhs_size = lhs.size();
+                return (lhs_size == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+            }
+
+        template < class T, class Alloc >
+            bool operator != (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                return (!(lhs == rhs));
+            }
+
+        template < class T, class Alloc >
+            bool operator <  (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+            }
+
+        template < class T, class Alloc >
+            bool operator <= (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                return (rhs < lhs);
+            }
+
+        template < class T, class Alloc >
+            bool operator >  (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                return (!(lhs < rhs));
+            }
+
+        template < class T, class Alloc >
+            bool operator >= (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+                return (!(rhs < lhs));
+            }
 
 }
 

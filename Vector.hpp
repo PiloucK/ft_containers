@@ -39,6 +39,11 @@ namespace ft {
                     m_end_cap = m_begin + n;
                 }
 
+                void deallocate() {
+                    m_allocator.deallocate(m_begin, capacity());
+                    m_begin = m_end = m_end_cap = nullptr;
+                }
+
                 void construct_at_end(size_type n, const_reference val) {
                     while (n > 0) {
                         m_allocator.construct(m_end, val);
@@ -116,14 +121,37 @@ namespace ft {
                 ~Vector() {
                     if (m_begin != nullptr) {
                         clear();
-                        m_allocator.deallocate(m_begin, capacity());
-                        m_begin = m_end = m_end_cap = nullptr;
+                        deallocate();
                     }
                 }
 
                 void clear() {
                     while (m_begin != m_end) {
                         m_allocator.destroy(--m_end);
+                    }
+                }
+
+                template < class InputIterator>
+                    void assign(InputIterator first, InputIterator last) {
+                        clear();
+                        typename iterator_traits<InputIterator>::difference_type new_size = distance(first, last);
+                        if (new_size <= capacity()) {
+                            construct_at_end(first, last);
+                        } else {
+                            deallocate();
+                            allocate(new_size);
+                            construct_at_end(first, last);
+                        }
+                    }
+
+                void assign (size_type n, const value_type & val) {
+                    clear();
+                    if (n <= capacity()) {
+                        construct_at_end(n, val);
+                    } else {
+                        deallocate();
+                        allocate(n);
+                        construct_at_end(n, val);
                     }
                 }
 

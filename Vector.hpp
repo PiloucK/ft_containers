@@ -19,8 +19,8 @@ namespace ft {
                 typedef typename allocator_type::const_pointer const_pointer;
                 typedef pointer iterator;
                 typedef const_pointer const_iterator;
-                // reverse_iterator
-                // const_reverse_iterator
+                typedef ft::reverse_iterator<iterator> reverse_iterator;
+                typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
                 typedef ptrdiff_t difference_type;
                 typedef size_t size_type;
 
@@ -39,6 +39,22 @@ namespace ft {
                     m_end_cap = m_begin + n;
                 }
 
+                void construct_at_end(size_type n, const_reference val) {
+                    while (n > 0) {
+                        m_allocator.construct(m_end, val);
+                        ++m_end;
+                        --n;
+                    }
+                }
+
+                template < class InputIterator >
+                    void construct_at_end(InputIterator first, InputIterator last) {
+                        for (; first != last; ++first) {
+                            m_allocator.construct(m_end, *first);
+                            ++m_end;
+                        }
+                    }
+
             protected:
 
             public:
@@ -49,7 +65,6 @@ namespace ft {
                         , m_end(nullptr)
                         , m_end_cap(nullptr)
                 {
-                    ;
                 }
 
                 explicit Vector (
@@ -61,11 +76,40 @@ namespace ft {
                         , m_end(nullptr)
                         , m_end_cap(nullptr)
                 {
-                    allocate(n);
-                    while (n > 0) {
-                        m_allocator.construct(m_end, val);
-                        ++m_end;
-                        --n;
+                    if (n > 0) {
+                        allocate(n);
+                        construct_at_end(n, val);
+                    }
+                }
+
+                template < class InputIterator >
+                    Vector(
+                        InputIterator first
+                        , InputIterator last
+                        , const allocator_type & alloc = allocator_type())
+                            : m_allocator(alloc)
+                            , m_begin(nullptr)
+                            , m_end(nullptr)
+                            , m_end_cap(nullptr)
+                    {
+                        size_type n = static_cast<size_type>(distance(first, last));
+                        if (n > 0) {
+                            allocate(n);
+                            construct_at_end(first, last);
+                        }
+                    }
+
+                Vector(
+                    const Vector & x)
+                        : m_allocator(x.m_allocator)
+                        , m_begin(nullptr)
+                        , m_end(nullptr)
+                        , m_end_cap(nullptr)
+                {
+                    size_type n = static_cast<size_type>(x.capacity());
+                    if (n > 0) {
+                        allocate(n);
+                        construct_at_end(x.begin(), x.end());
                     }
                 }
 
@@ -113,6 +157,38 @@ namespace ft {
 
                 const_iterator end() const {
                     return (const_iterator(m_end));
+                }
+
+                reverse_iterator rbegin() {
+                    return (reverse_iterator(end()));
+                }
+
+                const_reverse_iterator rbegin() const {
+                    return (const_reverse_iterator(end()));
+                }
+
+                reverse_iterator rend() {
+                    return (reverse_iterator(begin()));
+                }
+
+                const_reverse_iterator rend() const {
+                    return (const_reverse_iterator(begin()));
+                }
+
+                reference front() {
+                    return (*m_begin);
+                }
+
+                const_reference front() const {
+                    return (*m_begin);
+                }
+
+                reference back() {
+                    return (*(m_end - 1));
+                }
+
+                const_reference back() const {
+                    return (*(m_end - 1));
                 }
 
         };

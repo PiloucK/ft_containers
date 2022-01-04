@@ -94,47 +94,6 @@
 
 # include "testUtils.hpp"
 
-// class TestCase;
-
-// typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
-// cases_map_t g_test_cases;
-
-// class TestCase {
-
-//     public:
-//         void (* const m_run)(void);
-
-//         TestCase(
-//             const std::string name
-//             , const std::string suite
-//             , const std::string testable
-//             , const std::string file
-//             , const std::string function
-//             , const int line
-//             , void (* const run)(void)) 
-//                 : m_run(run)
-//                 , m_name(name)
-//                 , m_suite(suite)
-//                 , m_testable(testable)
-//                 , m_file(file)
-//                 , m_function(function)
-//                 , m_line(line)
-//         {
-//             g_test_cases[m_testable][m_suite].push_back(*this);
-//         }
-
-//         ~TestCase( void ) {};
-
-//     private:
-//         const std::string m_name;
-//         const std::string m_suite;
-//         const std::string m_testable;
-//         const std::string m_file;
-//         const std::string m_function;
-//         const int m_line;
-
-// };
-
 class TestCase;
 
 typedef std::map<const std::string, std::map <const std::string, std::list< const class TestCase> > > cases_map_t;
@@ -197,7 +156,7 @@ class TestCase {
                 case_it++) \
             {   \
                 case_it->m_run();                                                             \
-                waitpid(0, NULL, 0);                                                             \
+                waitpid(-1, NULL, WUNTRACED);                                                             \
             } \
         }                                                                                \
     }
@@ -219,7 +178,7 @@ class TestCase {
                 case_it++) \
             {   \
                 case_it->m_run();                                                             \
-                waitpid(0, NULL, 0);                                                             \
+                waitpid(-1, NULL, WUNTRACED);                                                             \
             } \
         }                                                                                \
     }

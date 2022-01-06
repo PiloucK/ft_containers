@@ -138,7 +138,7 @@ namespace ft {
                         pointer end_copy = m_end;
                         size_type prev_capacity = capacity();
                         allocate(n);
-                        construct_at_end(begin_copy, end_copy);
+                        construct_at_end(iterator(begin_copy), iterator(end_copy));
                         while (begin_copy != end_copy) {
                             m_allocator.destroy(--end_copy);
                         }

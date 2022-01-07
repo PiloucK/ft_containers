@@ -107,7 +107,7 @@ class TestCase {
         const std::string m_name;
         const std::string m_file;
         std::string m_output_string;
-        int m_pid;
+        pid_t m_pid;
         int m_exit_status;
         void (* const m_run)(void);
 
@@ -126,7 +126,7 @@ class TestCase {
                 , m_exit_status()
                 , m_run(run)
         {
-            g_test_cases[m_testable][m_suite].insert(std::pair<const std::string, TestCase>(m_name, *this));
+            g_test_cases[m_testable][m_suite].insert(std::make_pair(m_name, *this));
         }
 
         ~TestCase() {};
@@ -196,14 +196,14 @@ class TestCase {
     TestCase g_test_##Testable##_##TestSuite##_##TestName(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName); \
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
-        pid_t processId = fork();                                                        \
-        if (processId < 0) {                                                             \
+        (g_test_cases[#Testable][#TestSuite][#TestName]).m_pid = fork();                                                       \
+        if ((g_test_cases[#Testable][#TestSuite][#TestName]).m_pid < 0) {                                                             \
             std::stringstream output_string;                                             \
             output_string                                                                \
                 << "    |    |--- " << "Out of testing error:\n"                           \
                 << "    |    |--- " << __func__ << " failed to create a process\n";        \
             std::cout << output_string.str();                                            \
-        } else if (processId == 0) {                                                     \
+        } else if ((g_test_cases[#Testable][#TestSuite][#TestName]).m_pid == 0) {                                                     \
             std::stringstream output_string;                                             \
             output_string                                                                \
                 << "    |    |--- " << #TestName << "\n";                                  \

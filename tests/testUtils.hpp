@@ -4,11 +4,13 @@
 # define DISTANCE std::distance
 
 # if USING_STD
+#  define NAMESPACE std
 #  define VECTOR std::vector
 #  include <vector>
 # endif
 
 # if USING_FT
+#  define NAMESPACE ft
 #  define VECTOR ft::Vector
 #  include "Vector.hpp"
 # endif

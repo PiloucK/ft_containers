@@ -106,7 +106,7 @@ class TestCase {
         const std::string m_suite;
         const std::string m_name;
         const std::string m_file;
-        std::string m_output_string;
+        std::stringstream m_output_string;
         int m_pid;
         int m_exit_status;
         void (* const m_run)(void);
@@ -126,7 +126,7 @@ class TestCase {
                 , m_exit_status()
                 , m_run(run)
         {
-            g_test_cases[m_testable][m_suite].insert(std::pair<const std::string, TestCase>(m_name, *this));
+            g_test_cases[m_testable][m_suite].insert(std::pair<const std::string, TestCse>(m_name, *this));
         }
 
         ~TestCase() {};
@@ -191,9 +191,10 @@ class TestCase {
         }                                                                                \
     }
 
+    // g_test_case[#Testable][#TestSuite][#TestName] = TestCase(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName);
 # define TEST_CASE(Testable, TestSuite, TestName, Content)                                         \
     void test_##Testable##_##TestSuite##_##TestName( void );                                          \
-    TestCase g_test_##Testable##_##TestSuite##_##TestName(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName); \
+    class TestCase g_test_##Testable##_##TestSuite##_##TestName(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName); \
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
         pid_t processId = fork();                                                        \

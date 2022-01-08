@@ -200,8 +200,7 @@ class TestCase {
         if (g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_pid < 0) {                                                             \
             std::stringstream output_string;                                             \
             output_string                                                                \
-                << "    |    |--- " << "Out of testing error:\n"                           \
-                << "    |    |--- " << __func__ << " failed to create a process\n";        \
+                << "    |    |--- " << "Out of testing error:\n";                           \
             std::cout << output_string.str();                                            \
         } else if (g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_pid == 0) {                                                     \
             std::stringstream output_string;                                             \
@@ -255,11 +254,5 @@ class TestCase {
         OUTPUT_FAILED_ASSERT(g_aware_count == 0)                                          \
     }                                                                                    \
     g_aware_count = 0;
-
-    // catch (...) {  \
-    //     std::cout \
-    //         << "    |   |-- " << "Out of testing error:\n" \
-    //         << "    |   |-- " << __func__ << " Unexpected exception\n"; \
-    // }
 
 #endif

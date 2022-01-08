@@ -102,21 +102,21 @@ extern cases_map_t g_test_cases;
 class TestCase {
 
     public:
-        const std::string m_testable;
-        const std::string m_suite;
-        const std::string m_name;
-        const std::string m_file;
+     std::string m_testable;
+     std::string m_suite;
+     std::string m_name;
+     std::string m_file;
         std::string m_output_string;
         pid_t m_pid;
         int m_exit_status;
-        void (* const m_run)(void);
+        void (* m_run)(void);
 
         TestCase(
-            const std::string testable
-            , const std::string suite
-            , const std::string name
-            , const std::string file
-            , void (* const run)(void))
+         std::string testable
+            , std::string suite
+            , std::string name
+            , std::string file
+            , void (* run)(void))
                 : m_testable(testable)
                 , m_suite(suite)
                 , m_name(name)
@@ -126,7 +126,20 @@ class TestCase {
                 , m_exit_status()
                 , m_run(run)
         {
-            g_test_cases[m_testable][m_suite].insert(std::make_pair(m_name, *this));
+            // g_test_cases[m_testable][m_suite].insert(std::make_pair(m_name, *this));
+            g_test_cases[m_testable][m_suite][m_name] = *this;
+        }
+
+        TestCase()
+                : m_testable()
+                , m_suite()
+                , m_name()
+                , m_file()
+                , m_output_string()
+                , m_pid()
+                , m_exit_status()
+                , m_run()
+        {
         }
 
         ~TestCase() {};
@@ -153,7 +166,7 @@ class TestCase {
 //         << "\n";                                                                 \
 //     std::cout << output_string.str();                                            \
 // }
-// {                                                                                \
+// {                     ›                                                           \
 //     std::stringstream output_string;                                             \
 //     output_string                                                                \
 //         << "    |--- "                                                            \
@@ -196,7 +209,8 @@ class TestCase {
     TestCase g_test_##Testable##_##TestSuite##_##TestName(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName); \
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
-        (g_test_cases[#Testable][#TestSuite][#TestName]).m_pid = fork();                                                       \
+        TestCase current = g_test_cases[#Testable][#TestSuite][#TestName]; \
+        (current).m_pid = fork();                                                       \
         if ((g_test_cases[#Testable][#TestSuite][#TestName]).m_pid < 0) {                                                             \
             std::stringstream output_string;                                             \
             output_string                                                                \

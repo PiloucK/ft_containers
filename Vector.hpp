@@ -59,6 +59,12 @@ namespace ft {
                             ++m_end;
                         }
                     }
+                
+                void destruct_at_end(pointer new_last) {
+                    while (m_end != new_last) {
+                        m_allocator.destroy(--m_end);
+                    }
+                }
 
                 size_type recommend(size_type new_size) const {
                     const size_type ms = max_size();
@@ -145,52 +151,6 @@ namespace ft {
                     }
                 }
 
-                void reserve(size_type n) {
-                    if (n > capacity()) {
-                        pointer begin_copy = m_begin;
-                        pointer end_copy = m_end;
-                        size_type prev_capacity = capacity();
-                        allocate(n);
-                        construct_at_end(iterator(begin_copy), iterator(end_copy));
-                        while (begin_copy != end_copy) {
-                            m_allocator.destroy(--end_copy);
-                        }
-                        m_allocator.deallocate(begin_copy, prev_capacity);
-                    }
-                }
-
-                template < class InputIterator>
-                    void assign(InputIterator first, InputIterator last) {
-                        clear();
-                        typename iterator_traits<InputIterator>::difference_type new_size = distance(first, last);
-                        if (static_cast<size_type>(new_size) <= capacity()) {
-                            construct_at_end(first, last);
-                        } else {
-                            deallocate();
-                            allocate(recommend(new_size));
-                            construct_at_end(first, last);
-                        }
-                    }
-
-                void assign (size_type n, const value_type & val) {
-                    clear();
-                    if (n <= capacity()) {
-                        construct_at_end(n, val);
-                    } else {
-                        deallocate();
-                        allocate(recommend(n));
-                        construct_at_end(n, val);
-                    }
-                }
-
-                void push_back(const value_type & val) {
-                    if (m_end == m_end_cap) {
-                        reserve(recommend(capacity() + 1));
-                    }
-                    m_allocator.construct(m_end, val);
-                    ++m_end;
-                }
-
                 bool empty() const {
                     return (m_begin == m_end);
                 }
@@ -259,6 +219,81 @@ namespace ft {
 
                 const_reference back() const {
                     return (*(m_end - 1));
+                }
+
+                void reserve(size_type n) {
+                    if (n > capacity()) {
+                        pointer begin_copy = m_begin;
+                        pointer end_copy = m_end;
+                        size_type prev_capacity = capacity();
+                        allocate(n);
+                        construct_at_end(iterator(begin_copy), iterator(end_copy));
+                        while (begin_copy != end_copy) {
+                            m_allocator.destroy(--end_copy);
+                        }
+                        m_allocator.deallocate(begin_copy, prev_capacity);
+                    }
+                }
+
+                template < class InputIterator>
+                    void assign(InputIterator first, InputIterator last) {
+                        clear();
+                        typename iterator_traits<InputIterator>::difference_type new_size = distance(first, last);
+                        if (static_cast<size_type>(new_size) <= capacity()) {
+                            construct_at_end(first, last);
+                        } else {
+                            deallocate();
+                            allocate(recommend(new_size));
+                            construct_at_end(first, last);
+                        }
+                    }
+
+                void assign (size_type n, const value_type & val) {
+                    clear();
+                    if (n <= capacity()) {
+                        construct_at_end(n, val);
+                    } else {
+                        deallocate();
+                        allocate(recommend(n));
+                        construct_at_end(n, val);
+                    }
+                }
+
+                void push_back(const value_type & val) {
+                    if (m_end == m_end_cap) {
+                        reserve(recommend(capacity() + 1));
+                    }
+                    m_allocator.construct(m_end, val);
+                    ++m_end;
+                }
+
+                void pop_back() {
+                    destruct_at_end(m_end - 1);
+                }
+
+                iterator erase(iterator position) {
+                    iterator it_return(position);
+                    if (size() != 1) {
+                        while (position != m_end - 1) {
+                            *position = *(position + 1);
+                            ++position;
+                        }
+                    }
+                    destruct_at_end(m_end - 1);
+                    return (it_return);
+                }
+
+                iterator erase(iterator first, iterator last) {
+                    iterator it_return(first);
+                    difference_type n = last - first;
+                    if (size() != static_cast<size_type>(n)) {
+                        while (first != m_end - n - 1) {
+                            *first = *(first + n);
+                            ++first;
+                        }
+                    }
+                    destruct_at_end(m_end - n - 1);
+                    return (it_return);
                 }
 
         };

@@ -145,13 +145,6 @@ class TestCase {
 
 
 // {                                                                                \
-//     std::stringstream output_string;                                             \
-//     output_string                                                                \
-//         << "    |--- "                                                            \
-//         << "Testing for "                                                        \
-//         << #TestSuite                                                            \
-//         << "\n";                                                                 \
-//     std::cout << output_string.str();                                            \
 // }
 // {                                                                                \
 //     std::stringstream output_string;                                             \
@@ -168,12 +161,25 @@ class TestCase {
 # define TEST_SUITE_RUN(Testable, TestSuite)                                        \
     {                                                                                    \
         {                                                                                \
+            std::cout << "    |--- Testing for "                                                        \
+                << #TestSuite                                                            \
+                << "\n";                                                                 \
             for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][#TestSuite].begin(); \
                 case_it != g_test_cases[#Testable][#TestSuite].end();\
                 case_it++) \
             {   \
                 case_it->second.m_run();                                                             \
-                waitpid(-1, NULL, WUNTRACED);                                                             \
+            } \
+            for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][#TestSuite].begin(); \
+                case_it != g_test_cases[#Testable][#TestSuite].end();\
+                case_it++) \
+            {   \
+                waitpid(case_it->second.m_pid, &(case_it->second.m_exit_status), WUNTRACED); \
+                if (case_it->second.m_exit_status != 0) { \
+                    std::cout << "    |    |--- " << case_it->second.m_name << "\n"; \
+                    std::cout << "\033[1;31m    |    |    |--- " << strerror(case_it->second.m_exit_status) << "\033[0m\n" \
+                        << "              |--- file: " << case_it->second.m_file << "\n"; \
+                } \
             } \
         }                                                                                \
     }
@@ -181,12 +187,25 @@ class TestCase {
 # define TEST_SUITE_RUN_IMPL(Testable, TestSuite)                                        \
     {                                                                                    \
         {                                                                                \
+            std::cout << "    |--- Testing for "                                                        \
+                << TestSuite                                                            \
+                << "\n";                                                                 \
             for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][TestSuite].begin(); \
                 case_it != g_test_cases[#Testable][TestSuite].end();\
                 case_it++) \
             {   \
                 case_it->second.m_run();                                                             \
-                waitpid(-1, NULL, WUNTRACED);                                                             \
+            } \
+            for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][TestSuite].begin(); \
+                case_it != g_test_cases[#Testable][TestSuite].end();\
+                case_it++) \
+            {   \
+                waitpid(case_it->second.m_pid, &(case_it->second.m_exit_status), WUNTRACED); \
+                if (case_it->second.m_exit_status != 0) { \
+                    std::cout << "    |    |--- " << case_it->second.m_name << "\n"; \
+                    std::cout << "\033[1;31m    |    |    |--- " << strerror(case_it->second.m_exit_status) << "\033[0m\n" \
+                        << "              |--- file: " << case_it->second.m_file << "\n"; \
+                } \
             } \
         }                                                                                \
     }
@@ -196,25 +215,22 @@ class TestCase {
     TestCase g_test_##Testable##_##TestSuite##_##TestName(#Testable, #TestSuite, #TestName, __FILE__, &test_##Testable##_##TestSuite##_##TestName); \
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
-        g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_pid = fork();                                                       \
-        if (g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_pid < 0) {                                                             \
+        TestCase & current_case = g_test_cases[#Testable][#TestSuite].find(#TestName)->second; \
+        current_case.m_pid = fork();                                                       \
+        if (current_case.m_pid < 0) {                                                             \
+            current_case.m_exit_status = errno;                           \
+        } else if (current_case.m_pid == 0) {                                                     \
             std::stringstream output_string;                                             \
-            output_string                                                                \
-                << "    |    |--- " << "Out of testing error:\n";                           \
-            std::cout << output_string.str();                                            \
-        } else if (g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_pid == 0) {                                                     \
-            std::stringstream output_string;                                             \
-            output_string                                                                \
-                << "    |    |--- " << #TestName << "\n";                                  \
             int test_passed = 0;                                                         \
             int test_failed = 0;                                                         \
             {                                                                            \
                 Content                                                                  \
             }                                                                            \
             output_string                                                                \
+                << "    |    |--- " << #TestName << "\n"                    \
                 << "    |    |    |--- " << "Passed: " << test_passed << "\n"              \
                 << "    |    |    |--- " << "Failed: " << test_failed << "\n";             \
-            std::cout << output_string.str();                                            \
+            std::cout << output_string.str(); \
             exit(EXIT_SUCCESS);                                                          \
         }                                                                                \
     }

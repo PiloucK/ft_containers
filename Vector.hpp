@@ -221,6 +221,28 @@ namespace ft {
                     return (*(m_end - 1));
                 }
 
+                reference operator [] (size_type n) {
+                    return (m_begin[n]);
+                }
+
+                const_reference operator [] (size_type n) const {
+                    return (m_begin[n]);
+                }
+
+                reference at (size_type n) {
+                    if (n >= size()) {
+                        throw (std::out_of_range("Vector"));
+                    }
+                    return (m_begin[n]);
+                }
+
+                const_reference at (size_type n) const {
+                    if (n >= size()) {
+                        throw (std::out_of_range("Vector"));
+                    }
+                    return (m_begin[n]);
+                }
+
                 void reserve(size_type n) {
                     if (n > capacity()) {
                         pointer begin_copy = m_begin;

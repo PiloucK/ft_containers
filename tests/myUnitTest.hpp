@@ -220,7 +220,7 @@ class TestCase {
 # define OUTPUT_FAILED_ASSERT(T)                                                         \
     output_string                                                                        \
         << "              \033[1;31mASSERT FAILED\033[0m " #T "\n" \
-        << "              _ line: " << __LINE__ << "| file: " << __FILE__ << '\n';
+        << "              _ line: " << __LINE__ << " | file: " << __FILE__ << '\n';
 
 # define ASSERT(T)                                                                       \
     if (!(T)) {                                                                          \

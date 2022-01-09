@@ -183,13 +183,13 @@ namespace ft {
                     }
                 }
 
-                // void push_back(const value_type & val) {
-                //     if (m_end == m_end_cap) {
-                //         reserve(capacity() * 2); // Time to recommend
-                //     }
-                //     m_allocator.construct(m_end, val);
-                //     ++m_end;
-                // }
+                void push_back(const value_type & val) {
+                    if (m_end == m_end_cap) {
+                        reserve(recommend(capacity() + 1));
+                    }
+                    m_allocator.construct(m_end, val);
+                    ++m_end;
+                }
 
                 bool empty() const {
                     return (m_begin == m_end);

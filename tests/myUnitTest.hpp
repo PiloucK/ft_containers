@@ -90,7 +90,6 @@
 # include <unistd.h>
 # include <sstream>
 # include <map>
-# include <list>
 
 # include "testUtils.hpp"
 
@@ -106,7 +105,6 @@ class TestCase {
         const std::string m_suite;
         const std::string m_name;
         const std::string m_file;
-        std::string m_output_string;
         pid_t m_pid;
         int m_exit_status;
         void (* const m_run)(void);
@@ -121,7 +119,6 @@ class TestCase {
                 , m_suite(suite)
                 , m_name(name)
                 , m_file(file)
-                , m_output_string()
                 , m_pid()
                 , m_exit_status()
                 , m_run(run)
@@ -141,22 +138,6 @@ class TestCase {
     { \
         TEST_SUITE_RUN_IMPL(Testable, suite_it->first); \
     }
-
-
-
-// {                                                                                \
-// }
-// {                                                                                \
-//     std::stringstream output_string;                                             \
-//     output_string                                                                \
-//         << "    |--- "                                                            \
-//         << "Testing for "                                                        \
-//         << TestSuite                                                            \
-//         << "\n";                                                                 \
-//     std::cout << output_string.str();                                            \
-// }                                                                                
-
-
 
 # define TEST_SUITE_RUN(Testable, TestSuite)                                        \
     {                                                                                    \
@@ -221,13 +202,14 @@ class TestCase {
             current_case.m_exit_status = errno;                           \
         } else if (current_case.m_pid == 0) {                                                     \
             std::stringstream output_string;                                             \
+            output_string                                                                \
+                << "    |    |--- " << #TestName << "\n";                    \
             int test_passed = 0;                                                         \
             int test_failed = 0;                                                         \
             {                                                                            \
                 Content                                                                  \
             }                                                                            \
             output_string                                                                \
-                << "    |    |--- " << #TestName << "\n"                    \
                 << "    |    |    |--- " << "Passed: " << test_passed << "\n"              \
                 << "    |    |    |--- " << "Failed: " << test_failed << "\n";             \
             std::cout << output_string.str(); \
@@ -237,7 +219,8 @@ class TestCase {
 
 # define OUTPUT_FAILED_ASSERT(T)                                                         \
     output_string                                                                        \
-        << "\033[1;31mASSERT FAILED\033[0m " #T << " | line: " << __LINE__ << "\n";
+        << "              \033[1;31mASSERT FAILED\033[0m " #T "\n" \
+        << "              _ line: " << __LINE__ << "| file: " << __FILE__ << '\n';
 
 # define ASSERT(T)                                                                       \
     if (!(T)) {                                                                          \

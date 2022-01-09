@@ -60,6 +60,19 @@ namespace ft {
                         }
                     }
 
+                size_type recommend(size_type new_size) const {
+                    const size_type ms = max_size();
+                    if (new_size > ms) {
+                        throw (std::length_error("Vector"));
+                    }
+                    const size_type cap = capacity();
+                    if (cap >= ms / 2) {
+                        return (ms);
+                    } else {
+                        return (std::max<size_type>(2 * cap, new_size));
+                    }
+                }
+
             protected:
 
             public:
@@ -154,7 +167,7 @@ namespace ft {
                             construct_at_end(first, last);
                         } else {
                             deallocate();
-                            allocate(new_size);
+                            allocate(recommend(new_size));
                             construct_at_end(first, last);
                         }
                     }
@@ -165,7 +178,7 @@ namespace ft {
                         construct_at_end(n, val);
                     } else {
                         deallocate();
-                        allocate(n);
+                        allocate(recommend(n));
                         construct_at_end(n, val);
                     }
                 }

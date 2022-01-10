@@ -72,17 +72,19 @@ TEST_CASE(Vector, Modifiers, PushBackExceptions, {
 	{
 		CMyClass instance(42, output_string, test_passed, test_failed);
 		VECTOR<CMyClass> vec;
-
+std::cout << "----------\n";
+instance.print();
+std::cout << "----------\n";
 		vec.push_back(instance);
+vec[0].print();
 		VECTOR<CMyClass> vec2(vec);
-
+vec2[0].print();
 		gCopyConstructorShouldThrow = true;
-
-		ASSERT_EXCEPT(vec.push_back(instance))
-
 std::cout << vec.size() << " " << vec2.size() << "\n";
 vec[0].print();
-vec2[0].print();
+		ASSERT_EXCEPT(vec.push_back(instance))
+std::cout << vec.size() << " " << vec2.size() << "\n";
+vec[0].print();
 
 		ASSERT(vec == vec2)
 	} ASSERT_AWARENESS

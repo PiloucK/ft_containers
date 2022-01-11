@@ -109,7 +109,7 @@ namespace ft {
                 template < class InputIterator >
                     Vector(
                         InputIterator first
-                        , InputIterator last
+                        , typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type last
                         , const allocator_type & alloc = allocator_type())
                             : m_allocator(alloc)
                             , m_begin(nullptr)
@@ -221,6 +221,10 @@ namespace ft {
                     return (*(m_end - 1));
                 }
 
+                allocator_type get_allocator() const {
+                    return (m_allocator);
+                }
+
                 reference operator [] (size_type n) {
                     return (m_begin[n]);
                 }
@@ -255,8 +259,8 @@ namespace ft {
                 template < class InputIterator>
                     void assign(InputIterator first, InputIterator last) {
                         clear();
-                        typename iterator_traits<InputIterator>::difference_type new_size = distance(first, last);
-                        if (static_cast<size_type>(new_size) <= capacity()) {
+                        size_type new_size = static_cast<size_type>(distance(first, last));
+                        if (new_size <= capacity()) {
                             construct_at_end(first, last);
                         } else {
                             deallocate();
@@ -290,10 +294,9 @@ namespace ft {
 
                 iterator erase(iterator position) {
                     iterator it_return(position);
-                    if (size() != 1) {
-                        while (position != m_end - 1) {
+                    if (position != m_end) {
+                        for (; position < m_end - 1; position++) {
                             *position = *(position + 1);
-                            ++position;
                         }
                     }
                     destruct_at_end(m_end - 1);
@@ -304,20 +307,103 @@ namespace ft {
                     iterator it_return(first);
                     difference_type n = last - first;
                     if (size() != static_cast<size_type>(n)) {
-                        while (first != m_end - n - 1) {
+                        while (first != m_end - n) {
                             *first = *(first + n);
                             ++first;
                         }
                     }
-                    destruct_at_end(m_end - n - 1);
+                    destruct_at_end(m_end - n);
                     return (it_return);
                 }
+
+                iterator insert(iterator position, const value_type & val) {
+                    if (m_end < m_end_cap) {
+                        if (position == m_end) {
+                            push_back(val);
+                        } else {
+                            Vector _v(position, m_end);
+                            destruct_at_end(position);
+                            push_back(val);
+                            construct_at_end(_v.m_begin, _v.m_end);
+                        }
+                    } else {
+                        Vector _v;
+                        _v.allocate(recommend(size() + 1));
+                        _v.construct_at_end(m_begin, position);
+                        iterator new_position(_v.m_end);
+                        _v.push_back(val);
+                        _v.construct_at_end(position, m_end);
+                        position = new_position;
+                        swap(_v);
+                    }
+                    return (position);
+                }
+
+                void insert(iterator position, size_type n, const value_type & val) {
+                    if (n > 0) {
+                        if (n <= static_cast<size_type>(m_end_cap - m_end)) {
+                            if (position == m_end) {
+                                construct_at_end(n, val);
+                            } else {
+                                Vector _v(position, m_end);
+                                destruct_at_end(position);
+                                construct_at_end(n, val);
+                                construct_at_end(_v.m_begin, _v.m_end);
+                            }
+                        } else {
+                            Vector _v;
+                            _v.allocate(recommend(size() + n));
+                            _v.construct_at_end(m_begin, position);
+                            _v.construct_at_end(n, val);
+                            _v.construct_at_end(position, m_end);
+                            swap(_v);
+                        }
+                    }
+                }
+
+                template < class InputIterator >
+                    void insert(iterator position, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
+                        difference_type n = ft::distance(first, last);
+                        if (n > 0) {
+                            if (n <= static_cast<size_type>(m_end_cap - m_end)) {
+                                if (position == m_end) {
+                                    construct_at_end(first, last);
+                                } else {
+                                    Vector _v(position, m_end);
+                                    destruct_at_end(position);
+                                    construct_at_end(first, last);
+                                    construct_at_end(_v.m_begin, _v.m_end);
+                                }
+                            } else {
+                                Vector _v;
+                                _v.allocate(recommend(size() + n));
+                                _v.construct_at_end(m_begin, position);
+                                _v.construct_at_end(first, last);
+                                _v.construct_at_end(position, m_end);
+                                swap(_v);
+                            }
+                        }
+                    }
 
                 void swap(Vector & x) {
                     std::swap(m_begin, x.m_begin);
                     std::swap(m_end, x.m_end);
                     std::swap(m_end_cap, x.m_end_cap);
                     std::swap(m_allocator, x.m_allocator);
+                }
+
+                void resize(size_type n, value_type val = value_type()) {
+                    size_type current_size = size();
+                    if (n < current_size) {
+                        destruct_at_end(m_end - n);
+                    } else if (n > current_size) {
+                        if (n <= capacity()) {
+                            construct_at_end(n - current_size, val);
+                        } else {
+                            reserve(recommend(n));
+                            construct_at_end(n - current_size, val);
+                        }
+                    }
                 }
 
         };

@@ -21,6 +21,23 @@ namespace ft {
     // class Stack;
     // class Map;
 
+    template < class T > struct is_integral : public std::false_type {};
+    template <> struct is_integral<bool> : public std::true_type {};
+    template <> struct is_integral<char> : public std::true_type {};
+    template <> struct is_integral<char16_t> : public std::true_type {};
+    template <> struct is_integral<char32_t> : public std::true_type {};
+    template <> struct is_integral<wchar_t> : public std::true_type {};
+    template <> struct is_integral<signed char> : public std::true_type {};
+    template <> struct is_integral<short int> : public std::true_type {};
+    template <> struct is_integral<int> : public std::true_type {};
+    template <> struct is_integral<long int> : public std::true_type {};
+    template <> struct is_integral<long long int> : public std::true_type {};
+    template <> struct is_integral<unsigned char> : public std::true_type {};
+    template <> struct is_integral<unsigned short int> : public std::true_type {};
+    template <> struct is_integral<unsigned int> : public std::true_type {};
+    template <> struct is_integral<unsigned long int> : public std::true_type {};
+    template <> struct is_integral<unsigned long long int> : public std::true_type {};
+
     template < bool Cond, class T = void >
         struct enable_if {
         };
@@ -29,17 +46,6 @@ namespace ft {
         struct enable_if<true, T> {
             typedef T type;
         };
-
-// template <class _Tp, class _Up>
-// struct __has_iterator_category_convertible_to<_Tp, _Up, false> : public false_type {};
-// template <class _Tp>
-// struct __is_input_iterator : public __has_iterator_category_convertible_to<_Tp, input_iterator_tag> {};
-// template <class _Tp>
-// struct __is_forward_iterator : public __has_iterator_category_convertible_to<_Tp, forward_iterator_tag> {};
-// template <class _Tp>
-// struct __is_bidirectional_iterator : public __has_iterator_category_convertible_to<_Tp, bidirectional_iterator_tag> {};
-// template <class _Tp>
-// struct __is_random_access_iterator : public __has_iterator_category_convertible_to<_Tp, random_access_iterator_tag> {};
 
     template < class InputIterator1, class InputIterator2 >
         bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2) {

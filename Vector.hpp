@@ -245,15 +245,10 @@ namespace ft {
 
                 void reserve(size_type n) {
                     if (n > capacity()) {
-                        pointer begin_copy = m_begin;
-                        pointer end_copy = m_end;
-                        size_type prev_capacity = capacity();
-                        allocate(n);
-                        construct_at_end(iterator(begin_copy), iterator(end_copy));
-                        while (begin_copy != end_copy) {
-                            m_allocator.destroy(--end_copy);
-                        }
-                        m_allocator.deallocate(begin_copy, prev_capacity);
+                        Vector _v(m_allocator);
+                        _v.allocate(n);
+                        _v.construct_at_end(m_begin, m_end);
+                        swap(_v);
                     }
                 }
 
@@ -316,6 +311,13 @@ namespace ft {
                     }
                     destruct_at_end(m_end - n - 1);
                     return (it_return);
+                }
+
+                void swap(Vector & x) {
+                    std::swap(m_begin, x.m_begin);
+                    std::swap(m_end, x.m_end);
+                    std::swap(m_end_cap, x.m_end_cap);
+                    std::swap(m_allocator, x.m_allocator);
                 }
 
         };

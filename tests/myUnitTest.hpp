@@ -149,6 +149,7 @@ class TestCase {
                 case_it != g_test_cases[#Testable][#TestSuite].end();\
                 case_it++) \
             {   \
+                case_it->second.m_pid = fork();                                                       \
                 case_it->second.m_run();                                                             \
             } \
             for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][#TestSuite].begin(); \
@@ -175,6 +176,7 @@ class TestCase {
                 case_it != g_test_cases[#Testable][TestSuite].end();\
                 case_it++) \
             {   \
+                case_it->second.m_pid = fork();                                                       \
                 case_it->second.m_run();                                                             \
             } \
             for (std::map<const std::string, class TestCase>::iterator case_it = g_test_cases[#Testable][TestSuite].begin(); \
@@ -184,7 +186,7 @@ class TestCase {
                 waitpid(case_it->second.m_pid, &(case_it->second.m_exit_status), WUNTRACED); \
                 if (case_it->second.m_exit_status != 0) { \
                     std::cout << "    |    |--- " << case_it->second.m_name << "\n"; \
-                    std::cout << "\033[1;31m    |    |    |--- " << strerror(case_it->second.m_exit_status) << "\033[0m\n" \
+                    std::cout << "\033[1;31m    |    |    |--- " << strsignal(case_it->second.m_exit_status) << "\033[0m\n" \
                         << "              |--- file: " << case_it->second.m_file << "\n"; \
                 } \
             } \
@@ -197,7 +199,6 @@ class TestCase {
     void test_##Testable##_##TestSuite##_##TestName( void )                              \
     {                                                                                    \
         TestCase & current_case = g_test_cases[#Testable][#TestSuite].find(#TestName)->second; \
-        current_case.m_pid = fork();                                                       \
         if (current_case.m_pid < 0) {                                                             \
             current_case.m_exit_status = errno;                           \
         } else if (current_case.m_pid == 0) {                                                     \
@@ -216,6 +217,9 @@ class TestCase {
             exit(EXIT_SUCCESS);                                                          \
         }                                                                                \
     }
+
+# define TEST_CASE_RUN(Testable, TestSuite, TestName)                                         \
+  g_test_cases[#Testable][#TestSuite].find(#TestName)->second.m_run();
 
 # define OUTPUT_FAILED_ASSERT(T)                                                         \
     output_string                                                                        \

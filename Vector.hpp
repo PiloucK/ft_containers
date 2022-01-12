@@ -2,7 +2,6 @@
 # define VECTOR_HPP
 
 # include "ft.hpp"
-# include <cstdlib>
 # include <memory>
 
 namespace ft {

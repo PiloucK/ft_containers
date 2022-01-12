@@ -2,12 +2,10 @@
 # define STACK_HPP
 
 # include "ft.hpp"
-# include <cstdlib>
-# include <memory>
 
 namespace ft {
 
-    template< class T, class Container = Vector<T> >
+    template< class T, class Container = ft::Vector<T> >
         class Stack {
 
             public:

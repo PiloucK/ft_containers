@@ -9,6 +9,8 @@
 #  include <vector>
 #  define STACK std::stack
 #  include <stack>
+#  define MAP std::map
+#  include <map>
 # endif
 
 # if USING_FT
@@ -17,6 +19,8 @@
 #  include "Vector.hpp"
 #  define STACK ft::Stack
 #  include "Stack.hpp"
+#  define MAP ft::Map
+#  include "Map.hpp"
 # endif
 
 # define ARR_ARGS(...) __VA_ARGS__

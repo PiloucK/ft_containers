@@ -1,9 +1,9 @@
-// #include "myUnitTest.hpp"
+#include "myUnitTest.hpp"
 
-// struct X {
-//     std::vector<X> q;
-// };
+struct X {
+    VECTOR<X> q;
+};
 
-// TEST_CASE(Vector, Constructor, DefaultRecursive, {
-//     ;
-// })
+TEST_CASE(Vector, Constructor, DefaultRecursive, {
+    ;
+})

@@ -18,7 +18,10 @@ namespace ft {
 
     template < class T, class Alloc >
         class Vector;
-    // class Stack;
+
+    template < class T, class Container >
+        class Stack;
+
     // class Map;
 
     template < class T > struct is_integral : public std::false_type {};
@@ -72,13 +75,11 @@ namespace ft {
     template < class InputIterator1, class InputIterator2 >
         bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                     InputIterator2 first2, InputIterator2 last2) {
-            while (first1 != last1) {
-                if (first2 == last2 || *first2 < *first1) {
+            for (; first2 != last2; ++first1, ++first2) {
+                if (first1 == last1 || *first2 < *first1) {
                     return (false);
                 } else if (*first1 < *first2) {
-                    return (false);
-                } else {
-                    ++first1; ++first2;
+                    return (true);
                 }
             }
             return (first2 != last2);
@@ -88,13 +89,11 @@ namespace ft {
         bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                     InputIterator2 first2, InputIterator2 last2,
                                     Compare comp) {
-            while (first1 != last1) {
+            for (; first1 != last1; ++first1, ++first2) {
                 if (first2 == last2 || !comp(*first2, *first1)) {
                     return (false);
                 } else if (!comp(*first1, *first2)) {
-                    return (false);
-                } else {
-                    ++first1; ++first2;
+                    return (true);
                 }
             }
             return (first2 != last2);

@@ -7,12 +7,16 @@
 #  define NAMESPACE std
 #  define VECTOR std::vector
 #  include <vector>
+#  define STACK std::stack
+#  include <stack>
 # endif
 
 # if USING_FT
 #  define NAMESPACE ft
 #  define VECTOR ft::Vector
 #  include "Vector.hpp"
+#  define STACK ft::Stack
+#  include "Stack.hpp"
 # endif
 
 # define ARR_ARGS(...) __VA_ARGS__

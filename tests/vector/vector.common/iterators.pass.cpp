@@ -14,7 +14,7 @@ TEST_CASE(Vector, Iterator, AccurateElementPointing, {
 
 		C::iterator i = c.begin();
 		C::iterator j = c.end();
-		ASSERT(DISTANCE(i, j) == 0);
+		ASSERT(NAMESPACE::distance(i, j) == 0);
 		ASSERT(i == j);
 	} ASSERT_AWARENESS
 
@@ -25,7 +25,7 @@ TEST_CASE(Vector, Iterator, AccurateElementPointing, {
 
 		C::const_iterator i = c.begin();
 		C::const_iterator j = c.end();
-		ASSERT(DISTANCE(i, j) == 0);
+		ASSERT(NAMESPACE::distance(i, j) == 0);
 		ASSERT(i == j);
 	} ASSERT_AWARENESS
 
@@ -36,7 +36,7 @@ TEST_CASE(Vector, Iterator, AccurateElementPointing, {
 
         C::const_iterator i = c.begin();
         C::const_iterator j = c.end();
-        ASSERT(DISTANCE(i, j) == 0);
+        ASSERT(NAMESPACE::distance(i, j) == 0);
         ASSERT(i == j);
         ASSERT(i == c.end());
     } ASSERT_AWARENESS
@@ -70,6 +70,6 @@ TEST_CASE(Vector, Iterator, ConstructFromIterator, {
 
 		*i = 10;
 		ASSERT(*i == 10);
-        ASSERT(DISTANCE(c.begin(), c.end()) == 10);
+        ASSERT(NAMESPACE::distance(c.begin(), c.end()) == 10);
 	} ASSERT_AWARENESS
 })

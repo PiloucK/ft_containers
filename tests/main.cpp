@@ -26,4 +26,5 @@ int g_aware_count = 0;
 int main( void )
 {
 	TESTABLE_RUN(Vector)
+  TESTABLE_RUN(Stack)
 }

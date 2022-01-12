@@ -420,7 +420,7 @@ namespace ft {
             }
 
         template < class T, class Alloc >
-            bool operator <  (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
+            bool operator < (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
                 return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
             }
 
@@ -437,6 +437,11 @@ namespace ft {
         template < class T, class Alloc >
             bool operator >= (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
                 return (!(lhs < rhs));
+            }
+
+        template < class T, class Alloc >
+            void swap(Vector<T, Alloc> & x, Vector<T, Alloc> & y) {
+                x.swap(y);
             }
 
 }

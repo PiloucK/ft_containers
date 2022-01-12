@@ -1,7 +1,7 @@
 #ifndef TEST_UTILS_HPP
 # define TEST_UTILS_HPP
 
-# define DISTANCE std::distance
+# define COMMA ,
 
 # if USING_STD
 #  define NAMESPACE std
@@ -95,6 +95,137 @@ template<class T>
 	operator <<(std::ostream & out, const Aware<T> & aware)
 	{
 		return (out << "Aware(" << aware.object() << ");");
+	}
+
+template<typename T>
+	class SimpleIterator :
+			public NAMESPACE::iterator<NAMESPACE::random_access_iterator_tag, T>
+	{
+		private:
+			typedef typename NAMESPACE::iterator_traits<T> traits;
+
+		public:
+			typedef typename traits::iterator_category iterator_category;
+			typedef typename traits::value_type value_type;
+			typedef typename traits::difference_type difference_type;
+			typedef typename traits::reference reference;
+			typedef typename traits::pointer pointer;
+
+		private:
+			T _ptr;
+
+		public:
+			SimpleIterator() :
+					_ptr(NULL)
+			{
+			}
+
+			SimpleIterator(const T &ptr) :
+					_ptr(ptr)
+			{
+			}
+
+			virtual
+			~SimpleIterator()
+			{
+			}
+
+			SimpleIterator&
+			operator++()
+			{
+				_ptr++;
+
+				return (*this);
+			}
+
+			SimpleIterator
+			operator++(int)
+			{
+				SimpleIterator cpy(_ptr);
+
+				_ptr++;
+
+				return (cpy);
+			}
+
+			SimpleIterator&
+			operator--()
+			{
+				_ptr--;
+
+				return (*this);
+			}
+
+			SimpleIterator
+			operator--(int)
+			{
+				SimpleIterator cpy(_ptr);
+
+				_ptr--;
+
+				return (cpy);
+			}
+
+			reference
+			operator*() const
+			{
+				return (*_ptr);
+			}
+
+			pointer
+			operator->() const
+			{
+				return (_ptr);
+			}
+
+			bool
+			operator==(const SimpleIterator & rhs) const
+			{
+				return (_ptr == rhs._ptr);
+			}
+
+			bool
+			operator!=(const SimpleIterator & rhs) const
+			{
+				return (_ptr != rhs._ptr);
+			}
+
+			bool
+			operator<(const SimpleIterator & rhs) const
+			{
+				return (_ptr < rhs._ptr);
+			}
+
+			bool
+			operator>(const SimpleIterator & rhs) const
+			{
+				return (_ptr > rhs._ptr);
+			}
+
+			bool
+			operator<=(const SimpleIterator & rhs) const
+			{
+				return (_ptr <= rhs._ptr);
+			}
+
+			bool
+			operator>=(const SimpleIterator & rhs) const
+			{
+				return (_ptr >= rhs._ptr);
+			}
+
+			const pointer
+			base() const
+			{
+				return (_ptr);
+			}
+	};
+
+template<class T>
+	typename SimpleIterator<T>::difference_type
+	operator-(const SimpleIterator<T> &left, const SimpleIterator<T> &right)
+	{
+		return (left.base() - right.base());
 	}
 
 #endif

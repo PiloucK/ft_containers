@@ -5,7 +5,7 @@ template<class C, class Iterator>
 	test(Iterator first, Iterator last, std::stringstream & output_string, int & test_passed, int & test_failed)
 	{
 		C c(first, last);
-		ASSERT(c.size() == static_cast<std::size_t>(DISTANCE(first, last)));
+		ASSERT(c.size() == static_cast<std::size_t>(NAMESPACE::distance(first, last)));
 
 		for (typename C::const_iterator i = c.begin(), e = c.end(); i != e; ++i, ++first)
 			ASSERT(*i == *first);
@@ -19,7 +19,7 @@ basic_test_cases(std::stringstream & output_string, int & test_passed, int & tes
 
 	test<VECTOR<Aware<int> > >(SimpleIterator<const Aware<int>*>(a), SimpleIterator<const Aware<int>*>(an), output_string, test_passed, test_failed);
 
-#if !(TEST_USE_STD)
+#if !(USING_STD)
 	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::iterator(a), VECTOR<Aware<int> >::iterator(an), output_string, test_passed, test_failed);
 	test<VECTOR<Aware<int> > >(VECTOR<Aware<int> >::const_iterator(a), VECTOR<Aware<int> >::const_iterator(an), output_string, test_passed, test_failed);
 #endif
@@ -71,7 +71,7 @@ test_ctor_with_different_value_type(std::stringstream & output_string, int & tes
 }
 
 TEST_CASE(Vector, Constructor, FromIteratorOrDifferentValueType, {
-	basic_test_cases(output_string, test_passed, test_failed)
+	basic_test_cases(output_string, test_passed, test_failed);
 	ASSERT_AWARENESS
 
 	test_ctor_with_different_value_type(output_string, test_passed, test_failed);

@@ -25,6 +25,21 @@ int g_aware_count = 0;
 
 int main( void )
 {
-	TESTABLE_RUN(Vector)
-  TESTABLE_RUN(Stack)
+	// TESTABLE_RUN(Vector)
+  // TESTABLE_RUN(Stack)
+  // ft::Map<std::string, int>::Node toto;
+  // ft::pair<std::string, int> tata("tata", 4);
+  // ft::pair<std::string, int> toto("toto", 4);
+  // my_map.value_comp()(tata, toto);
+
+  ft::Map<std::string, int> map;
+  ft::Map<std::string, int>::iterator it = map.begin();
+  // ft::iterator<ft::bidirectional_iterator_tag, ft::pair<const std::string, int> > it = map.begin();
+  std::cout << ((*it)->second);
+  // ft::pair<std::string, int> toto("toto", 8); 
+  // ft::Map<std::string, int>::iterator it(toto);
+  // std::cout << it->first;
+  // std::cout << " | ";
+  // std::cout << (*it).second;
+  // std::cout << "\n";
 }

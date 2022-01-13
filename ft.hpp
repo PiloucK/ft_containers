@@ -5,25 +5,25 @@
 
 namespace ft {
 
-    // template < class T1, class T2 >
-    //     struct pair;
+    template < class T1, class T2 >
+        struct pair;
 
-    // template <class Category
-    //         , class T
-    //         , class Distance
-    //         , class Pointer
-    //         , class Reference
-    //         >
-    //     struct iterator;
+    template <class Category
+            , class T
+            , class Distance
+            , class Pointer
+            , class Reference
+            >
+        struct iterator;
 
-    // template < class T, class Alloc >
-    //     class Vector;
+    template < class T, class Alloc >
+        class Vector;
 
-    // template < class T, class Container >
-    //     class Stack;
+    template < class T, class Container >
+        class Stack;
 
-    // template < class Key, class T, class Compare, class Alloc >
-    //     class Map;
+    template < class Key, class T, class Compare, class Alloc >
+        class Map;
 
     template < class T > struct is_integral : public std::false_type {};
     template <> struct is_integral<bool> : public std::true_type {};
@@ -105,5 +105,6 @@ namespace ft {
 # include "pair.hpp"
 # include "iterator.hpp"
 # include "Vector.hpp"
+# include "Map.hpp"
 
 #endif

@@ -20,8 +20,7 @@ namespace ft {
                 explicit Stack (
                     const container_type & ctnr = container_type())
                         : c(ctnr)
-                {
-                }
+                {}
 
                 ~Stack() {
                 }

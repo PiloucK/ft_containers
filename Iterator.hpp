@@ -122,19 +122,16 @@ namespace ft {
             public:
                 reverse_iterator()
                     : m_base_iterator()
-                {
-                }
+                {}
 
                 explicit reverse_iterator(iterator_type x)
                     : m_base_iterator(x)
-                {
-                }
+                {}
 
                 template < class U >
                     reverse_iterator( const reverse_iterator<U> & other )
                         : m_base_iterator(other.base())
-                {
-                }
+                {}
 
                 iterator_type base() const {
                     return (m_base_iterator);

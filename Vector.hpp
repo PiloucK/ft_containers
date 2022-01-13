@@ -81,14 +81,14 @@ namespace ft {
             protected:
 
             public:
+                // ----------- Coplien -----------
                 explicit Vector (
                     const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
                         , m_begin(nullptr)
                         , m_end(nullptr)
                         , m_end_cap(nullptr)
-                {
-                }
+                {}
 
                 explicit Vector (
                     size_type n
@@ -136,13 +136,6 @@ namespace ft {
                     }
                 }
 
-                Vector & operator = (const Vector & x) {
-                    if (this != &x) {
-                        assign(x.m_begin, x.m_end);
-                    }
-                    return (*this);
-                }
-
                 ~Vector() {
                     if (m_begin != nullptr) {
                         clear();
@@ -150,6 +143,14 @@ namespace ft {
                     }
                 }
 
+                Vector & operator = (const Vector & x) {
+                    if (this != &x) {
+                        assign(x.m_begin, x.m_end);
+                    }
+                    return (*this);
+                }
+
+                // ----------- Capacity -----------
                 bool empty() const {
                     return (m_begin == m_end);
                 }
@@ -172,6 +173,7 @@ namespace ft {
                     return (static_cast<size_type>(m_end_cap - m_begin));
                 }
 
+                // ----------- Iterators -----------
                 iterator begin() {
                     return (iterator(m_begin));
                 }
@@ -204,6 +206,7 @@ namespace ft {
                     return (const_reverse_iterator(begin()));
                 }
 
+                // ----------- Element access -----------
                 reference front() {
                     return (*m_begin);
                 }
@@ -219,11 +222,6 @@ namespace ft {
                 const_reference back() const {
                     return (*(m_end - 1));
                 }
-
-                allocator_type get_allocator() const {
-                    return (m_allocator);
-                }
-
                 reference operator [] (size_type n) {
                     return (m_begin[n]);
                 }
@@ -246,6 +244,12 @@ namespace ft {
                     return (m_begin[n]);
                 }
 
+                // ----------- Allocator -----------
+                allocator_type get_allocator() const {
+                    return (m_allocator);
+                }
+
+                // ----------- Capacity -----------
                 void reserve(size_type n) {
                     if (n > capacity()) {
                         Vector _v(m_allocator);
@@ -255,6 +259,21 @@ namespace ft {
                     }
                 }
 
+                void resize(size_type n, value_type val = value_type()) {
+                    size_type current_size = size();
+                    if (n < current_size) {
+                        destruct_at_end(m_end - n);
+                    } else if (n > current_size) {
+                        if (n <= capacity()) {
+                            construct_at_end(n - current_size, val);
+                        } else {
+                            reserve(recommend(n));
+                            construct_at_end(n - current_size, val);
+                        }
+                    }
+                }
+
+                // ----------- Modifiers -----------
                 template < class InputIterator>
                     void assign(InputIterator first, InputIterator last) {
                         clear();
@@ -391,22 +410,9 @@ namespace ft {
                     std::swap(m_allocator, x.m_allocator);
                 }
 
-                void resize(size_type n, value_type val = value_type()) {
-                    size_type current_size = size();
-                    if (n < current_size) {
-                        destruct_at_end(m_end - n);
-                    } else if (n > current_size) {
-                        if (n <= capacity()) {
-                            construct_at_end(n - current_size, val);
-                        } else {
-                            reserve(recommend(n));
-                            construct_at_end(n - current_size, val);
-                        }
-                    }
-                }
-
         };
 
+        // ----------- Non-member function overloads -----------
         template < class T, class Alloc >
             bool operator == (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
                 const typename Vector<T, Alloc>::size_type lhs_size = lhs.size();

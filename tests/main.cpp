@@ -28,6 +28,8 @@ int main( void )
 	// TESTABLE_RUN(Vector)
   // TESTABLE_RUN(Stack)
   TESTABLE_RUN(Map)
+  // TEST_CASE_RUN(Map, Access, Empty)
+  // TEST_CASE_RUN(Map, Access, Size)
   // ft::Map<std::string, int>::Node toto;
   // ft::pair<std::string, int> tata("tata", 4);
   // ft::pair<std::string, int> toto("toto", 4);

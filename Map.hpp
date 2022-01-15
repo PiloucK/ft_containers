@@ -47,11 +47,11 @@ namespace ft {
                 }
 
                 reference operator * () const {
-                    return (*(m_node->data));
+                    return (m_node->data);
                 }
 
                 pointer operator -> () const {
-                    return (m_node->data);
+                    return (&(m_node->data));
                 }
 
                 RedBlackIterator & operator ++ () {
@@ -221,21 +221,21 @@ namespace ft {
                 class TreeNode {
 
                     public:
-                        pointer data;
-                        node_pointer parent;
-                        node_pointer left;
-                        node_pointer right;
-                        bool is_black;
+                        value_type      data;
+                        node_pointer    parent;
+                        node_pointer    left;
+                        node_pointer    right;
+                        bool            is_black;
 
                         TreeNode()
-                            : data(nullptr)
+                            : data(key_type(), mapped_type())
                             , parent(nullptr)
                             , left(nullptr)
                             , right(nullptr)
                             , is_black(false)
                         {}
 
-                        explicit TreeNode(const pointer & to_store)
+                        explicit TreeNode(const value_type & to_store)
                             : data(to_store)
                             , parent(nullptr)
                             , left(nullptr)
@@ -409,13 +409,13 @@ namespace ft {
                     value_type pseudo_value(k, mapped_type());
                     if (node_current != nullptr) {
                         while (true) {
-                            if (value_comp()(pseudo_value, *(node_current->data))) {
+                            if (value_comp()(pseudo_value, node_current->data)) {
                                 if (node_current->left != nullptr) {
                                     node_current = node_current->left;
                                 } else {
                                     return (tree_insert_point_t(node_current->left, node_search_result_t(node_current, false)));
                                 }
-                            } else if (value_comp()(*(node_current->data), pseudo_value)) {
+                            } else if (value_comp()(node_current->data, pseudo_value)) {
                                 if (node_current->right != nullptr) {
                                     node_current = node_current->right;
                                 } else {
@@ -429,13 +429,10 @@ namespace ft {
                     return (tree_insert_point_t(m_end_node.left, node_search_result_t(&m_end_node, false)));
                 }
 
-                void destroy(node_pointer node) {
+                void destroy(node_pointer & node) {
                     if (node != nullptr) {
                         destroy(node->left);
                         destroy(node->right);
-                        m_allocator.destroy(node->data);
-                        m_allocator.deallocate(node->data, 1);
-                        node->data = nullptr;
                         m_node_allocator.destroy(node);
                         m_node_allocator.deallocate(node, 1);
                         node = nullptr;
@@ -448,14 +445,7 @@ namespace ft {
 
                 node_pointer construct_node(const value_type & val) {
                     node_pointer new_node = m_node_allocator.allocate(1);
-                    pointer data;
-                    try {
-                        data = m_allocator.allocate(1);
-                    } catch (std::exception & e) {
-                        m_node_allocator.deallocate(new_node, 1);
-                    }
-                    m_allocator.construct(data, val);
-                    m_node_allocator.construct(new_node, data);
+                    m_node_allocator.construct(new_node, val);
                     return (new_node);
                 }
 
@@ -617,23 +607,23 @@ namespace ft {
                                 if (current->parent == &m_end_node)
                                     std::cout << "\n                                                           GUARD\n\n\n";
                                 else if (current->tree_is_left_child()) {
-                                    std::cout << "\n                                                        (1)ParentKey: " << current->parent->data->first << " | ParentValue: " << current->parent->data->second << "\n\n\n";
+                                    std::cout << "\n                                                        (1)ParentKey: " << current->parent->data.first << " | ParentValue: " << current->parent->data.second << "\n\n\n";
                                 } else {
-                                    std::cout << "\n(1)ParentKey: " << current->parent->data->first << " | ParentValue: " << current->parent->data->second << "\n\n\n";
+                                    std::cout << "\n(1)ParentKey: " << current->parent->data.first << " | ParentValue: " << current->parent->data.second << "\n\n\n";
                                 }
-                                std::cout << "\n                                Key: " << current->data->first << " | Value: " << current->data->second << "\n\n\n";
+                                std::cout << "\n                                Key: " << current->data.first << " | Value: " << current->data.second << "\n\n\n";
                             } else {
                                 std::cout << "\n                                                      LEAF\n\n\n";
                                 return ;
                             }
                         }
                         if (current->left != nullptr) {
-                            std::cout << "\n(2)LeftKey: " << current->left->data->first << " | LeftValue: " << current->left->data->second << "           ";
+                            std::cout << "\n(2)LeftKey: " << current->left->data.first << " | LeftValue: " << current->left->data.second << "           ";
                         } else {
                             std::cout << "\n           LEAF                                                      ";
                         }
                         if (current->right != nullptr) {
-                            std::cout << "(3)RightKey: " << current->right->data->first << " | RightValue: " << current->right->data->second << "\n\n\n";
+                            std::cout << "(3)RightKey: " << current->right->data.first << " | RightValue: " << current->right->data.second << "\n\n\n";
                         } else {
                             std::cout << "     LEAF\n\n\n";
                         }

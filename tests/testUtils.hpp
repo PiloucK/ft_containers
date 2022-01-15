@@ -11,6 +11,7 @@
 #  include <stack>
 #  define MAP std::map
 #  include <map>
+#  define PAIR std::pair
 # endif
 
 # if USING_FT
@@ -21,6 +22,7 @@
 #  include "Stack.hpp"
 #  define MAP ft::Map
 #  include "Map.hpp"
+#  define PAIR ft::pair
 # endif
 
 # define ARR_ARGS(...) __VA_ARGS__
@@ -98,7 +100,7 @@ template<class T>
 	std::ostream&
 	operator <<(std::ostream & out, const Aware<T> & aware)
 	{
-		return (out << "Aware(" << aware.object() << ");");
+		return (out << "Aware(" << aware.object() << ")");
 	}
 
 template<typename T>

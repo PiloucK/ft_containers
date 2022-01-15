@@ -5,158 +5,197 @@
 # include <functional>
 # include <memory>
 
+# define CLEAR_STDOUT std::cout << "\033[2J";
+# define WAIT_INPUT std::cin.get();
+# define START_INFO std::cout << "To start the tests or go to the next one, press ENTER\n";
+# define NEXT_TEST std::cin.get(); std::cout << "\033[2J"; std::cout << "To start the tests or go to the next one, press ENTER\n\n\n";
+
 namespace ft {
 
-    template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
-        class Map {
+    template < class ValueType, class NodePointer, class DiffType >
+        class RedBlackIterator {
+
+            private:
+                typedef NodePointer                         node_pointer;
+
+                node_pointer m_node;
 
             public:
-                class   iterator;
-                class   value_compare;
-                typedef Key                                                     key_type;
-                typedef T                                                       mapped_type;
-                typedef ft::pair<const key_type, mapped_type>                   value_type;
-                typedef Compare                                                 key_compare;
-                typedef Alloc                                                   allocator_type;
-                typedef typename allocator_type::reference                      reference;
-                typedef typename allocator_type::const_reference                const_reference;
-                typedef typename allocator_type::pointer                        pointer;
-                typedef typename allocator_type::const_pointer                  const_pointer;
-                typedef ptrdiff_t                                               difference_type;
-                typedef size_t                                                  size_type;
-            
+                typedef ft::bidirectional_iterator_tag      iterator_category;
+                typedef ValueType                           value_type;
+                typedef DiffType                            difference_type;
+                typedef ValueType *                         pointer;
+                typedef ValueType &                         reference;
+
+                RedBlackIterator()
+                {}
+
+                RedBlackIterator(const node_pointer & node)
+                    : m_node(node)
+                {}
+
+                RedBlackIterator(const RedBlackIterator & x)
+                    : m_node(x.m_node)
+                {}
+
+                ~RedBlackIterator()
+                {}
+
+                RedBlackIterator & operator = (const RedBlackIterator & rhs) {
+                    m_node = rhs.m_node;
+                    return (*this);
+                }
+
+                reference operator * () const {
+                    return (*(m_node->data));
+                }
+
+                pointer operator -> () const {
+                    return (m_node->data);
+                }
+
+                RedBlackIterator & operator ++ () {
+                    m_node = m_node->tree_node_next();
+                    return (*this);
+                }
+
+                RedBlackIterator operator ++ (int) {
+                    RedBlackIterator return_iterator(*this);
+                    ++(*this);
+                    return (return_iterator);
+                }
+
+                RedBlackIterator & operator -- () {
+                    m_node = m_node->tree_node_prev();
+                    return (*this);
+                }
+
+                RedBlackIterator operator -- (int) {
+                    RedBlackIterator return_iterator(*this);
+                    --(*this);
+                    return (return_iterator);
+                }
+
+                friend bool operator == (const RedBlackIterator & lhs, const RedBlackIterator & rhs) {
+                    return (lhs.m_node == rhs.m_node);
+                }
+
+                friend bool operator != (const RedBlackIterator & lhs, const RedBlackIterator & rhs) {
+                    return (!(lhs == rhs));
+                }
+                // friend bool operator == (const iterator & lhs, const iterator & rhs);
+                // friend bool operator != (const iterator & lhs, const iterator & rhs);
+
+        };
+
+        // bool operator == (const RedBlackIterator & lhs, const RedBlackIterator & rhs) {
+        //     return (*(lhs.m_node) == *(rhs.m_node));
+        // }
+
+        // template < class Key_, class T_ >
+        //     bool operator != (const typename Map<Key_, T_>::iterator & lhs, const typename Map<Key_, T_>::iterator & rhs) {
+        //         return (!(lhs == rhs));
+        //     }
+
+        // class const_iterator
+        //     : public ft::iterator<ft::bidirectional_iterator_tag, value_type> {
+
+        //     private:
+        //         const TreeNode m_node;
+
+        //     public:
+        //         const_iterator()
+        //         {}
+
+        //         const_iterator(const value_type & val)
+        //             : m_node(TreeNode(val))
+        //         {}
+
+        //         const_iterator(iterator it)
+        //             : m_node(*it))
+        //         {}
+
+        //         ~const_iterator()
+        //         {}
+
+        //         reference operator * () {
+        //             return (m_node.value);
+        //         }
+
+        //         Constpointer operator -> () {
+        //             return (allocator_type().address(m_node.value));
+        //         }
+
+        //         const_iterator & operator ++ () {
+        //             m_node = tree_next(m_node);
+        //             return (*this);
+        //         }
+
+        //         const_iterator operator ++ (int) {
+        //             const_iterator return_iterator(*this);
+        //             ++(*this);
+        //             return (return_iterator);
+        //         }
+
+        //         const_iterator & operator -- () {
+        //             m_node = tree_node_prev(m_node);
+        //             return (*this);
+        //         }
+
+        //         const_iterator operator -- (int) {
+        //             iterator return_iterator(*this);
+        //             --(*this);
+        //             return (return_iterator);
+        //         }
+
+        //         bool operator == (const const_iterator & lhs, const const_iterator & rhs) {
+        //             return (lhs.m_node == rhs.m_node);
+        //         }
+
+        //         bool operator != (const const_iterator & lhs, const const_iterator & rhs) {
+        //             return (!(lhs == rhs));
+        //         }
+
+        // };
+
+    template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+        class RedBlackTree {
+
             private:
                 class   TreeNode;
-                typedef std::allocator<TreeNode>                                node_allocator_type;
-                typedef TreeNode *                                              node_pointer;
-            
+                typedef std::allocator<TreeNode>                                        node_allocator_type;
+                typedef TreeNode *                                                      node_pointer;
+
             public:
-                class iterator
-                    : public ft::iterator<ft::bidirectional_iterator_tag, value_type> {
+                class   value_compare;
 
-                    private:
-                        node_pointer m_node;
+                typedef Key                                                             key_type;
+                typedef T                                                               mapped_type;
+                typedef ft::pair<const key_type, mapped_type>                           value_type;
+                typedef Compare                                                         key_compare;
+                typedef Alloc                                                           allocator_type;
+                typedef typename allocator_type::reference                              reference;
+                typedef typename allocator_type::const_reference                        const_reference;
+                typedef typename allocator_type::pointer                                pointer;
+                typedef typename allocator_type::const_pointer                          const_pointer;
+                typedef ptrdiff_t                                                       difference_type;
+                typedef size_t                                                          size_type;
+                typedef RedBlackIterator<value_type, node_pointer, difference_type>     iterator;
+            
+            private:
+                allocator_type          m_allocator;
+                node_allocator_type     m_node_allocator;
+                node_pointer            m_root;
+                node_pointer            m_begin_node;
+                TreeNode                m_end_node;
+                size_type               m_size;
+                value_compare           m_value_comparator;
 
-                    public:
-                        iterator()
-                        {}
-
-                        iterator(const node_pointer & node)
-                            : m_node(node)
-                        {}
-
-                        iterator(const iterator & x)
-                            : m_node(x.m_node)
-                        {}
-
-                        ~iterator()
-                        {}
-
-                        reference operator * () const {
-                            return (m_node->value);
-                        }
-
-                        pointer operator -> () const {
-                            return (allocator_type().address(m_node->value));
-                        }
-
-                        iterator & operator ++ () {
-                            m_node = tree_next(m_node);
-                            return (*this);
-                        }
-
-                        iterator operator ++ (int) {
-                            iterator return_iterator(*this);
-                            ++(*this);
-                            return (return_iterator);
-                        }
-
-                        iterator & operator -- () {
-                            m_node = tree_prev(m_node);
-                            return (*this);
-                        }
-
-                        iterator operator -- (int) {
-                            iterator return_iterator(*this);
-                            --(*this);
-                            return (return_iterator);
-                        }
-
-                        // bool operator == (const iterator & lhs, const iterator & rhs) {
-                        //     return (lhs.m_node == rhs.m_node);
-                        // }
-
-                        // bool operator != (const iterator & lhs, const iterator & rhs) {
-                        //     return (!(lhs == rhs));
-                        // }
-
-                };
-
-                // class const_iterator
-                //     : public ft::iterator<ft::bidirectional_iterator_tag, value_type> {
-
-                //     private:
-                //         const TreeNode m_node;
-
-                //     public:
-                //         const_iterator()
-                //         {}
-
-                //         const_iterator(const value_type & val)
-                //             : m_node(TreeNode(val))
-                //         {}
-
-                //         const_iterator(iterator it)
-                //             : m_node(*it))
-                //         {}
-
-                //         ~const_iterator()
-                //         {}
-
-                //         reference operator * () {
-                //             return (m_node.value);
-                //         }
-
-                //         Constpointer operator -> () {
-                //             return (allocator_type().address(m_node.value));
-                //         }
-
-                //         const_iterator & operator ++ () {
-                //             m_node = tree_next(m_node);
-                //             return (*this);
-                //         }
-
-                //         const_iterator operator ++ (int) {
-                //             const_iterator return_iterator(*this);
-                //             ++(*this);
-                //             return (return_iterator);
-                //         }
-
-                //         const_iterator & operator -- () {
-                //             m_node = tree_prev(m_node);
-                //             return (*this);
-                //         }
-
-                //         const_iterator operator -- (int) {
-                //             iterator return_iterator(*this);
-                //             --(*this);
-                //             return (return_iterator);
-                //         }
-
-                //         bool operator == (const const_iterator & lhs, const const_iterator & rhs) {
-                //             return (lhs.m_node == rhs.m_node);
-                //         }
-
-                //         bool operator != (const const_iterator & lhs, const const_iterator & rhs) {
-                //             return (!(lhs == rhs));
-                //         }
-
-                // };
-
+            public:
                 class value_compare
                     : public std::binary_function<value_type, value_type, bool> {
 
-                    friend class Map;
+                    friend class RedBlackTree;
 
                     protected:
                         Compare comp;
@@ -172,15 +211,11 @@ namespace ft {
 
                 };
 
-            private:
-                allocator_type          m_allocator;
-                node_allocator_type     m_node_allocator;
-                node_pointer            m_root;
-                node_pointer            m_begin_node;
-                node_pointer            m_end_node;
-                size_type               m_size;
-                value_compare           value_comparator;
+                value_compare value_comp() const {
+                    return value_compare(m_value_comparator);
+                }
 
+            private:
                 // nullptr init to segfault on each bad dereference
                 //   |-> undefined behaviour in documentation
                 class TreeNode {
@@ -216,27 +251,63 @@ namespace ft {
                             , is_black(node.is_black)
                         {}
 
-                        TreeNode & operator = (const TreeNode & rhs) {
-                            data = rhs.data;
-                            parent = rhs.parent;
-                            left = rhs.left;
-                            right = rhs.left;
-                            is_black = rhs.is_black;
-                        }
+                        // TreeNode & operator = (const TreeNode & rhs) {
+                        //     data = rhs.data;
+                        //     parent = rhs.parent;
+                        //     left = rhs.left;
+                        //     right = rhs.left;
+                        //     is_black = rhs.is_black;
+                        //     return (*this);
+                        // }
 
                         ~TreeNode()
                         {}
 
+                        bool tree_is_left_child() {
+                            return (this == parent->left);
+                        }
+
+                        node_pointer tree_min() {
+                            node_pointer node = this;
+                            while (node->left != nullptr) {
+                                node = left;
+                            }
+                            return (node);
+                        }
+
+                        node_pointer tree_max() {
+                            node_pointer node = this;
+                            while (node->right != nullptr) {
+                                node = node->right;
+                            }
+                            return (node);
+                        }
+
+                        node_pointer tree_node_prev() {
+                            node_pointer node = this;
+                            if (node->left != nullptr) {
+                                return (node->left->tree_max());
+                            }
+                            while (node->tree_is_left_child()) {
+                                node = node->parent;
+                            }
+                            return (node);
+                        }
+
+                        node_pointer tree_node_next() {
+                            node_pointer node = this;
+                            if (node->right != nullptr) {
+                                return (node->right->tree_min());
+                            }
+                            while (!(node->tree_is_left_child())) {
+                                node = node->parent;
+                            }
+                            return (node);
+                        }
+
                 };
 
-                bool tree_is_left_child(node_pointer x) {
-                    return (x == x->parent->left);
-                }
-
-                bool tree_is_right_child(node_pointer x) {
-                    return (x == x->parent->right);
-                }
-
+            public:
                 /*!
                   @brief Determine if the subtree rooted at node is a proper red black subtree.
                   
@@ -293,40 +364,6 @@ namespace ft {
                     return (!!tree_sub_test(root));
                 }
 
-                node_pointer tree_min(node_pointer node) {
-                    while (node->left != nullptr) {
-                        node = node->left;
-                    }
-                    return (node);
-                }
-
-                node_pointer tree_max(node_pointer node) {
-                    while (node->right != nullptr) {
-                        node = node->right;
-                    }
-                    return (node);
-                }
-
-                node_pointer tree_node_prev(node_pointer node) {
-                    if (node->next != nullptr) {
-                        return (tree_max(node->right));
-                    }
-                    while (tree_is_left_child(node)) {
-                        node = node->parent;
-                    }
-                    return (node);
-                }
-
-                node_pointer tree_node_next(node_pointer node) {
-                    if (node->right != nullptr) {
-                        return (tree_min(node->left));
-                    }
-                    while (tree_is_right_child(node)) {
-                        node = node->parent;
-                    }
-                    return (node);
-                }
-
                 // node->right has to be != from nullptr
                 node_pointer tree_node_rotate_left(node_pointer node) {
                     node_pointer node_right = node->right;
@@ -363,28 +400,33 @@ namespace ft {
                     return (node_left);
                 }
 
-                ft::pair<iterator, bool> tree_find_leaf(const key_type & k) {
+                typedef node_pointer &                              leaf_t;
+                typedef ft::pair<node_pointer, bool>                node_search_result_t;
+                typedef ft::pair<leaf_t, node_search_result_t>      tree_insert_point_t;
+
+                tree_insert_point_t tree_find_insert_point(const key_type & k) {
                     node_pointer node_current = m_root;
+                    value_type pseudo_value(k, mapped_type());
                     if (node_current != nullptr) {
                         while (true) {
-                            if (value_comp()(k, node_current->data)) {
+                            if (value_comp()(pseudo_value, *(node_current->data))) {
                                 if (node_current->left != nullptr) {
                                     node_current = node_current->left;
                                 } else {
-                                    return (ft::make_pair(iterator(node_current), false));
+                                    return (tree_insert_point_t(node_current->left, node_search_result_t(node_current, false)));
                                 }
-                            } else if (value_comp()(node_current->data, k)) {
+                            } else if (value_comp()(*(node_current->data), pseudo_value)) {
                                 if (node_current->right != nullptr) {
                                     node_current = node_current->right;
                                 } else {
-                                    return (ft::make_pair(iterator(node_current), false));
+                                    return (tree_insert_point_t(node_current->right, node_search_result_t(node_current, false)));
                                 }
                             } else {
-                                return (ft::make_pair(iterator(node_current), true));
+                                return (tree_insert_point_t(node_current, node_search_result_t(node_current, true)));
                             }
                         }
                     }
-                    return (ft::make_pair(iterator(m_end_node), false));
+                    return (tree_insert_point_t(m_end_node.left, node_search_result_t(&m_end_node, false)));
                 }
 
                 void destroy(node_pointer node) {
@@ -392,11 +434,31 @@ namespace ft {
                         destroy(node->left);
                         destroy(node->right);
                         m_allocator.destroy(node->data);
-                        m_allocator.deallocate(node->data);
+                        m_allocator.deallocate(node->data, 1);
+                        node->data = nullptr;
                         m_node_allocator.destroy(node);
-                        m_node_allocator.deallocate(node);
+                        m_node_allocator.deallocate(node, 1);
+                        node = nullptr;
                     }
                 }
+
+                void destroy_at_root() {
+                    destroy(m_root);
+                }
+
+                node_pointer construct_node(const value_type & val) {
+                    node_pointer new_node = m_node_allocator.allocate(1);
+                    pointer data;
+                    try {
+                        data = m_allocator.allocate(1);
+                    } catch (std::exception & e) {
+                        m_node_allocator.deallocate(new_node, 1);
+                    }
+                    m_allocator.construct(data, val);
+                    m_node_allocator.construct(new_node, data);
+                    return (new_node);
+                }
+
                 // node_pointer detach() {
                 //     node_pointer cache = m_begin_node;
                 //     m_begin_node = m_end_node;
@@ -424,21 +486,22 @@ namespace ft {
                 // }
 
             public:
-                explicit Map(
+                explicit RedBlackTree(
                     const key_compare & comp = key_compare()
                     , const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
                         , m_node_allocator(node_allocator_type())
                         , m_root(nullptr)
-                        , m_end_node(node_pointer())
+                        , m_end_node(TreeNode())
                         , m_size(0)
-                        , value_comparator(comp)
+                        , m_value_comparator(comp)
                 {
-                    m_begin_node = m_end_node = m_root;
+                    m_end_node.parent = &m_end_node;
+                    m_begin_node = &m_end_node;
                 }
 
                 // template < class InputIterator >
-                //     Map(
+                //     RedBlackTree(
                 //         InputIterator first
                 //         , InputIterator last
                 //         , const key_compare & comp = key_compare()
@@ -446,19 +509,19 @@ namespace ft {
                 //          :
                 // {}
 
-                // Map(
-                //     const Map & x)
+                // RedBlackTree(
+                //     const RedBlackTree & x)
                 //         : m_node_allocator(x.m_node_allocator)
                 //         , m_root(x.m_root)
                 //         , m_size(x.m_size)
-                //         , value_comparator(comp)
+                //         , m_value_comparator(comp)
                 // {
                 //     m_begin_node = m_end_node = m_root;
                 // }
 
-                // Map & operator = (const Map & x) {
+                // RedBlackTree & operator = (const RedBlackTree & x) {
                 //     if (this != &x) {
-                //         value_comparator = x.value_comp();
+                //         m_value_comparator = x.value_comp();
                 //         m_node_allocator = x.m_node_allocator;
                 //         // __copy_assign_alloc(x);
                 //         // __assign_multi(x.begin(), x.end());
@@ -466,8 +529,8 @@ namespace ft {
                 //     return (*this);
                 // }
 
-                ~Map() {
-                    m_node_allocator.destroy(m_root);
+                ~RedBlackTree() {
+                    // destroy(m_root);
                 }
 
                 size_type size() const {
@@ -484,10 +547,12 @@ namespace ft {
 
                 void clear() {
                     destroy(m_root);
+                    if (m_root != nullptr)
+                        std::cout << "nonull \n";
                     m_size = 0;
-                    m_begin_node = m_end_node;
-                    m_end_node->left = nullptr;
-                    m_end_node->right = nullptr;
+                    m_begin_node = &m_end_node;
+                    m_end_node.left = nullptr;
+                    m_end_node.right = nullptr;
                 }
 
                 iterator begin() {
@@ -499,36 +564,231 @@ namespace ft {
                 // }
 
                 iterator end() {
-                    return (iterator(m_end_node));
+                    return (iterator(&m_end_node));
                 }
 
                 // const_iterator end() const {
-                //     return (const_iterator(m_end_node));
+                //     return (const_iterator(&m_end_node));
                 // }
 
-                value_compare value_comp() const {
-                    return value_compare(value_comparator);
-                }
-
                 iterator find(const key_type & k) {
-                    ft::pair<iterator, bool> leaf = tree_find_leaf(k);
-                    if (leaf.second == true) {
-                        return (leaf.first);
+                    ft::pair<node_pointer &, ft::pair<node_pointer, bool> > insert_point = tree_find_insert_point(k);
+                    if (insert_point.second.second == true) {
+                        return (iterator(insert_point.second.first));
                     } else {
-                        return (iterator(m_end_node));
+                        return (iterator(&m_end_node));
                     }
                 }
 
                 size_type count(const key_type & k) const {
-                    return (static_cast<size_type>(tree_find_leaf(k).second));
+                    return (static_cast<size_type>(tree_find_insert_point(k).second));
                 }
 
                 ft::pair<iterator, bool> insert(const value_type & val) {
-                    ft::pair<iterator, bool> leaf = tree_find_leaf(val.first);
-                    if (leaf.second == true)
-                        return (leaf);
+                    ft::pair<node_pointer &, ft::pair<node_pointer, bool> > insert_point = tree_find_insert_point(val.first);
+                    if (insert_point.second.second == true){
+                        return (ft::make_pair(iterator(insert_point.second.first), false));
+                    } else {
+                        insert_point.first = construct_node(val);
+                        insert_point.first->parent = insert_point.second.first;
+                    }
+                    if (m_root == nullptr) {
+                        m_root = insert_point.first;
+                    }
+                    if (m_begin_node->left != nullptr) {
+                        m_begin_node = m_begin_node->left;
+                    }
                     // tree_balance_after_insert(child);
-                    // ++m_size;
+                    ++m_size;
+                    return (ft::make_pair(iterator(insert_point.first), true));
+                }
+
+                void print() const {
+                    int choice;
+                    std::cout << "\033[2J";
+                    node_pointer current = m_root;
+                    std::cout << "Map explorer:\n";
+                    std::cin.get();
+                    while (1) {
+                        if (current == &m_end_node) {
+                            std::cout << "\n                                GUARD\n\n\n";
+                        } else {
+                            if (current != nullptr) {
+                                if (current->parent == &m_end_node)
+                                    std::cout << "\n                                                           GUARD\n\n\n";
+                                else if (current->tree_is_left_child()) {
+                                    std::cout << "\n                                                        (1)ParentKey: " << current->parent->data->first << " | ParentValue: " << current->parent->data->second << "\n\n\n";
+                                } else {
+                                    std::cout << "\n(1)ParentKey: " << current->parent->data->first << " | ParentValue: " << current->parent->data->second << "\n\n\n";
+                                }
+                                std::cout << "\n                                Key: " << current->data->first << " | Value: " << current->data->second << "\n\n\n";
+                            } else {
+                                std::cout << "\n                                                      LEAF\n\n\n";
+                                return ;
+                            }
+                        }
+                        if (current->left != nullptr) {
+                            std::cout << "\n(2)LeftKey: " << current->left->data->first << " | LeftValue: " << current->left->data->second << "           ";
+                        } else {
+                            std::cout << "\n           LEAF                                                      ";
+                        }
+                        if (current->right != nullptr) {
+                            std::cout << "(3)RightKey: " << current->right->data->first << " | RightValue: " << current->right->data->second << "\n\n\n";
+                        } else {
+                            std::cout << "     LEAF\n\n\n";
+                        }
+                        std::cin >> choice;
+                        if (choice == 1)
+                            current = current->parent;
+                        if (choice == 2)
+                            current = current->left;
+                        if (choice == 3)
+                            current = current->right;
+                        std::cout << "\n\n\n--------------------------------------------------------------------\n\n\n";
+                        std::cin.get();
+                    }
+                }
+
+        };
+
+    template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+        class Map {
+            private:
+                typedef RedBlackTree<Key, T, Compare, Alloc>            tree_type;
+
+            public:
+                typedef typename tree_type::key_type                    key_type;
+                typedef typename tree_type::mapped_type                 mapped_type;
+                typedef typename tree_type::value_type                  value_type;
+                typedef typename tree_type::key_compare                 key_compare;
+                typedef typename tree_type::allocator_type              allocator_type;
+                typedef typename tree_type::reference                   reference;
+                typedef typename tree_type::const_reference             const_reference;
+                typedef typename tree_type::pointer                     pointer;
+                typedef typename tree_type::const_pointer               const_pointer;
+                typedef typename tree_type::difference_type             difference_type;
+                typedef typename tree_type::size_type                   size_type;
+                typedef typename tree_type::iterator                    iterator;
+
+            public:
+                class value_compare
+                    : public std::binary_function<value_type, value_type, bool> {
+
+                    friend class Map;
+
+                    protected:
+                        Compare comp;
+
+                        value_compare(key_compare c)
+                            : comp(c)
+                        {}
+
+                    public:
+                        bool operator() (const value_type & x, const value_type & y) const {
+                            return comp(x.first, y.first);
+                        }
+
+                };
+
+                value_compare value_comp() const {
+                    return value_compare(m_value_comparator);
+                }
+
+            private:
+                allocator_type      m_allocator;
+                value_compare       m_value_comparator;
+                tree_type           m_tree;
+
+            public:
+                void print() const { // TO PRIVATE
+                    m_tree.print();
+                }
+
+            public:
+                explicit Map(
+                    const key_compare & comp = key_compare()
+                    , const allocator_type & alloc = allocator_type())
+                        : m_allocator(alloc)
+                        , m_value_comparator(comp)
+                        , m_tree()
+                {}
+
+                // template < class InputIterator >
+                //     Map(
+                //         InputIterator first
+                //         , InputIterator last
+                //         , const key_compare & comp = key_compare()
+                //         , const allocator_type & alloc = allocator_type())
+                //          :
+                // {}
+
+                // Map(
+                //     const Map & x)
+                //         : m_node_allocator(x.m_node_allocator)
+                //         , m_root(x.m_root)
+                //         , m_size(x.m_size)
+                //         , m_value_comparator(comp)
+                // {
+                //     m_begin_node = m_end_node = m_root;
+                // }
+
+                // Map & operator = (const Map & x) {
+                //     if (this != &x) {
+                //         m_value_comparator = x.value_comp();
+                //         m_node_allocator = x.m_node_allocator;
+                //         // __copy_assign_alloc(x);
+                //         // __assign_multi(x.begin(), x.end());
+                //     }
+                //     return (*this);
+                // }
+
+                ~Map()
+                {
+                    m_tree.destroy_at_root();
+                }
+
+                size_type size() const {
+                    return (m_tree.size());
+                }
+
+                size_type max_size() const {
+                    return (m_tree.max_size());
+                }
+
+                bool empty() const {
+                    return (m_tree.empty());
+                }
+
+                void clear() {
+                    m_tree.clear();
+                }
+
+                iterator begin() {
+                    return (m_tree.begin());
+                }
+
+                // const_iterator begin() const {
+                //     return (const_iterator(m_begin_node));
+                // }
+
+                iterator end() {
+                    return (m_tree.end());
+                }
+
+                // const_iterator end() const {
+                //     return (const_iterator(&m_end_node));
+                // }
+
+                iterator find(const key_type & k) {
+                    return (m_tree.find(k));
+                }
+
+                size_type count(const key_type & k) const {
+                    return (m_tree.count(k));
+                }
+
+                ft::pair<iterator, bool> insert(const value_type & val) {
+                    return (m_tree.insert(val));
                 }
 
         };

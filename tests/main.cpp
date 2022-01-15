@@ -35,21 +35,25 @@ int main( void )
 
   // ft::Map<std::string, int> map;
   // ft::Map<std::string, int>::iterator it = map.begin();
-    std::map<std::string, int> map;
-    map.insert(std::make_pair("toto", 4));
-    map.insert(std::make_pair("tata", 6));
-    std::map<std::string, int>::iterator it = map.begin();
-    std::map<std::string, int>::iterator ite = map.end();
-    ite--;
-    std::cout << it->first << " | " << it->second << '\n';
-    std::cout << ite->first << " | " << ite->second << "\n\n";
-    std::cout << (*it).first << " | " << (*it).second << '\n';
-    std::cout << (*ite).first << " | " << (*ite).second << '\n';
-    --it;
-    std::cout << it->first << " | " << it->second << '\n';
-    std::cout << ite->first << " | " << ite->second << "\n\n";
-    std::cout << (*it).first << " | " << (*it).second << '\n';
-    std::cout << (*ite).first << " | " << (*ite).second << '\n';
+
+
+    // std::map<std::string, int> map;
+    // map.insert(std::make_pair("toto", 4));
+    // map.insert(std::make_pair("tata", 6));
+    // std::map<std::string, int>::iterator it = map.begin();
+    // std::map<std::string, int>::iterator ite = map.end();
+    // ite--;
+    // std::cout << it->first << " | " << it->second << '\n';
+    // std::cout << ite->first << " | " << ite->second << "\n\n";
+    // std::cout << (*it).first << " | " << (*it).second << '\n';
+    // std::cout << (*ite).first << " | " << (*ite).second << '\n';
+    // --it;
+    // std::cout << it->first << " | " << it->second << '\n';
+    // std::cout << ite->first << " | " << ite->second << "\n\n";
+    // std::cout << (*it).first << " | " << (*it).second << '\n';
+    // std::cout << (*ite).first << " | " << (*ite).second << '\n';
+
+
   // ft::iterator<ft::bidirectional_iterator_tag, ft::pair<const std::string, int> > it = map.begin();
   // std::cout << ((*it).second);
   // ft::pair<std::string, int> toto("toto", 8); 

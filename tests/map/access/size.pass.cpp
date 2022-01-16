@@ -16,20 +16,14 @@ TEST_CASE(Map, Access, Size, {
 		m.insert(M::value_type(3, 1.5));
 		ASSERT(m.size() == 3);
 
-		// m.print();
+		m.erase(m.begin());
+		ASSERT(m.size() == 2);
 
-		// m.erase(m.begin());
-		// ASSERT(m.size() == 2);
+		m.erase(m.begin());
+		ASSERT(m.size() == 1);
 
-		// m.erase(m.begin());
-		// ASSERT(m.size() == 1);
-
-		// m.erase(m.begin());
-		// ASSERT(m.size() == 0);
-		// m.print();
-		// for (M::iterator it = m.begin(); it != m.end(); it++) {
-		// 	std::cout << "Key: " << it->first << " | " << "Value: " << it->second << '\n';
-		// }
+		m.erase(m.begin());
+		ASSERT(m.size() == 0);
 
 	} ASSERT_AWARENESS
 	

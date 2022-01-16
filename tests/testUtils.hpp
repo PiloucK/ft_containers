@@ -25,6 +25,31 @@
 #  define PAIR ft::pair
 # endif
 
+namespace testUtils {
+
+	template < class Iterator >
+		Iterator map_iter_plus(Iterator it, size_t n) {
+			while (n--) {
+				++it;
+			}
+			return (it);
+		}
+
+	template < class Iterator >
+		Iterator map_iter_minus(Iterator it, size_t n) {
+			while (n--) {
+				--it;
+			}
+			return (it);
+		}
+
+}
+
+# define MAP_ITER_PLUS(iterator, n) testUtils::map_iter_plus(iterator, n)
+
+# define BEFORE_SEG {std::cout << "before ||||||||||||||||||||||||||||||||||||\n";}
+# define AFTER_SEG {std::cout << "after ||||||||||||||||||||||||||||||||||||\n";}
+
 # define ARR_ARGS(...) __VA_ARGS__
 # define INIT_ARR(VAR_NAME,ARR_DATA) VAR_NAME = {ARR_ARGS ARR_DATA}
 

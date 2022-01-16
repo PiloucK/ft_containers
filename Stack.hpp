@@ -2,6 +2,7 @@
 # define STACK_HPP
 
 # include "ft.hpp"
+# include "Vector.hpp"
 
 namespace ft {
 

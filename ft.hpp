@@ -23,12 +23,6 @@ namespace ft {
         class Stack;
 
     template < class Key, class T, class Compare, class Alloc >
-        class RedBlackTree;
-
-    template < class ValueType, class NodePointer, class DiffType >
-        class RedBlackIterator;
-
-    template < class Key, class T, class Compare, class Alloc >
         class Map;
 
     template < class T > struct is_integral : public std::false_type {};
@@ -110,7 +104,5 @@ namespace ft {
 
 # include "pair.hpp"
 # include "iterator.hpp"
-# include "Vector.hpp"
-# include "Map.hpp"
 
 #endif

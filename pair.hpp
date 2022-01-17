@@ -47,7 +47,7 @@ namespace ft {
 
     template < class T1, class T2 >
         bool operator != (const pair<   T1, T2> & lhs, const pair<T1, T2> & rhs) {
-            return (!(lhs==rhs));
+            return (!(lhs == rhs));
         }
 
     template < class T1, class T2 >

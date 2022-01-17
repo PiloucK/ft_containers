@@ -2,8 +2,8 @@
 
 TEST_CASE(Map, Modifiers, EraseIteratorRange, {
 	{
-		typedef MAP<int COMMA double> M;
-		typedef PAIR<int COMMA double> P;
+		typedef MAP<int COMMA Aware<double> > M;
+		typedef PAIR<int COMMA Aware<double> > P;
 
 		P ar[] = {
 			P(1, 1.5) COMMA
@@ -23,45 +23,45 @@ TEST_CASE(Map, Modifiers, EraseIteratorRange, {
 		ASSERT(m.size() == 8);
 		ASSERT(m.begin()->first == 1);
 		ASSERT(m.begin()->second == 1.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->first == 2);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->second == 2.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 2)->first == 3);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 2)->second == 3.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 3)->first == 4);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 3)->second == 4.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 4)->first == 5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 4)->second == 5.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 5)->first == 6);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 5)->second == 6.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 6)->first == 7);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 6)->second == 7.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 7)->first == 8);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 7)->second == 8.5);
+		ASSERT(ITER_PLUS(m.begin(), 1)->first == 2);
+		ASSERT(ITER_PLUS(m.begin(), 1)->second == 2.5);
+		ASSERT(ITER_PLUS(m.begin(), 2)->first == 3);
+		ASSERT(ITER_PLUS(m.begin(), 2)->second == 3.5);
+		ASSERT(ITER_PLUS(m.begin(), 3)->first == 4);
+		ASSERT(ITER_PLUS(m.begin(), 3)->second == 4.5);
+		ASSERT(ITER_PLUS(m.begin(), 4)->first == 5);
+		ASSERT(ITER_PLUS(m.begin(), 4)->second == 5.5);
+		ASSERT(ITER_PLUS(m.begin(), 5)->first == 6);
+		ASSERT(ITER_PLUS(m.begin(), 5)->second == 6.5);
+		ASSERT(ITER_PLUS(m.begin(), 6)->first == 7);
+		ASSERT(ITER_PLUS(m.begin(), 6)->second == 7.5);
+		ASSERT(ITER_PLUS(m.begin(), 7)->first == 8);
+		ASSERT(ITER_PLUS(m.begin(), 7)->second == 8.5);
 
-		m.erase(m.begin(), MAP_ITER_PLUS(m.begin(), 2));
+		m.erase(m.begin(), ITER_PLUS(m.begin(), 2));
 		ASSERT(m.size() == 6);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 0)->first == 3);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 0)->second == 3.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->first == 4);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->second == 4.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 2)->first == 5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 2)->second == 5.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 3)->first == 6);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 3)->second == 6.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 4)->first == 7);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 4)->second == 7.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 5)->first == 8);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 5)->second == 8.5);
+		ASSERT(ITER_PLUS(m.begin(), 0)->first == 3);
+		ASSERT(ITER_PLUS(m.begin(), 0)->second == 3.5);
+		ASSERT(ITER_PLUS(m.begin(), 1)->first == 4);
+		ASSERT(ITER_PLUS(m.begin(), 1)->second == 4.5);
+		ASSERT(ITER_PLUS(m.begin(), 2)->first == 5);
+		ASSERT(ITER_PLUS(m.begin(), 2)->second == 5.5);
+		ASSERT(ITER_PLUS(m.begin(), 3)->first == 6);
+		ASSERT(ITER_PLUS(m.begin(), 3)->second == 6.5);
+		ASSERT(ITER_PLUS(m.begin(), 4)->first == 7);
+		ASSERT(ITER_PLUS(m.begin(), 4)->second == 7.5);
+		ASSERT(ITER_PLUS(m.begin(), 5)->first == 8);
+		ASSERT(ITER_PLUS(m.begin(), 5)->second == 8.5);
 
-		m.erase(MAP_ITER_PLUS(m.begin(), 2), MAP_ITER_PLUS(m.begin(), 6));
+		m.erase(ITER_PLUS(m.begin(), 2), ITER_PLUS(m.begin(), 6));
 		ASSERT(m.size() == 2);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 0)->first == 3);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 0)->second == 3.5);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->first == 4);
-		ASSERT(MAP_ITER_PLUS(m.begin(), 1)->second == 4.5);
+		ASSERT(ITER_PLUS(m.begin(), 0)->first == 3);
+		ASSERT(ITER_PLUS(m.begin(), 0)->second == 3.5);
+		ASSERT(ITER_PLUS(m.begin(), 1)->first == 4);
+		ASSERT(ITER_PLUS(m.begin(), 1)->second == 4.5);
 
 		m.erase(m.begin(), m.end());
 		ASSERT(m.size() == 0);
 		ASSERT(m.begin() == m.end());
-	}
+	} ASSERT_AWARENESS
 })

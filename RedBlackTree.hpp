@@ -5,23 +5,16 @@
 # include "RedBlackNode.hpp"
 # include "RedBlackIterator.hpp"
 
-template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+template < class Key, class T, class Compare = std::less<Key> >
     class RedBlackTree {
 
         public:
-            class   value_compare;
-
             typedef Key                                             key_type;
             typedef T                                               mapped_type;
             typedef ft::pair<const key_type, mapped_type>           value_type;
             typedef Compare                                         key_compare;
-            typedef Alloc                                           allocator_type;
-            typedef typename allocator_type::reference              reference;
-            typedef typename allocator_type::const_reference        const_reference;
-            typedef typename allocator_type::pointer                pointer;
-            typedef typename allocator_type::const_pointer          const_pointer;
-            typedef ptrdiff_t                                       difference_type;
-            typedef size_t                                          size_type;
+            typedef std::ptrdiff_t                                  difference_type;
+            typedef std::size_t                                          size_type; 
             typedef RedBlackIterator<value_type>                    iterator;
             typedef RedBlackConstIterator<value_type>               const_iterator;
             typedef typename ft::reverse_iterator<iterator>         reverse_iterator;
@@ -31,38 +24,17 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
             typedef std::allocator<RedBlackNode<value_type> >       node_allocator_type;
             typedef RedBlackNode<value_type> *                      node_pointer;
 
-            allocator_type                  m_allocator;
-            node_allocator_type             m_node_allocator;
-            node_pointer                    m_begin_node;
-            node_pointer                    m_end_node;
-            size_type                       m_size;
-            value_compare                   m_value_comparator;
+            typedef node_pointer &                                  leaf_t;
+            typedef ft::pair<node_pointer, bool>                    node_search_result_t;
+            typedef ft::pair<leaf_t, node_search_result_t>          tree_insert_point_t;
 
-        public:
-            class value_compare
-                : public std::binary_function<value_type, value_type, bool> {
+            node_allocator_type            m_node_allocator;
+            node_pointer                   m_begin_node;
+            node_pointer                   m_end_node;
+            size_type                      m_size;
+            key_compare                    m_key_comparator;
 
-                friend class RedBlackTree;
-
-                protected:
-                    Compare comp;
-
-                    value_compare(key_compare c)
-                        : comp(c)
-                    {}
-
-                public:
-                    bool operator() (const value_type & x, const value_type & y) const {
-                        return comp(x.first, y.first);
-                    }
-
-            };
-
-            value_compare value_comp() const {
-                return value_compare(m_value_comparator);
-            }
-
-        public:
+        private:
             node_pointer construct_node(const value_type & val) {
                 node_pointer new_node = m_node_allocator.allocate(1);
                 m_node_allocator.construct(new_node, val);
@@ -70,82 +42,21 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
             }
 
             void destroy(node_pointer & node) {
-                if (node != nullptr) {
+                if (node != NULL) {
                     destroy(node->left);
                     destroy(node->right);
                     m_node_allocator.destroy(node);
                     m_node_allocator.deallocate(node, 1);
-                    node = nullptr;
+                    node = NULL;
                 }
             }
 
-            void destroy_at_root() {
-                destroy(m_end_node->left);
-                m_end_node->left = nullptr;
-                destroy(m_end_node);
-            }
-
-            /*!
-                @brief Determine if the subtree rooted at node is a proper red black subtree.
-                
-                @param node 
-                @return size_type
-
-                Recursively call itself and add up to the height;
-                Return 0 if is an improper subtree and the black height if proper.
-                */
-            size_type tree_sub_test(node_pointer node) {
-                if (node == nullptr) {
-                    return (1);
-                }
-                if (node->left != nullptr && node->left->parent != node) {
-                    return (0);
-                }
-                if (node->right != nullptr && node->right->parent != node) {
-                    return (0);
-                }
-                if (node->right == node->left && node->left != nullptr) {
-                    return (0);
-                }
-                if (!node->is_black) {
-                    if (node->left && !node->left->is_black) {
-                        return (0);
-                    }
-                    if (node->right && !node->right->is_black) {
-                        return (0);
-                    }
-                }
-                size_type black_height = tree_sub_test(node->left);
-                if (black_height == 0) {
-                    return (0);
-                }
-                if (black_height != tree_sub_test(node->right)) {
-                    return (0);
-                }
-                return (black_height + node->is_black);
-            }
-
-            bool tree_test() {
-                if (m_end_node->left == nullptr) {
-                    return (true);
-                }
-                if (m_end_node->left->parent == nullptr) {
-                    return (false);
-                }
-                if (!m_end_node->left->tree_is_left_child()) {
-                    return (false);
-                }
-                if (!m_end_node->left->is_black) {
-                    return (false);
-                }
-                return (!!(tree_sub_test(m_end_node->left)));
-            }
-
-            // node->right has to be != from nullptr
+        public:
+            // node->right has to be != from NULL
             node_pointer tree_node_rotate_left(node_pointer node) {
                 node_pointer node_right = node->right;
                 node->right = node_right->left;
-                if (node_right->left != nullptr) {
+                if (node_right->left != NULL) {
                     node_right->left->parent = node;
                 }
                 node_right->parent = node->parent;
@@ -159,11 +70,11 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 return (node_right);
             }
 
-            // node->left has to be != from nullptr
+            // node->left has to be != from NULL
             node_pointer tree_node_rotate_right(node_pointer node) {
                 node_pointer node_left = node->left;
                 node->left = node_left->right;
-                if (node_left->right != nullptr) {
+                if (node_left->right != NULL) {
                     node_left->right->parent = node;
                 }
                 node_left->parent = node->parent;
@@ -182,7 +93,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 while (new_node != root && !new_node->parent->is_black) {
                     if (new_node->parent->tree_is_left_child()) {
                         node_pointer node_uncle = new_node->parent->parent->right;
-                        if (node_uncle != nullptr && !node_uncle->is_black) {
+                        if (node_uncle != NULL && !node_uncle->is_black) {
                             new_node = new_node->parent;
                             new_node->is_black = true;
                             new_node = new_node->parent;
@@ -202,7 +113,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                         }
                     } else {
                         node_pointer node_uncle = new_node->parent->parent->left;
-                        if (node_uncle != nullptr && !node_uncle->is_black) {
+                        if (node_uncle != NULL && !node_uncle->is_black) {
                             new_node = new_node->parent;
                             new_node->is_black = true;
                             new_node = new_node->parent;
@@ -231,24 +142,24 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
 
                 // Get an initial node at a bottom most of the tree of root "node_pointer root".
                 // Either the target position or the very next node by value
-                if (target->left == nullptr || target->right == nullptr) {
+                if (target->left == NULL || target->right == NULL) {
                     initial_hole = target;
                 } else {
                     initial_hole = target->tree_node_next();
                 }
 
                 // Get a potential child of the chosen initial hole. Has to be preserved.
-                if (initial_hole->left != nullptr) {
+                if (initial_hole->left != NULL) {
                     child_node = initial_hole->left;
                 } else {
                     child_node = initial_hole->right;
                 }
 
                 // Prepared to be the child's uncle and become his sibling
-                child_sibling = nullptr;
+                child_sibling = NULL;
 
                 // Set the child_node in place of the hole, set it's parent and find it's new sibling
-                if (child_node != nullptr) {
+                if (child_node != NULL) {
                     child_node->parent = initial_hole->parent;
                 }
                 if (initial_hole->tree_is_left_child()) {
@@ -274,7 +185,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                     initial_hole->left = target->left;
                     initial_hole->left->parent = initial_hole;
                     initial_hole->right = target->right;
-                    if (initial_hole->right != nullptr) {
+                    if (initial_hole->right != NULL) {
                         initial_hole->right->parent = initial_hole;
                     }
                     initial_hole->is_black = target->is_black;
@@ -284,8 +195,8 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 }
 
                 // Rebalancing
-                if (black_node_removed && root != nullptr) {
-                    if (child_node != nullptr) {
+                if (black_node_removed && root != NULL) {
+                    if (child_node != NULL) {
                         child_node->is_black = true;
                     } else {
                         while (true) {
@@ -298,8 +209,8 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                                         root = child_sibling;
                                     child_sibling = child_sibling->left->right;
                                 }
-                                if ((child_sibling->left == nullptr || child_sibling->left->is_black)
-                                    && (child_sibling->right == nullptr || child_sibling->right->is_black))
+                                if ((child_sibling->left == NULL || child_sibling->left->is_black)
+                                    && (child_sibling->right == NULL || child_sibling->right->is_black))
                                 {
                                     child_sibling->is_black = false;
                                     child_node = child_sibling->parent;
@@ -313,7 +224,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                                         child_sibling = child_node->parent->left;
                                     }
                                 } else {
-                                    if (child_sibling->right == nullptr || child_sibling->right->is_black) {
+                                    if (child_sibling->right == NULL || child_sibling->right->is_black) {
                                         child_sibling->left->is_black = true;
                                         child_sibling->is_black = false;
                                         tree_node_rotate_right(child_sibling);
@@ -335,8 +246,8 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                                     }
                                     child_sibling = child_sibling->right->left;
                                 }
-                                if ((child_sibling->left == nullptr || child_sibling->left->is_black)
-                                    && (child_sibling->right == nullptr || child_sibling->right->is_black))
+                                if ((child_sibling->left == NULL || child_sibling->left->is_black)
+                                    && (child_sibling->right == NULL || child_sibling->right->is_black))
                                 {
                                     child_sibling->is_black = false;
                                     child_node = child_sibling->parent;
@@ -350,7 +261,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                                         child_sibling = child_node->parent->left;
                                     }
                                 } else {
-                                    if (child_sibling->left == nullptr || child_sibling->left->is_black) {
+                                    if (child_sibling->left == NULL || child_sibling->left->is_black) {
                                         child_sibling->right->is_black = true;
                                         child_sibling->is_black = false;
                                         tree_node_rotate_left(child_sibling);
@@ -368,23 +279,18 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 }
             }
 
-            typedef node_pointer &                              leaf_t;
-            typedef ft::pair<node_pointer, bool>                node_search_result_t;
-            typedef ft::pair<leaf_t, node_search_result_t>      tree_insert_point_t;
-
-            tree_insert_point_t tree_find_insert_point(const key_type & k) {
+            tree_insert_point_t tree_find_insert_point(const key_type & k) const {
                 node_pointer node_current = m_end_node->left;
-                value_type pseudo_value(k, mapped_type());
-                if (node_current != nullptr) {
+                if (node_current != NULL) {
                     while (true) {
-                        if (value_comp()(pseudo_value, node_current->data)) {
-                            if (node_current->left != nullptr) {
+                        if (m_key_comparator(k, node_current->data.first)) {
+                            if (node_current->left != NULL) {
                                 node_current = node_current->left;
                             } else {
                                 return (tree_insert_point_t(node_current->left, node_search_result_t(node_current, false)));
                             }
-                        } else if (value_comp()(node_current->data, pseudo_value)) {
-                            if (node_current->right != nullptr) {
+                        } else if (m_key_comparator(node_current->data.first, k)) {
+                            if (node_current->right != NULL) {
                                 node_current = node_current->right;
                             } else {
                                 return (tree_insert_point_t(node_current->right, node_search_result_t(node_current, false)));
@@ -397,69 +303,49 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 return (tree_insert_point_t(m_end_node->left, node_search_result_t(m_end_node, false)));
             }
 
-            // node_pointer detach() {
-            //     node_pointer cache = m_begin_node;
-            //     m_begin_node = m_end_node;
-            //     m_end_node->left->parent = nullptr;
-            //     m_end_node->left = nullptr;
-            //     m_size = 0;
-            //     if (cache->right != nullptr) {
-            //         cache = static_cast<node_pointer>(cache->right);
-            //     }
-            // }
-
-            // node_pointer detach(node_pointer cache) {
-            //     if (cache->parent == nullptr) {
-            //         return nullptr;
-            //     }
-            //     if ()
-            //     node_pointer cache = m_begin_node;
-            //     m_begin_node = m_end_node;
-            //     m_end_node->left->parent = nullptr;
-            //     m_end_node->left = nullptr;
-            //     m_size = 0;
-            //     if (cache->right != nullptr) {
-            //         cache = static_cast<node_pointer>(cache->right);
-            //     }
-            // }
-
         public:
             explicit RedBlackTree(
-                const key_compare & comp = key_compare()
-                , const allocator_type & alloc = allocator_type())
-                    : m_allocator(alloc)
-                    , m_node_allocator(node_allocator_type())
+                const key_compare & comp = key_compare())
+                    : m_node_allocator(node_allocator_type())
                     , m_end_node(construct_node(value_type(key_type(), mapped_type())))
                     , m_size(0)
-                    , m_value_comparator(comp)
+                    , m_key_comparator(comp)
             {
-                // m_end_node->parent = m_end_node;
                 m_end_node->is_black = true;
                 m_begin_node = m_end_node;
             }
 
-            // RedBlackTree(
-            //     const RedBlackTree & x)
-            //         : m_node_allocator(x.m_node_allocator)
-            //         , m_end_node->left(x.m_end_node->left)
-            //         , m_size(x.m_size)
-            //         , m_value_comparator(comp)
-            // {
-            //     m_begin_node = m_end_node = m_end_node->left;
-            // }
+            RedBlackTree(
+                const RedBlackTree & x)
+                    : m_node_allocator(x.m_node_allocator)
+                    , m_end_node(construct_node(value_type(key_type(), mapped_type())))
+                    , m_size(0)
+                    , m_key_comparator(x.m_key_comparator)
+            {
+                m_end_node->is_black = true;
+                m_begin_node = m_end_node;
+            }
 
-            // RedBlackTree & operator = (const RedBlackTree & x) {
-            //     if (this != &x) {
-            //         m_value_comparator = x.value_comp();
-            //         m_node_allocator = x.m_node_allocator;
-            //         // __copy_assign_alloc(x);
-            //         // __assign_multi(x.begin(), x.end());
-            //     }
-            //     return (*this);
-            // }
+            RedBlackTree & operator = (const RedBlackTree & x) {
+                if (*this != x) {
+                    clear();
+                    m_key_comparator = x.m_key_comparator;
+                    m_node_allocator = x.m_node_allocator;
+                    insert(x.begin(), x.end());
+                }
+                return (*this);
+            }
+
+            void destroy_at_root() {
+                if (m_end_node != NULL) {
+                    destroy(m_end_node->left);
+                    m_end_node->left = NULL;
+                }
+                destroy(m_end_node);
+            }
 
             ~RedBlackTree() {
-                // destroy(m_end_node->left);
+                destroy_at_root();
             }
 
             size_type size() const {
@@ -478,7 +364,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 destroy(m_end_node->left);
                 m_size = 0;
                 m_begin_node = m_end_node;
-                m_end_node->left = nullptr;
+                m_end_node->left = NULL;
             }
 
             iterator begin() {
@@ -514,7 +400,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
             }
 
             iterator find(const key_type & k) {
-                ft::pair<node_pointer &, ft::pair<node_pointer, bool> > insert_point = tree_find_insert_point(k);
+                tree_insert_point_t insert_point = tree_find_insert_point(k);
                 if (insert_point.second.second == true) {
                     return (iterator(insert_point.second.first));
                 } else {
@@ -522,29 +408,22 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 }
             }
 
-            size_type count(const key_type & k) const { // CONST PROBLEM
-                node_pointer node_current = m_end_node->left;
-                value_type pseudo_value(k, mapped_type());
-                if (node_current != nullptr) {
-                    while (true) {
-                        if (value_comp()(pseudo_value, node_current->data)) {
-                            if (node_current->left != nullptr) {
-                                node_current = node_current->left;
-                            } else {
-                                return (0);
-                            }
-                        } else if (value_comp()(node_current->data, pseudo_value)) {
-                            if (node_current->right != nullptr) {
-                                node_current = node_current->right;
-                            } else {
-                                return (0);
-                            }
-                        } else {
-                            return (1);
-                        }
-                    }
+            const_iterator find(const key_type & k) const {
+                tree_insert_point_t insert_point = tree_find_insert_point(k);
+                if (insert_point.second.second == true) {
+                    return (const_iterator(insert_point.second.first));
+                } else {
+                    return (const_iterator(m_end_node));
                 }
-                return (0);
+            }
+
+            size_type count(const key_type & k) const {
+                tree_insert_point_t insert_point = tree_find_insert_point(k);
+                if (insert_point.second.second == true) {
+                    return (1);
+                } else {
+                    return (0);
+                }
             }
 
             ft::pair<iterator, bool> insert(const value_type & val) {
@@ -555,10 +434,10 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                     insert_point.first = construct_node(val);
                     insert_point.first->parent = insert_point.second.first;
                 }
-                if (m_end_node->left == nullptr) {
+                if (m_end_node->left == NULL) {
                     m_end_node->left = insert_point.first;
                 }
-                if (m_begin_node->left != nullptr) {
+                if (m_begin_node->left != NULL) {
                     m_begin_node = m_begin_node->left;
                 }
                 tree_balance_after_insert(m_end_node->left, insert_point.first);
@@ -596,17 +475,73 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                 }
             }
 
+            ft::pair<iterator, iterator> equal_range(const key_type & k) {
+                node_search_result_t search_result = tree_find_insert_point(k).second;
+                if (search_result.second == true) {
+                    return (ft::make_pair(iterator(search_result.first)
+                            , iterator(search_result.first->tree_node_next())));
+                } else {
+                    if (m_key_comparator(k, search_result.first->data.first)) {
+                        return (ft::make_pair(iterator(search_result.first)
+                            , iterator(search_result.first)));
+                    } else {
+                        return (ft::make_pair(iterator(search_result.first->tree_node_next())
+                            , iterator(search_result.first->tree_node_next())));
+                    }
+                }
+            }
 
+            ft::pair<const_iterator, const_iterator> equal_range(const key_type & k) const {
+                node_search_result_t search_result = tree_find_insert_point(k).second;
+                if (search_result.second == true) {
+                    return (ft::make_pair(const_iterator(search_result.first)
+                            , const_iterator(search_result.first->tree_node_next())));
+                } else {
+                    if (m_key_comparator(k, search_result.first->data.first)) {
+                        return (ft::make_pair(const_iterator(search_result.first)
+                            , const_iterator(search_result.first)));
+                    } else {
+                        return (ft::make_pair(const_iterator(search_result.first->tree_node_next())
+                            , const_iterator(search_result.first->tree_node_next())));
+                    }
+                }
+            }
 
+            iterator lower_bound(const key_type & k) {
+                return (equal_range(k).first);
+            }
 
+            const_iterator lower_bound(const key_type & k) const {
+                return (equal_range(k).first);
+            }
 
+            iterator upper_bound(const key_type & k) {
+                iterator bound = equal_range(k).first;
+                if (bound != iterator(m_end_node)
+                    && !m_key_comparator(k, bound->first)) {
+                    return (++bound);
+                } else {
+                    return (bound);
+                }
+            }
 
+            const_iterator upper_bound(const key_type & k) const {
+                const_iterator bound = equal_range(k).first;
+                if (bound != const_iterator(m_end_node)
+                    && !m_key_comparator(k, bound->first)) {
+                    return (++bound);
+                } else {
+                    return (bound);
+                }
+            }
 
-
-
-
-
-
+            void swap(RedBlackTree & rhs) {
+                std::swap(m_begin_node, rhs.m_begin_node);
+                std::swap(m_end_node, rhs.m_end_node);
+                std::swap(m_node_allocator, rhs.m_node_allocator);
+                std::swap(m_size, rhs.m_size);
+                std::swap(m_key_comparator, rhs.m_key_comparator);
+            }
 
             void print() const {
                 int choice;
@@ -617,7 +552,7 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                     if (current == m_end_node) {
                         std::cout << "\n                                GUARD\n\n\n";
                     } else {
-                        if (current != nullptr) {
+                        if (current != NULL) {
                             if (current->parent == m_end_node)
                                 std::cout << "\n                                                        (1)GUARD\n\n\n";
                             else if (current->tree_is_left_child()) {
@@ -637,14 +572,14 @@ template < class Key, class T, class Compare = std::less<Key>, class Alloc = std
                             return ;
                         }
                     }
-                    if (current->left != nullptr) {
+                    if (current->left != NULL) {
                         if (!current->left->is_black)
                             std::cout << "\033[1;31m";
                         std::cout << "\n(2)LeftKey: " << current->left->data.first << " | LeftValue: " << current->left->data.second << "\033[0m           ";
                     } else {
                         std::cout << "\n           LEAF                                                      ";
                     }
-                    if (current->right != nullptr) {
+                    if (current->right != NULL) {
                         if (!current->right->is_black)
                             std::cout << "\033[1;31m";
                         std::cout << "(3)RightKey: " << current->right->data.first << " | RightValue: " << current->right->data.second << "\033[0m\n\n\n";

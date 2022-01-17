@@ -28,7 +28,7 @@
 namespace testUtils {
 
 	template < class Iterator >
-		Iterator map_iter_plus(Iterator it, size_t n) {
+		Iterator iter_plus(Iterator it, size_t n) {
 			while (n--) {
 				++it;
 			}
@@ -36,7 +36,7 @@ namespace testUtils {
 		}
 
 	template < class Iterator >
-		Iterator map_iter_minus(Iterator it, size_t n) {
+		Iterator iter_minus(Iterator it, size_t n) {
 			while (n--) {
 				--it;
 			}
@@ -45,7 +45,7 @@ namespace testUtils {
 
 }
 
-# define MAP_ITER_PLUS(iterator, n) testUtils::map_iter_plus(iterator, n)
+# define ITER_PLUS(iterator, n) testUtils::iter_plus(iterator, n)
 
 # define BEFORE_SEG {std::cout << "before ||||||||||||||||||||||||||||||||||||\n";}
 # define AFTER_SEG {std::cout << "after ||||||||||||||||||||||||||||||||||||\n";}

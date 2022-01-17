@@ -2,8 +2,8 @@
 
 TEST_CASE(Map, Modifiers, InsertIteratorRange,  {
 	{
-		typedef MAP<int COMMA double> M;
-		typedef PAIR<int COMMA double> P;
+		typedef MAP<int COMMA Aware<double> > M;
+		typedef PAIR<int COMMA Aware<double> > P;
 
 		P ar[] = {
 			P(1, 1) COMMA
@@ -29,5 +29,5 @@ TEST_CASE(Map, Modifiers, InsertIteratorRange,  {
 		++it;
 		ASSERT(it->first == 3);
 		ASSERT(it->second == 1);
-	}
+	} ASSERT_AWARENESS
 })

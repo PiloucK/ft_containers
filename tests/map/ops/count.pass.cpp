@@ -2,8 +2,8 @@
 
 TEST_CASE(Map, Capacity, Count, {
 	{
-		typedef PAIR<const int COMMA double> V;
-		typedef MAP<int COMMA double> M;
+		typedef MAP<int COMMA Aware<double> > M;
+		typedef M::value_type V;
 		typedef M::size_type R;
 
 		V ar[] = {
@@ -44,5 +44,5 @@ TEST_CASE(Map, Capacity, Count, {
 
 		r = m.count(4);
 		ASSERT(r == 0);
-	}
+	} ASSERT_AWARENESS
 })

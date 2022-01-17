@@ -40,7 +40,7 @@ namespace ft {
 
                 void deallocate() {
                     m_allocator.deallocate(m_begin, capacity());
-                    m_begin = m_end = m_end_cap = nullptr;
+                    m_begin = m_end = m_end_cap = NULL;
                 }
 
                 void construct_at_end(size_type n, const_reference val) {
@@ -85,9 +85,9 @@ namespace ft {
                 explicit Vector (
                     const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
-                        , m_begin(nullptr)
-                        , m_end(nullptr)
-                        , m_end_cap(nullptr)
+                        , m_begin(NULL)
+                        , m_end(NULL)
+                        , m_end_cap(NULL)
                 {}
 
                 explicit Vector (
@@ -95,9 +95,9 @@ namespace ft {
                     , const value_type & val = value_type()
                     , const allocator_type & alloc = allocator_type())
                         : m_allocator(alloc)
-                        , m_begin(nullptr)
-                        , m_end(nullptr)
-                        , m_end_cap(nullptr)
+                        , m_begin(NULL)
+                        , m_end(NULL)
+                        , m_end_cap(NULL)
                 {
                     if (n > 0) {
                         allocate(n);
@@ -111,9 +111,9 @@ namespace ft {
                         , typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type last
                         , const allocator_type & alloc = allocator_type())
                             : m_allocator(alloc)
-                            , m_begin(nullptr)
-                            , m_end(nullptr)
-                            , m_end_cap(nullptr)
+                            , m_begin(NULL)
+                            , m_end(NULL)
+                            , m_end_cap(NULL)
                     {
                         size_type n = static_cast<size_type>(distance(first, last));
                         if (n > 0) {
@@ -125,9 +125,9 @@ namespace ft {
                 Vector(
                     const Vector & x)
                         : m_allocator(x.m_allocator)
-                        , m_begin(nullptr)
-                        , m_end(nullptr)
-                        , m_end_cap(nullptr)
+                        , m_begin(NULL)
+                        , m_end(NULL)
+                        , m_end_cap(NULL)
                 {
                     size_type n = static_cast<size_type>(x.capacity());
                     if (n > 0) {
@@ -137,7 +137,7 @@ namespace ft {
                 }
 
                 ~Vector() {
-                    if (m_begin != nullptr) {
+                    if (m_begin != NULL) {
                         clear();
                         deallocate();
                     }
@@ -436,7 +436,7 @@ namespace ft {
 
         template < class T, class Alloc >
             bool operator >  (const Vector<T,Alloc> & lhs, const Vector<T,Alloc> & rhs) {
-                return (!(lhs < rhs));
+                return (rhs < lhs);
             }
 
         template < class T, class Alloc >

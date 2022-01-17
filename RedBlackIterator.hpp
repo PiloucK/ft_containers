@@ -12,10 +12,9 @@ template < class ValueType >
             typedef ValueType                           value_type;
             typedef ValueType *                         pointer;
             typedef ValueType &                         reference;
-            typedef std::ptrdiff_t                           difference_type;
+            typedef std::ptrdiff_t                      difference_type;
             typedef RedBlackNode<ValueType> *           node_pointer;
 
-        // private:
             node_pointer m_node;
 
         public:
@@ -110,11 +109,6 @@ template < class ValueType >
                 : m_node(x.m_node)
             {}
 
-            // template < typename T >
-            //     RedBlackConstIterator(const RedBlackConstIterator<T> & x)
-            //         : m_node(x.m_node)
-            //     {}
-
             RedBlackConstIterator(const RedBlackConstIterator<ValueType> & x)
                 : m_node(x.m_node)
             {}
@@ -164,7 +158,6 @@ template < class ValueType >
             friend bool operator != (const RedBlackConstIterator & lhs, const RedBlackConstIterator & rhs) {
                 return (!(lhs == rhs));
             }
-            // template < class, class, class > friend class BlackIterator;
 
     };
 

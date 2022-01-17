@@ -2,7 +2,7 @@
 
 TEST_CASE(Map, Modifiers, InsertIteratorHinted, {
 	{
-		typedef MAP<int COMMA double> M;
+		typedef MAP<int COMMA Aware<double> > M;
 		typedef M::iterator R;
 		typedef M::value_type VT;
 
@@ -35,5 +35,5 @@ TEST_CASE(Map, Modifiers, InsertIteratorHinted, {
 		ASSERT(m.size() == 3);
 		ASSERT(r->first == 3);
 		ASSERT(r->second == 3.5);
-	}
+	} ASSERT_AWARENESS
 })

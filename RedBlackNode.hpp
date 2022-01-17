@@ -2,7 +2,7 @@
 # define RED_BLACK_NODE_HPP
 
 template < class ValueType >
-    // nullptr init to segfault on each bad dereference
+    // NULL init to segfault on each bad dereference
     //   |-> undefined behaviour in documentation
     class RedBlackNode {
 
@@ -22,9 +22,9 @@ template < class ValueType >
 
             explicit RedBlackNode(const value_type & to_store)
                 : data(to_store)
-                , parent(nullptr)
-                , left(nullptr)
-                , right(nullptr)
+                , parent(NULL)
+                , left(NULL)
+                , right(NULL)
                 , is_black(false)
             {}
 
@@ -56,14 +56,14 @@ template < class ValueType >
                         std::cout << "\033[1;31m";
                     std::cout << "\n                                Key: " << data.first << " | Value: " << data.second << "\033[0m\n\n\n";
                 }
-                if (left != nullptr) {
+                if (left != NULL) {
                     if (!left->is_black)
                         std::cout << "\033[1;31m";
                     std::cout << "\n(2)LeftKey: " << left->data.first << " | LeftValue: " << left->data.second << " \033[0m          ";
                 } else {
                     std::cout << "\n           LEAF                                                      ";
                 }
-                if (right != nullptr) {
+                if (right != NULL) {
                     if (!right->is_black)
                         std::cout << "\033[1;31m";
                     std::cout << "(3)RightKey: " << right->data.first << " | RightValue: " << right->data.second << "\033[0m\n\n\n";
@@ -78,7 +78,7 @@ template < class ValueType >
 
             node_pointer tree_min() {
                 node_pointer node = this;
-                while (node->left != nullptr) {
+                while (node->left != NULL) {
                     node = left;
                 }
                 return (node);
@@ -86,7 +86,7 @@ template < class ValueType >
 
             node_pointer tree_max() {
                 node_pointer node = this;
-                while (node->right != nullptr) {
+                while (node->right != NULL) {
                     node = node->right;
                 }
                 return (node);
@@ -94,7 +94,7 @@ template < class ValueType >
 
             node_pointer tree_node_prev() {
                 node_pointer node = this;
-                if (node->left != nullptr) {
+                if (node->left != NULL) {
                     return (node->left->tree_max());
                 }
                 while (node->tree_is_left_child()) {
@@ -105,7 +105,7 @@ template < class ValueType >
 
             node_pointer tree_node_next() {
                 node_pointer node = this;
-                if (node->right != nullptr) {
+                if (node->right != NULL) {
                     return (node->right->tree_min());
                 }
                 while (!(node->tree_is_left_child())) {
@@ -114,60 +114,6 @@ template < class ValueType >
                 return (node->parent);
             }
 
-            // node_pointer tree_min() const {
-            //     node_pointer node;
-            //     if (this->left != nullptr) {
-            //         node = this->left;
-            //         while (node->left != nullptr) {
-            //             node = node->left;
-            //         }
-            //         return (node);
-            //     }
-            //     return (this);
-            // }
-
-            // node_pointer tree_max() const {
-            //     node_pointer node;
-            //     if (this->right != nullptr) {
-            //         node = this->right;
-            //         while (node->right != nullptr) {
-            //             node = node->right;
-            //         }
-            //         return (node);
-            //     }
-            //     return (this);
-            // }
-
-            // node_pointer tree_node_prev() const {
-            //     if (this->left != nullptr) {
-            //         return (this->left->tree_max());
-            //     }
-            //     node_pointer node;
-            //     if (this->tree_is_left_child()) {
-            //         node = this->parent;
-            //         while (node->tree_is_left_child()) {
-            //             node = node->parent;
-            //         }
-            //         return (node->parent);
-            //     }
-            //     return (parent);
-            // }
-
-            // node_pointer tree_node_next() const {
-            //     if (this->right != nullptr) {
-            //         return (this->right->tree_min());
-            //     }
-            //     node_pointer node;
-            //     if (!this->tree_is_left_child()) {
-            //         node = this->parent;
-            //         while (!(node->tree_is_left_child())) {
-            //             std::cout << "toto\n";
-            //             node = node->parent;
-            //         }
-            //         return (node->parent);
-            //     }
-            //     return (parent);
-            // }
     };
 
 #endif
